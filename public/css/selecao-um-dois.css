@@ -1,0 +1,48 @@
+.selecao-header-box {
+    display: flex;
+    width: 100%;
+}
+
+.selecao-header {
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+    background-color: mediumseagreen;
+}
+
+.selecao-header:hover {
+    filter: brightness(1.2);
+}
+
+.selecao-header:not(:has(input:checked)) {
+    filter: contrast(20%);
+}
+
+.selecao-header:hover:not(:has(input:checked)) {
+    filter: none;
+}
+
+.selecao-header input {
+    display: none;
+}
+
+.selecao-header label {
+    user-select: none;
+    color: #f7f7f7;
+    cursor: pointer;
+}
+
+.selecao-form-box {
+    padding: 20px 0;
+    width: 100%;
+}
+
+.selecao-form-um {
+    display: block;
+    width: 100%;
+}
+
+.selecao-form-dois {
+    display: none;
+    width: 100%;
+}
