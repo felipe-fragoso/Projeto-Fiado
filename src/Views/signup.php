@@ -4,9 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>FiadoFacil - Fiado do jeito certo 2</title>
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/selecao-um-dois.css">
-        <script src="../js/selecao-um-dois.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?= $_SERVER["BASE_URL"] ?>css/main.css">
+        <link rel="stylesheet" type="text/css" href="<?= $_SERVER["BASE_URL"] ?>css/selecao-um-dois.css">
+        <script src="<?= $_SERVER["BASE_URL"] ?>js/selecao-um-dois.js"></script>
     </head>
 
     <body>
@@ -14,10 +14,10 @@
             <div class="content-wrapper">
                 <div class="header-box">
                     <div class="logo-box">
-                        <a href="http://projeto-fiado/">
-                            <img src="../img/fiado-logo.png" alt="" class="logo">
+                        <a href="<?= $_SERVER["BASE_URL"] ?>">
+                            <img src="<?= $_SERVER["BASE_URL"] ?>img/fiado-logo.png" alt="" class="logo">
                         </a>
-                        <a href="http://projeto-fiado/">
+                        <a href="<?= $_SERVER["BASE_URL"] ?>">
                             <h3>
                                 FiadoFacil
                             </h3>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="selecao-form-box">
                         <div class="selecao-form-um">
-                            <form>
+                            <form method="POST" action="<?= $_SERVER["BASE_URL"] ?>auth/cadastrar">
                                 <label for="ipt-cpf">CPF:</label>
                                 <input type="text" name="ipt-cpf" id="ipt-cpf" />
 
@@ -61,7 +61,7 @@
                             </form>
                         </div>
                         <div class="selecao-form-dois">
-                            <form>
+                            <form method="POST" action="<?= $_SERVER["BASE_URL"] ?>auth/cadastrar">
                                 <label for="ipt-cnpj">CNPJ:</label>
                                 <input type="text" name="ipt-cnpj" id="ipt-cnpj" />
 
