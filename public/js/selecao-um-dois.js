@@ -18,3 +18,11 @@ function mudaSelecao(input) {
         formDois.style.display = 'block';
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    let inputs = document.querySelectorAll('.selecao-radio:checked');
+
+    inputs.forEach((input) => {
+        mudaSelecao(input);
+    });
+});
