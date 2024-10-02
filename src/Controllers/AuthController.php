@@ -4,6 +4,7 @@ namespace Fiado\Controllers;
 
 use Fiado\Core\Controller;
 use Fiado\Models\Service\LojaService;
+use Fiado\Models\Service\ClienteService;
 
 class AuthController extends Controller
 {
@@ -43,9 +44,11 @@ class AuthController extends Controller
         }
 
         if ($cpf) {
-            $client = ['cpf' => $cpf, 'name' => $name, 'email' => $email, 'senha' => $password];
+            if (ClienteService::salvar(null, $cpf, $name, $email, $password)) {
+                return $this->redirect($urlDashboard);
+            }
 
-            return $this->redirect($urlDashboard);
+            return $this->redirect($urlCadastro);
         }
 
         if ($cnpj) {
