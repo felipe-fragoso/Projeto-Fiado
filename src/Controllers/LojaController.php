@@ -6,6 +6,22 @@ use Fiado\Core\Controller;
 
 class LojaController extends Controller
 {
+    public function __construct()
+    {
+        if (!$_SESSION[$_SERVER["USER_SESSION"]] || $_SESSION[$_SERVER["USER_SESSION"]]['type'] !== 'e') {
+            $this->redirect($_SERVER["BASE_URL"] . 'auth/login');
+        }
+    }
+
+    public function logout()
+    {
+        if (isset($_SESSION[$_SERVER["USER_SESSION"]])) {
+            unset($_SESSION[$_SERVER["USER_SESSION"]]);
+        }
+
+        $this->redirect($_SERVER["BASE_URL"]);
+    }
+
     public function index()
     {
         $data['view'] = 'loja/home';
@@ -41,7 +57,8 @@ class LojaController extends Controller
         $this->load('loja/template', $data);
     }
 
-    public function clientes() {
+    public function clientes()
+    {
         $data['view'] = 'loja/cliente/list';
 
         $this->load('loja/template', $data);
@@ -68,31 +85,36 @@ class LojaController extends Controller
         $this->load('loja/template', $data);
     }
 
-    public function produtos() {
+    public function produtos()
+    {
         $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);
     }
 
-    public function produtoNovo() {
+    public function produtoNovo()
+    {
         $data['view'] = 'loja/produto/new';
 
         $this->load('loja/template', $data);
     }
 
-    public function produtoDetalhe() {
+    public function produtoDetalhe()
+    {
         $data['view'] = 'loja/produto/detail';
 
         $this->load('loja/template', $data);
     }
 
-    public function perfil() {
+    public function perfil()
+    {
         $data['view'] = 'loja/perfil/home';
 
         $this->load('loja/template', $data);
     }
 
-    public function perfilEditar() {
+    public function perfilEditar()
+    {
         $data['view'] = 'loja/perfil/edit';
 
         $this->load('loja/template', $data);

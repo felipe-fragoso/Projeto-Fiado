@@ -2,12 +2,46 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\ParamData;
+use Fiado\Helpers\ParamItem;
 use Fiado\Models\Dao\LojaDao;
 use Fiado\Models\Entity\Loja;
 use Fiado\Models\Validation\LojaValidate;
 
 class LojaService
 {
+    /**
+     * @param string $email
+     * @param string $password
+     */
+    public static function getLojaByEmail(string $email)
+    {
+        $dao = new LojaDao();
+
+        $arr = $dao->getLojaByEmail(new ParamData(new ParamItem('email', $email)));
+
+        if ($arr) {
+            return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     */
+    public static function getLogin(string $email, $password)
+    {
+        $loja = self::getLojaByEmail($email);
+
+        if ($loja) {
+            return password_verify($password, $loja->getSenha());
+        }
+
+        return false;
+    }
+
     /**
      * @param Loja $store
      * @return mixed
