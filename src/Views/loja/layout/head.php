@@ -21,7 +21,7 @@
                         <a href="/loja/config">Configurações</a>
                     </div>
                 </div>
-                <a href="/loja/logout" class="btn-logout">Sair</a>
+                <a href="/auth/logout" class="btn-logout">Sair</a>
             </div>
         </div>
     </div>

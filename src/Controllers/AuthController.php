@@ -2,31 +2,37 @@
 
 namespace Fiado\Controllers;
 
+use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\LojaService;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        if (isset($_SESSION[$_SERVER["USER_SESSION"]])) {
-            $type = $_SESSION[$_SERVER["USER_SESSION"]]['type'];
-            $dashboard = ($type == 'c') ? 'cliente' : 'loja';
-
-            $this->redirect($_SERVER["BASE_URL"] . $dashboard);
-        }
-    }
-
     public function login()
     {
+        if (Auth::isLogged()) {
+            $this->redirect($_SERVER["BASE_URL"] . Auth::getSystem());
+        }
+        
         $data['view'] = 'signin';
 
         $this->load('signin', $data);
     }
 
+    public function logout()
+    {
+        Auth::logout();
+
+        $this->redirect($_SERVER["BASE_URL"]);
+    }
+
     public function entrar()
     {
+        if (Auth::isLogged()) {
+            $this->redirect($_SERVER["BASE_URL"] . Auth::getSystem());
+        }
+        
         $email = $_POST['ipt-email'] ?? null;
         $password = $_POST['ipt-senha'] ?? null;
 
@@ -35,13 +41,13 @@ class AuthController extends Controller
         }
 
         if (ClienteService::getLogin($email, $password)) {
-            $_SESSION[$_SERVER["USER_SESSION"]] = ['email' => $email, 'type' => 'c'];
+            Auth::login($email, 'cliente');
 
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
         if (LojaService::getLogin($email, $password)) {
-            $_SESSION[$_SERVER["USER_SESSION"]] = ['email' => $email, 'type' => 'e'];
+            Auth::login($email, 'loja');
 
             $this->redirect($_SERVER["BASE_URL"] . 'loja');
         }
@@ -51,6 +57,10 @@ class AuthController extends Controller
 
     public function cadastro()
     {
+        if (Auth::isLogged()) {
+            $this->redirect($_SERVER["BASE_URL"] . Auth::getSystem());
+        }
+        
         $data['tipo'] = $_GET['tipo'] ?? 'c';
         $data['view'] = 'signup';
 
@@ -62,6 +72,10 @@ class AuthController extends Controller
      */
     public function salvar()
     {
+        if (Auth::isLogged()) {
+            $this->redirect($_SERVER["BASE_URL"] . Auth::getSystem());
+        }
+        
         $cpf = $_POST['ipt-cpf'] ?? null;
         $cnpj = $_POST['ipt-cnpj'] ?? null;
         $email = $_POST['ipt-email'] ?? null;

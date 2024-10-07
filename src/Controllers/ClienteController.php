@@ -2,24 +2,16 @@
 
 namespace Fiado\Controllers;
 
+use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 
 class ClienteController extends Controller
 {
     public function __construct()
     {
-        if (!$_SESSION[$_SERVER["USER_SESSION"]] || $_SESSION[$_SERVER["USER_SESSION"]]['type'] !== 'c') {
+        if (!Auth::isLogged() || Auth::getSystem() !== 'cliente') {
             $this->redirect($_SERVER["BASE_URL"] . 'auth/login');
         }
-    }
-
-    public function logout()
-    {
-        if (isset($_SESSION[$_SERVER["USER_SESSION"]])) {
-            unset($_SESSION[$_SERVER["USER_SESSION"]]);
-        }
-
-        $this->redirect($_SERVER["BASE_URL"]);
     }
 
     public function index()
