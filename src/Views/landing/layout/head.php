@@ -13,8 +13,8 @@
                 </a>
             </div>
             <div class="login-signup-box">
-                <a href="public_html/login.html" class="btn-login">Entrar</a>
-                <a href="public_html/signup.html" class="btn-signup">Cadastrar</a>
+                <a href="auth/login" class="btn-login">Entrar</a>
+                <a href="auth/cadastro" class="btn-signup">Cadastrar</a>
             </div>
         </div>
     </div>

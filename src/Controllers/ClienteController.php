@@ -2,10 +2,18 @@
 
 namespace Fiado\Controllers;
 
+use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 
 class ClienteController extends Controller
 {
+    public function __construct()
+    {
+        if (!Auth::isLogged() || Auth::getSystem() !== 'cliente') {
+            $this->redirect($_SERVER["BASE_URL"] . 'auth/login');
+        }
+    }
+
     public function index()
     {
         $data['view'] = 'cliente/home';

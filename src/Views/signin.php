@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>FiadoFacil - Fiado do jeito certo 2</title>
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="<?=$_SERVER["BASE_URL"]?>css/main.css">
     </head>
 
     <body>
@@ -12,10 +12,10 @@
             <div class="content-wrapper">
                 <div class="header-box">
                     <div class="logo-box">
-                        <a href="http://projeto-fiado/">
-                            <img src="../img/fiado-logo.png" alt="" class="logo">
+                        <a href="<?=$_SERVER["BASE_URL"]?>">
+                            <img src="<?=$_SERVER["BASE_URL"]?>img/fiado-logo.png" alt="" class="logo">
                         </a>
-                        <a href="http://projeto-fiado/">
+                        <a href="<?=$_SERVER["BASE_URL"]?>">
                             <h3>
                                 FiadoFacil
                             </h3>
@@ -31,15 +31,14 @@
                     <header>
                         <h1 class="login-signup-title">Entrar</h1>
                     </header>
-                    <form method="POST" action="../cliente">
-                        <label for="ipt_email">Email:</label>
-                        <input type="email" name="ipt_email" id="ipt_email" />
+                    <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/entrar">
+                        <label for="ipt-email">Email:</label>
+                        <input type="email" name="ipt-email" id="ipt-email" />
 
-                        <label for="ipt_senha">Senha:</label>
-                        <input type="password" name="ipt_senha" id="ipt_senha" />
+                        <label for="ipt-senha">Senha:</label>
+                        <input type="password" name="ipt-senha" id="ipt-senha" />
 
                         <input type="submit" value="Entrar" class="btn-enviar" />
-                        <input type="submit" value="Entrar Empresa" class="btn-enviar" formaction="../loja" />
                     </form>
                 </div>
             </main>
