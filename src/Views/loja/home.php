@@ -13,7 +13,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -22,7 +22,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -31,7 +31,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -40,7 +40,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -49,7 +49,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -58,7 +58,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -67,7 +67,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -76,7 +76,7 @@
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                         <p><b>Pago:</b> xxx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <div class="card-content">
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -103,7 +103,7 @@
                     <div class="card-content">
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
                 <div class="card">
@@ -111,7 +111,7 @@
                     <div class="card-content">
                         <p><b>Valor:</b> R$ x.xxx,xx</p>
                         <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><a href="/loja/compraDetalhe">Mais Detalhes</a></p>
+                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                     </div>
                 </div>
             </div>
@@ -149,7 +149,7 @@
                             <div class="g-barra-valor">50</div>
                         </div>
                     </div>
-                    <p><a href="/loja/compras">Mais Detalhes</a></p>
+                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra">Mais Detalhes</a></p>
                 </div>
             </div>
             <div class="card card-medium">
@@ -179,7 +179,7 @@
                             <div class="g-barra-valor">500</div>
                         </div>
                     </div>
-                    <p><a href="loja/pendente">Mais Detalhes</a></p>
+                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/pendente">Mais Detalhes</a></p>
                 </div>
             </div>
             <div class="card card-medium">
@@ -209,10 +209,10 @@
                             <div class="g-barra-valor">500</div>
                         </div>
                     </div>
-                    <p><a href="/loja/compras">Mais Detalhes</a></p>
+                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra">Mais Detalhes</a></p>
                 </div>
             </div>
         </div>
     </section>
 </main>
-<script src="../js/grafico.js"></script>
+<script src="<?= $_SERVER["BASE_URL"] ?>js/grafico.js"></script>

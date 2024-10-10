@@ -7,7 +7,7 @@
                     <p><b>Nome:</b> Xxxxx xxxx</p>
                     <p><b>Endereço:</b> Xxxxxxx xxxxx/XX</p>
                     <p><b>Telefone:</b> XX/XX/XX xx:xx:xx</p>
-                    <p><b><a href="/cliente/lojaDetalhe">Mais detalhes</a></p>
+                    <p><b><a href="<?= $_SERVER["BASE_URL"] ?>loja/detalhe">Mais detalhes</a></p>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                     <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
                     <p><b>Pago:</b> xxx</p>
-                    <p><a href="/cliente/compraDetalhe">Mais Detalhes</a></p>
+                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                 </div>
             </div>
             <div class="card card-medium">
@@ -34,7 +34,7 @@
                     <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
                     <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
                     <p><b>Pago:</b> xxx</p>
-                    <p><a href="/cliente/compraDetalhe">Mais Detalhes</a></p>
+                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
                 </div>
             </div>
         </div>

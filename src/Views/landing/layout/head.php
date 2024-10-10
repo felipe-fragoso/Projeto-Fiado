@@ -2,8 +2,8 @@
     <div class="content-wrapper">
         <div class="header-box">
             <div class="logo-box">
-                <a href="">
-                    <img src="img/fiado-logo.png" alt="" class="logo">
+                <a href="<?= $_SERVER["BASE_URL"] ?>">
+                    <img src="<?= $_SERVER["BASE_URL"] ?>img/fiado-logo.png" alt="" class="logo">
                 </a>
                 <a href="<?= $_SERVER["BASE_URL"] ?>">
                     <h3>
@@ -13,8 +13,8 @@
                 </a>
             </div>
             <div class="login-signup-box">
-                <a href="auth/login" class="btn-login">Entrar</a>
-                <a href="auth/cadastro" class="btn-signup">Cadastrar</a>
+                <a href="<?= $_SERVER["BASE_URL"] ?>auth" class="btn-login">Entrar</a>
+                <a href="<?= $_SERVER["BASE_URL"] ?>auth/cadastro" class="btn-signup">Cadastrar</a>
             </div>
         </div>
     </div>

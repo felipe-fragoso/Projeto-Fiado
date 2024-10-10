@@ -13,7 +13,7 @@
                 <div class="card-content">
                     <p><b>Nome:</b> Comerciante Sobrenome</p>
                     <p><b>Email:</b> Comerciante@email.com</p>
-                    <p><a href="/loja/perfil">Mais Detalhes</a></p>
+                    <p><a href="<?= $_SERVER["BASE_URL"] ?>perfil">Mais Detalhes</a></p>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <table>
                 <thead>
                     <th>
-                        Loja
+                        Cliente
                     </th>
                     <th>
                         Valor
@@ -43,84 +43,84 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="/loja/compraDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/compraDetalhe">Encerrar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Encerrar</a></td>
                     </tr>
                 </tbody>
             </table>

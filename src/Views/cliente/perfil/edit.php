@@ -4,7 +4,7 @@
             <h3>Meus Detalhes</h3>
         </header>
         <div class="form-box">
-            <form method="POST" action="/loja/perfilSalvar">
+            <form method="POST" action="<?= $_SERVER["BASE_URL"] ?>perfil/salvar">
                 <div class="full-input">
                     <label for="ipt-nome">Nome:</label>
                     <input type="text" name="" id="ipt-nome" value="Xxxxx xxxx">
@@ -34,7 +34,7 @@
             <h3>Minha Descrição</h3>
         </header>
         <div class="form-box">
-            <form method="POST" action="/loja/perfilSalvar">
+            <form method="POST" action="<?= $_SERVER["BASE_URL"] ?>perfil/salvar">
                 <div class="full-input">
                     <label for="ipt-descricao">Descrição:</label>
                     <textarea name="" id="ipt-descricao">Cliente Xxxx, xxxxxx xxxxx.</textarea>

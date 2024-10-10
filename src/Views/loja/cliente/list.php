@@ -1,6 +1,6 @@
 <main class="main-content-aside">
     <section class="system-section">
-        <a href="/loja/clienteNovo" class="new-btn">Novo Cliente</a>
+        <a href="<?= $_SERVER["BASE_URL"] ?>cliente/novo" class="new-btn">Novo Cliente</a>
     </section>
     <section class="system-section">
         <header class="section-header section-header-padding">
@@ -27,84 +27,84 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Não</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Não</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/cliente">Nome Cliente</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/ver">Nome Cliente</a></td>
                         <td>Cliente@email</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/clienteDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/clienteEditar">Editar</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Detalhe</a></td>
+                        <td><a href="<?= $_SERVER["BASE_URL"] ?>cliente/editar">Editar</a></td>
                     </tr>
                 </tbody>
             </table>

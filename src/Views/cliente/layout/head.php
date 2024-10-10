@@ -2,10 +2,10 @@
     <div class="content-wrapper">
         <div class="header-box">
             <div class="logo-box">
-                <a href="/cliente">
-                    <img src="../img/fiado-logo.png" alt="" class="logo">
+                <a href="<?= $_SERVER["BASE_URL"] ?>dashboard">
+                    <img src="<?= $_SERVER["BASE_URL"] ?>img/fiado-logo.png" alt="" class="logo">
                 </a>
-                <a href="/cliente">
+                <a href="<?= $_SERVER["BASE_URL"] ?>dashboard">
                     <h3>
                         FiadoFacil
                     </h3>
@@ -16,11 +16,11 @@
                 <div class="perfil">
                     <span>C</span>
                     <div class="opcoes-perfil">
-                        <a href="/cliente/perfil">Meu Perfil</a>
-                        <a href="/cliente/perfilEditar">Editar Perfil</a>
+                        <a href="<?= $_SERVER["BASE_URL"] ?>perfil">Meu Perfil</a>
+                        <a href="<?= $_SERVER["BASE_URL"] ?>perfil/editar">Editar Perfil</a>
                     </div>
                 </div>
-                <a href="/auth/logout" class="btn-logout">Sair</a>
+                <a href="<?= $_SERVER["BASE_URL"] ?>auth/logout" class="btn-logout">Sair</a>
             </div>
         </div>
     </div>
