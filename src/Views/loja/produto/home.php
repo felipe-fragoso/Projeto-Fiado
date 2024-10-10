@@ -1,6 +1,6 @@
 <main class="main-content-aside">
     <section class="system-section">
-        <a href="/loja/produtoNovo" class="new-btn">Novo Produto</a>
+        <a href="<?=$_SERVER["BASE_URL"]?>produto/novo" class="new-btn">Novo Produto</a>
     </section>
     <section class="system-section">
         <header class="section-header section-header-padding">
@@ -10,7 +10,7 @@
             <table>
                 <thead>
                     <th>
-                        Loja
+                        Nome
                     </th>
                     <th>
                         Valor
@@ -27,84 +27,84 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Não</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Não</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
                         <td>R$ xx,xx</td>
                         <td>XX/XX/XX xx:xx:xx</td>
                         <td>Sim</td>
-                        <td><a href="/loja/produtoDetalhe">Detalhe</a></td>
-                        <td><a href="/loja/produtoEditar">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
                     </tr>
                 </tbody>
             </table>

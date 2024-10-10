@@ -4,7 +4,7 @@
             <div class="card card-full">
                 <h3 class="card-title">Detalhe Compra</h3>
                 <div class="card-content">
-                    <p><b>Loja:</b> <a href="/cliente/lojaDetalhe">loja XXX xxxx</a></p>
+                    <p><b>Loja:</b> <a href="<?= $_SERVER["BASE_URL"] ?>loja/detalhe">loja XXX xxxx</a></p>
                     <p><b>Total:</b> R$ xxx,xx</p>
                     <p><b>Data compra:</b> XX/XX/XX xx:xx:xx</p>
                     <p><b>Data Vencimento:</b> XX/XX/XX xx:xx:xx</p>

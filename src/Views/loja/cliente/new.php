@@ -18,7 +18,7 @@
             </div>
             <div class="selecao-form-box">
                 <div class="selecao-form-um">
-                    <form method="post" action="/loja/clienteSalvar">
+                    <form method="post" action="<?= $_SERVER["BASE_URL"] ?>cliente/salvar">
                         <div class="full-input">
                             <label for="ipt-nome">Nome:</label>
                             <input type="text" name="" id="ipt-nome" value="">
@@ -41,7 +41,7 @@
                     </form>
                 </div>
                 <div class="selecao-form-dois">
-                    <form method="post" action="/loja/clienteSalvar">
+                    <form method="post" action="<?= $_SERVER["BASE_URL"] ?>cliente/salvar">
                         <div class="full-input">
                             <label for="ipt-email2">Email:</label>
                             <input type="email" name="" id="ipt-email2" value="">
@@ -55,5 +55,5 @@
         </div>
     </section>
 </main>
-<link rel="stylesheet" type="text/css" href="../css/selecao-um-dois.css">
-<script src="../js/selecao-um-dois.js"></script>
+<link rel="stylesheet" type="text/css" href="<?= $_SERVER["BASE_URL"] ?>css/selecao-um-dois.css">
+<script src="<?= $_SERVER["BASE_URL"] ?>js/selecao-um-dois.js"></script>

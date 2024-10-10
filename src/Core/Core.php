@@ -17,8 +17,17 @@ class Core
      */
     private $params = [];
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    private string $system = 'Landing';
+
+    /**
+     * @param string $system
+     */
+    public function __construct(string $system)
     {
+        $this->system = ucfirst($system);
         $this->verificaUri();
     }
 
@@ -52,11 +61,11 @@ class Core
      */
     public function getController()
     {
-        if (class_exists($_SERVER['CONTROLLER_NAMESPACE'] . '\\' . $this->controller)) {
-            return $_SERVER['CONTROLLER_NAMESPACE'] . '\\' . $this->controller;
+        if (class_exists($_SERVER['CONTROLLER_NAMESPACE'] . "\\{$this->system}\\" . $this->controller)) {
+            return $_SERVER['CONTROLLER_NAMESPACE'] . "\\{$this->system}\\" . $this->controller;
         }
 
-        return $_SERVER['CONTROLLER_NAMESPACE'] . '\\' . $_SERVER['CONTROLLER_PADRAO'];
+        return $_SERVER['CONTROLLER_NAMESPACE'] . "\\{$this->system}\\" . $_SERVER['CONTROLLER_PADRAO'];
     }
 
     /**

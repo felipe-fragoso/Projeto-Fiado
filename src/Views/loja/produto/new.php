@@ -3,7 +3,7 @@
         <header class="form-header">
             <h2 class="page-header">Cadastro de Produto</h2>
         </header>
-        <form method="post" action="/loja/produtoSalvar" class="form-box">
+        <form method="post" action="<?=$_SERVER["BASE_URL"]?>produto/salvar" class="form-box">
             <div class="full-input">
                 <label for="ipt-nome">Nome:</label>
                 <input type="text" name="" id="ipt-nome" value="">

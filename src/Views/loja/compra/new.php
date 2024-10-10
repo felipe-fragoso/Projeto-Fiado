@@ -3,7 +3,7 @@
         <header class="form-header">
             <h2 class="page-header">Cadastro de Fiado</h2>
         </header>
-        <form id="form-compra" method="post" action="/loja/compraSalvar" class="form-box">
+        <form id="form-compra" method="post" action="<?= $_SERVER["BASE_URL"] ?>compra/salvar" class="form-box">
             <div class="full-input">
                 <label for="sel-cliente">Cliente:</label>
                 <select name="sel-cliente" id="sel-cliente" class="select-searchable">
@@ -37,7 +37,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                    <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                     <td>R$ xx,xx</td>
                     <td>xx</td>
                     <td>R$ xxx,xx</td>
@@ -45,7 +45,7 @@
                     <td><a href="">Excluir</a></td>
                 </tr>
                 <tr>
-                    <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                    <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                     <td>R$ xx,xx</td>
                     <td>xx</td>
                     <td>R$ xxx,xx</td>
@@ -53,7 +53,7 @@
                     <td><a href="">Excluir</a></td>
                 </tr>
                 <tr>
-                    <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                    <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                     <td>R$ xx,xx</td>
                     <td>xx</td>
                     <td>R$ xxx,xx</td>
@@ -89,7 +89,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                                    <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                                     <td>
                                         <div class="table-form-input">
                                             <span>R$</span>
@@ -125,7 +125,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                            <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                             <td>R$ xx,xx</td>
                             <td>xx</td>
                             <td>R$ xxx,xx</td>
@@ -134,7 +134,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                            <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                             <td>R$ xx,xx</td>
                             <td>xx</td>
                             <td>R$ xxx,xx</td>
@@ -143,7 +143,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><a href="/loja/produtoDetalhe">Nome Produto</a></td>
+                            <td><a href="<?= $_SERVER["BASE_URL"] ?>produto/detalhe">Nome Produto</a></td>
                             <td>R$ xx,xx</td>
                             <td>xx</td>
                             <td>R$ xxx,xx</td>
@@ -157,6 +157,6 @@
         </div>
     </div>
 </main>
-<script src="../js/modal.js"></script>
-<script src="../js/searchable-select.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/searchable-select.css" />
+<script src="<?= $_SERVER["BASE_URL"] ?>js/modal.js"></script>
+<script src="<?= $_SERVER["BASE_URL"] ?>js/searchable-select.js"></script>
+<link rel="stylesheet" type="text/css" href="<?= $_SERVER["BASE_URL"] ?>css/searchable-select.css" />
