@@ -26,86 +26,30 @@
                     </th>
                 </thead>
                 <tbody>
+                    <?php
+                        if (!$produtos):
+                    ?>
                     <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
+                        <td class="th-center" colspan="6">Nenhum produto encontrado</td>
                     </tr>
+                    <?php
+                        else:
+                            foreach ($produtos as $produto):
+                        ?>
                     <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
+                        <td><a
+                                href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto['id'] ?>"><?= $produto['name'] ?></a>
+                        </td>
+                        <td>R$ <?= number_format($produto['price'], 2, ',', '.') ?></td>
+                        <td><?= date('d/m/Y H:i:s', strtotime($produto['date'])) ?></td>
+                        <td><?= $produto['active'] ? 'Sim' : 'Não' ?></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto['id'] ?>">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?= $produto['id'] ?>">Editar</a></td>
                     </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Não</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Não</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Nome Produto</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>Sim</td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar">Editar</a></td>
-                    </tr>
+                    <?php
+                            endforeach;
+                            endif;
+                        ?>
                 </tbody>
             </table>
             <div class="pagination">
