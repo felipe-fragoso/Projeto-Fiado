@@ -27,6 +27,7 @@
                 </thead>
                 <tbody>
                     <?php
+                        /** @var \Fiado\Core\ViewHelper[] $produtos */
                         if (!$produtos):
                     ?>
                     <tr>
@@ -38,13 +39,13 @@
                         ?>
                     <tr>
                         <td><a
-                                href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto['id'] ?>"><?= $produto['name'] ?></a>
+                                href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>"><?= $produto->name ?></a>
                         </td>
-                        <td>R$ <?= number_format($produto['price'], 2, ',', '.') ?></td>
-                        <td><?= date('d/m/Y H:i:s', strtotime($produto['date'])) ?></td>
-                        <td><?= $produto['active'] ? 'Sim' : 'Não' ?></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto['id'] ?>">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?= $produto['id'] ?>">Editar</a></td>
+                        <td>R$ <?= $produto->formatToReal('price') ?></td>
+                        <td><?= $produto->dateToBr('date') ?></td>
+                        <td><?= $produto->active ? 'Sim' : 'Não' ?></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?= $produto->id ?>">Editar</a></td>
                     </tr>
                     <?php
                             endforeach;
