@@ -3,6 +3,7 @@
 namespace Fiado\Controllers\Loja;
 
 use Fiado\Core\Controller;
+use Fiado\Core\ViewHelper;
 use Fiado\Models\Service\ProdutoService;
 
 class ProdutoController extends Controller
@@ -10,7 +11,7 @@ class ProdutoController extends Controller
     public function index()
     {
         $data['view'] = 'loja/produto/home';
-        $data['produtos'] = ProdutoService::listProduto(0, 9);
+        $data['produtos'] = array_map(fn ($produto) => new ViewHelper($produto), ProdutoService::listProduto(0, 9));
 
         $this->load('loja/template', $data);
     }
@@ -31,7 +32,7 @@ class ProdutoController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
-        $data['produto'] = ProdutoService::getProduto($id);
+        $data['produto'] = new ViewHelper(ProdutoService::getProduto($id));
         $data['view'] = 'loja/produto/edit';
 
         $this->load('loja/template', $data);
@@ -47,7 +48,7 @@ class ProdutoController extends Controller
         }
 
         $data['view'] = 'loja/produto/detail';
-        $data['produto'] = ProdutoService::getProduto($id);
+        $data['produto'] = new ViewHelper(ProdutoService::getProduto($id));
 
         $this->load('loja/template', $data);
     }
