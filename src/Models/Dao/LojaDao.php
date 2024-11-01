@@ -19,6 +19,17 @@ class LojaDao extends Model
     }
 
     /**
+     * @param ParamData $data
+     * @return mixed
+     */
+    public function getLojaById(ParamData $data)
+    {
+        $statement = $this->select('loja', 'id = :id', $data);
+
+        return $statement->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
      * @param array $data
      * @return mixed
      */

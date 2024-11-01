@@ -12,13 +12,28 @@ class LojaService
 {
     /**
      * @param string $email
-     * @param string $password
      */
     public static function getLojaByEmail(string $email)
     {
         $dao = new LojaDao();
 
         $arr = $dao->getLojaByEmail(new ParamData(new ParamItem('email', $email)));
+
+        if ($arr) {
+            return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int $id
+     */
+    public static function getLojaById(int $id)
+    {
+        $dao = new LojaDao();
+
+        $arr = $dao->getLojaById(new ParamData(new ParamItem('id', $id)));
 
         if ($arr) {
             return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
