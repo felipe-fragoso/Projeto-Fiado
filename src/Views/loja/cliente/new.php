@@ -7,33 +7,37 @@
             <div class="selecao-header-box">
                 <div class="selecao-header">
                     <label for="novo-cliente">Novo Cliente</label>
-                    <input type="radio" name="tipo-cliente" value="form-um" id="novo-cliente"
-                        onchange="mudaSelecao(this)" checked />
+                    <input type="radio" name="tipo-cliente" value="form-um" id="novo-cliente" class="selecao-radio"
+                        onchange="mudaSelecao(this)" <?=$tipo === 'n' ? 'checked' : ''?> />
                 </div>
                 <div class="selecao-header">
                     <label for="fiado-cliente">Cliente FiadoFacil</label>
-                    <input type="radio" name="tipo-cliente" value="form-dois" id="fiado-cliente"
-                        onchange="mudaSelecao(this)" />
+                    <input type="radio" name="tipo-cliente" value="form-dois" id="fiado-cliente" class="selecao-radio"
+                        onchange="mudaSelecao(this)" <?=$tipo === 'c' ? 'checked' : ''?> />
                 </div>
             </div>
             <div class="selecao-form-box">
                 <div class="selecao-form-um">
-                    <form method="post" action="<?= $_SERVER["BASE_URL"] ?>cliente/salvar">
+                    <form method="post" action="<?=$_SERVER["BASE_URL"]?>cliente/salvar">
                         <div class="full-input">
                             <label for="ipt-nome">Nome:</label>
-                            <input type="text" name="" id="ipt-nome" value="">
+                            <input type="text" name="ipt-nome" id="ipt-nome" value="">
                         </div>
                         <div class="full-input">
                             <label for="ipt-email">Email:</label>
-                            <input type="email" name="" id="ipt-email" value="">
+                            <input type="email" name="ipt-email" id="ipt-email" value="">
+                        </div>
+                        <div class="full-input">
+                            <label for="ipt-cpf">CPF:</label>
+                            <input type="text" name="ipt-cpf" id="ipt-cpf" value="">
                         </div>
                         <div class="full-input">
                             <label for="ipt-tel">Telefone (DDD):</label>
-                            <input type="text" name="" id="ipt-tel" value="">
+                            <input type="text" name="ipt-tel" id="ipt-tel" value="">
                         </div>
                         <div class="full-input">
                             <label for="ipt-endereco">Endereço:</label>
-                            <input type="text" name="" id="ipt-endereco" value="">
+                            <input type="text" name="ipt-endereco" id="ipt-endereco" value="">
                         </div>
                         <div>
                             <input type="submit" value="Cadastrar" class="btn-enviar">
@@ -41,10 +45,10 @@
                     </form>
                 </div>
                 <div class="selecao-form-dois">
-                    <form method="post" action="<?= $_SERVER["BASE_URL"] ?>cliente/salvar">
+                    <form method="post" action="<?=$_SERVER["BASE_URL"]?>cliente/salvar">
                         <div class="full-input">
                             <label for="ipt-email2">Email:</label>
-                            <input type="email" name="" id="ipt-email2" value="">
+                            <input type="email" name="ipt-email-cliente" id="ipt-email2" value="">
                         </div>
                         <div>
                             <input type="submit" value="Cadastrar" class="btn-enviar">
@@ -55,5 +59,5 @@
         </div>
     </section>
 </main>
-<link rel="stylesheet" type="text/css" href="<?= $_SERVER["BASE_URL"] ?>css/selecao-um-dois.css">
-<script src="<?= $_SERVER["BASE_URL"] ?>js/selecao-um-dois.js"></script>
+<link rel="stylesheet" type="text/css" href="<?=$_SERVER["BASE_URL"]?>css/selecao-um-dois.css">
+<script src="<?=$_SERVER["BASE_URL"]?>js/selecao-um-dois.js"></script>
