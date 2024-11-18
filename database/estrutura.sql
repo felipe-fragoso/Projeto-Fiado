@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `cliente_loja` (
   `id_cliente` int NOT NULL,
   `id_loja` int NOT NULL,
   `max_credit` int DEFAULT NULL,
-  `active` char(1) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
