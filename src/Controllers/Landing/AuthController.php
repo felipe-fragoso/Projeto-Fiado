@@ -2,8 +2,8 @@
 
 namespace Fiado\Controllers\Landing;
 
-use Fiado\Core\Auth;
 use Fiado\Core\Controller;
+use Fiado\Models\Service\AuthService;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\LojaService;
 
@@ -25,15 +25,7 @@ class AuthController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'auth');
         }
 
-        if (ClienteService::getLogin($email, $password)) {
-            Auth::login($email, 'cliente');
-
-            $this->redirect($_SERVER["BASE_URL"] . 'dashboard');
-        }
-
-        if (LojaService::getLogin($email, $password)) {
-            Auth::login($email, 'loja');
-
+        if (AuthService::authenticate($email, $password)) {
             $this->redirect($_SERVER["BASE_URL"] . 'dashboard');
         }
 
