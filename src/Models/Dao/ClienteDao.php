@@ -11,6 +11,17 @@ class ClienteDao extends Model
      * @param ParamData $data
      * @return mixed
      */
+    public function getClienteById(ParamData $data)
+    {
+        $statement = $this->select('cliente', 'id = :id', $data);
+
+        return $statement->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param ParamData $data
+     * @return mixed
+     */
     public function getClienteByEmail(ParamData $data)
     {
         $statement = $this->select('cliente', 'email = :email', $data);
