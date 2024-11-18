@@ -32,7 +32,7 @@ class Auth
     /**
      * @return ?string
      */
-    public static function getID()
+    public static function getId()
     {
         self::load();
 
