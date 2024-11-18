@@ -2,8 +2,6 @@
 
 namespace Fiado\Models\Validation;
 
-use Fiado\Models\Entity\Loja;
-
 class LojaValidate
 {
     /**
@@ -13,8 +11,12 @@ class LojaValidate
     private int $numErrors = 0;
 
     /**
-     * @param Loja $store
-     * @return LojaValidate
+     * @param $id
+     * @param $cnpj
+     * @param $name
+     * @param $email
+     * @param $password
+     * @return mixed
      */
     public function __construct($id, $cnpj, $name, $email, $password)
     {
