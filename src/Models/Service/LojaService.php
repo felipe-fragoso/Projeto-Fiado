@@ -48,21 +48,6 @@ class LojaService
     }
 
     /**
-     * @param string $email
-     * @param string $password
-     */
-    public static function getLogin(string $email, $password)
-    {
-        $loja = self::getLojaByEmail($email);
-
-        if ($loja) {
-            return password_verify($password, $loja->getSenha());
-        }
-
-        return false;
-    }
-
-    /**
      * @param Loja $store
      * @return mixed
      */

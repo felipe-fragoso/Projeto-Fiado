@@ -49,22 +49,7 @@ class ClienteService
 
         return false;
     }
-
-    /**
-     * @param string $email
-     * @param $password
-     */
-    public static function getLogin(string $email, $password)
-    {
-        $loja = self::getClienteByEmail($email);
-
-        if ($loja) {
-            return password_verify($password, $loja->getSenha());
-        }
-
-        return false;
-    }
-
+    
     /**
      * @param $id
      * @param $cpf

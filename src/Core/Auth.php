@@ -5,6 +5,7 @@ namespace Fiado\Core;
 class Auth
 {
     private static bool $isLogged;
+    private static ?int $id;
     private static ?string $email;
     private static string $system = "landing";
 
@@ -27,6 +28,16 @@ class Auth
 
         return self::$email;
     }
+    
+    /**
+     * @return ?string
+     */
+    public static function getID()
+    {
+        self::load();
+
+        return self::$id;
+    }
 
     /**
      * @return string
@@ -42,12 +53,13 @@ class Auth
      * @param $email
      * @param $type
      */
-    public static function login($email, $system)
+    public static function setLogin(array $data, $system)
     {
-        $_SESSION[$_SERVER["USER_SESSION"]] = ['email' => $email, 'system' => $system];
+        $_SESSION[$_SERVER["USER_SESSION"]] = [...$data, 'system' => $system];
 
         self::$isLogged = true;
-        self::$email = $email;
+        self::$id = $data['id'];
+        self::$email = $data['email'];
         self::$system = $system;
     }
 
@@ -66,6 +78,7 @@ class Auth
     {
         if (isset($_SESSION[$_SERVER["USER_SESSION"]])) {
             self::$isLogged = true;
+            self::$id = $_SESSION[$_SERVER["USER_SESSION"]]['id'];
             self::$email = $_SESSION[$_SERVER["USER_SESSION"]]['email'];
             self::$system = $_SESSION[$_SERVER["USER_SESSION"]]['system'];
         } else {
