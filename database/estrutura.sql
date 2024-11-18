@@ -24,8 +24,24 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `name` varchar(150) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `senha` varchar(60) NOT NULL,
+  `senha` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cliente_loja`
+--
+
+DROP TABLE IF EXISTS `cliente_loja`;
+CREATE TABLE IF NOT EXISTS `cliente_loja` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_cliente` int NOT NULL,
+  `id_loja` int NOT NULL,
+  `max_credit` int DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -41,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `cliente_personal_info` (
   `id_cliente` int NOT NULL,
   `address` varchar(200) NOT NULL,
   `telephone` varchar(20) NOT NULL,
-  `description` text NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

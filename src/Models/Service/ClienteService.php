@@ -11,8 +11,31 @@ use Fiado\Models\Validation\ClienteValidate;
 class ClienteService
 {
     /**
+     * @param array $arr
+     */
+    private static function getClienteObj(array $arr)
+    {
+        return new Cliente($arr['id'], $arr['cpf'], $arr['name'], $arr['email'], $arr['senha'], $arr['date']);
+    }
+
+    /**
+     * @param int $id
+     */
+    public static function getClienteById(int $id)
+    {
+        $dao = new ClienteDao();
+
+        $arr = $dao->getClienteById(new ParamData(new ParamItem('id', $id)));
+
+        if ($arr) {
+            return self::getClienteObj($arr);
+        }
+
+        return false;
+    }
+
+    /**
      * @param string $email
-     * @param string $password
      */
     public static function getClienteByEmail(string $email)
     {
@@ -21,7 +44,7 @@ class ClienteService
         $arr = $dao->getClienteByEmail(new ParamData(new ParamItem('email', $email)));
 
         if ($arr) {
-            return new Cliente($arr['id'], $arr['cpf'], $arr['name'], $arr['email'], $arr['senha']);
+            return self::getClienteObj($arr);
         }
 
         return false;
@@ -29,7 +52,7 @@ class ClienteService
 
     /**
      * @param string $email
-     * @param string $password
+     * @param $password
      */
     public static function getLogin(string $email, $password)
     {
@@ -43,7 +66,11 @@ class ClienteService
     }
 
     /**
-     * @param Cliente $store
+     * @param $id
+     * @param $cpf
+     * @param $name
+     * @param $email
+     * @param $password
      * @return mixed
      */
     public static function salvar($id, $cpf, $name, $email, $password)
@@ -54,7 +81,7 @@ class ClienteService
             return false;
         }
 
-        $store = new Cliente($id, $cpf, $name, $email, $password);
+        $store = new Cliente($id, $cpf, $name, $email, $password, null);
         $dao = new ClienteDao();
 
         if ($store->getId()) {
@@ -64,7 +91,7 @@ class ClienteService
                 'cpf' => $store->getCpf(),
                 'email' => $store->getEmail(),
                 'senha' => $store->getSenha(),
-                'date' => $store->getDate(),
+                // 'date' => $store->getDate(),
             ]);
         }
 

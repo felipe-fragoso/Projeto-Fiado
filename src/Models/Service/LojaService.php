@@ -10,6 +10,11 @@ use Fiado\Models\Validation\LojaValidate;
 
 class LojaService
 {
+    private static function getLojaObj(array $arr)
+    {
+        return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
+    }
+
     /**
      * @param string $email
      */
@@ -20,7 +25,7 @@ class LojaService
         $arr = $dao->getLojaByEmail(new ParamData(new ParamItem('email', $email)));
 
         if ($arr) {
-            return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
+            return self::getLojaObj($arr);
         }
 
         return false;
@@ -36,7 +41,7 @@ class LojaService
         $arr = $dao->getLojaById(new ParamData(new ParamItem('id', $id)));
 
         if ($arr) {
-            return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
+            return self::getLojaObj($arr);
         }
 
         return false;

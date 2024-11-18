@@ -2,7 +2,9 @@
 
 namespace Fiado\Models\Validation;
 
-class LojaValidate
+use Fiado\Models\Entity\Cliente;
+
+class ClientePIValidate
 {
     /**
      * @var mixed
@@ -12,16 +14,20 @@ class LojaValidate
 
     /**
      * @param $id
-     * @param $cnpj
-     * @param $name
-     * @param $email
-     * @param $password
+     * @param Cliente $cliente
+     * @param $address
+     * @param $telephone
+     * @param $description
      * @return mixed
      */
-    public function __construct($id, $cnpj, $name, $email, $password)
+    public function __construct($id, Cliente $cliente, $address, $telephone, $description)
     {
-        if (!is_numeric($cnpj)) {
-            $this->addError('CNPJ Inválido.');
+        if (!$cliente->getId()) {
+            $this->addError('Cliente inválido');
+        }
+
+        if (!is_numeric($telephone)) {
+            $this->addError('Telefone Inválido.');
         }
 
         return $this;

@@ -4,10 +4,11 @@
             <div class="card card-full">
                 <h3 class="card-title">Detalhe Cliente</h3>
                 <div class="card-content">
-                    <p><b>Nome:</b> Xxxxx xxxx</p>
-                    <p><b>Email:</b> xxxxxx@xxxx.xx</p>
-                    <p><b>Telefone:</b> XX/XX/XX xx:xx:xx</p>
-                    <p><b><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe">Mais detalhes</a></p>
+                    <p><b>Nome:</b> <?= $data->nome ?></p>
+                    <p><b>Email:</b> <?= $data->email ?></p>
+                    <p><b>Telefone:</b> <?= $data->telefone ?></p>
+                    <p><b><a href="<?= $_SERVER["BASE_URL"] ?>cliente/detalhe/<?= $data->id ?>">Mais
+                                detalhes</a></p>
                 </div>
             </div>
         </div>
