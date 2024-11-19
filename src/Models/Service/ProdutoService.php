@@ -53,7 +53,7 @@ class ProdutoService
             return false;
         }
 
-        $loja = LojaService::getLojaByEmail(Auth::getEmail());
+        $loja = LojaService::getLojaById(Auth::getId());
         $date = date('Y-m-d H:i:s');
 
         $produto = new Produto($id, $loja, $name, $price, $date, $description, $active);
