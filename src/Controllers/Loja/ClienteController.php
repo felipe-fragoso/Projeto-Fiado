@@ -15,7 +15,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $loja = LojaService::getLojaByEmail(Auth::getEmail());
+        $loja = LojaService::getLojaById(Auth::getId());
 
         $data['listData'] = array_map(function (ClienteLoja $clienteLoja) {return new ViewHelper([
             'id' => $clienteLoja->getId(),
@@ -122,7 +122,7 @@ class ClienteController extends Controller
         $credit = $_POST['ipt-credito'] ?? null ?: null;
         $active = (($_POST['sel-ativo'] ?? 'S') == 'S') ? true : false;
 
-        $idLoja = LojaService::getLojaByEmail(Auth::getEmail())->getId();
+        $idLoja = Auth::getId();
 
         $page = $id ? '/editar' : '/novo';
         $type = $emailCliente ? '?tipo=c' : '';

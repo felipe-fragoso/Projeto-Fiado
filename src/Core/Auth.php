@@ -18,16 +18,6 @@ class Auth
 
         return self::$isLogged;
     }
-
-    /**
-     * @return ?string
-     */
-    public static function getEmail()
-    {
-        self::load();
-
-        return self::$email;
-    }
     
     /**
      * @return ?string
@@ -37,6 +27,16 @@ class Auth
         self::load();
 
         return self::$id;
+    }
+
+    /**
+     * @return ?string
+     */
+    public static function getEmail()
+    {
+        self::load();
+
+        return self::$email;
     }
 
     /**
@@ -70,6 +70,7 @@ class Auth
         }
 
         self::$isLogged = false;
+        self::$id = null;
         self::$email = null;
         self::$system = 'landing';
     }
