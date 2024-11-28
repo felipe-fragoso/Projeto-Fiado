@@ -2,10 +2,12 @@
 
 namespace Fiado\Models\Entity;
 
+use Fiado\Helpers\LazyDataObj;
+
 class Produto
 {
     private ?int $id;
-    private Loja $loja;
+    private Loja|LazyDataObj $loja;
     private string $name;
     private string $price;
     private string $date;
@@ -14,14 +16,14 @@ class Produto
 
     /**
      * @param $id
-     * @param Loja $loja
+     * @param Loja|LazyDataObj $loja
      * @param $name
      * @param $price
      * @param $date
      * @param $description
      * @param $active
      */
-    public function __construct($id, Loja $loja, $name, $price, $date, $description, $active)
+    public function __construct($id, Loja | LazyDataObj $loja, $name, $price, $date, $description, $active)
     {
         $this->id = $id;
         $this->loja = $loja;
@@ -41,7 +43,7 @@ class Produto
     }
 
     /**
-     * @return Loja
+     * @return mixed
      */
     public function getLoja()
     {
