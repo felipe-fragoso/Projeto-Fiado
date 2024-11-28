@@ -2,7 +2,7 @@
 
 namespace Fiado\Models\Service;
 
-use Fiado\Core\Auth;
+use Fiado\Helpers\LazyDataObj;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
 use Fiado\Models\Dao\ProdutoDao;
@@ -12,14 +12,35 @@ use Fiado\Models\Validation\ProdutoValidate;
 class ProdutoService
 {
     /**
+     * @param array $arr
+     */
+    public static function getProdutoObj(array $arr)
+    {
+        return new Produto(
+            $arr['id'],
+            new LazyDataObj($arr['id_loja'], function ($id) {return LojaService::getLojaById($id);}),
+            $arr['name'],
+            $arr['price'],
+            $arr['date'],
+            $arr['description'],
+            $arr['active']
+        );
+    }
+
+    /**
      * @param int $id
-     * @return mixed
      */
     public static function getProduto(int $id)
     {
         $dao = new ProdutoDao();
 
-        return $dao->getProduto(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
+        $arr = $dao->getProduto(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
+
+        if ($arr) {
+            return self::getProdutoObj($arr);
+        }
+
+        return false;
     }
 
     /**
@@ -34,7 +55,34 @@ class ProdutoService
         $data = new ParamData(new ParamItem('first', $first, \PDO::PARAM_INT));
         $data->addData('last', $quantity, \PDO::PARAM_INT);
 
-        return $dao->listProduto('1=1 LIMIT :first, :last', $data);
+        $arr = $dao->listProduto('1=1 LIMIT :first, :last', $data);
+
+        if ($arr) {
+            return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $text
+     * @param $quantity
+     * @return mixed
+     */
+    public static function listProdutoWith($text, $quantity)
+    {
+        $dao = new ProdutoDao();
+
+        $data = new ParamData(new ParamItem('name', "%$text%"));
+        $data->addData('quantity', $quantity, \PDO::PARAM_INT);
+
+        $arr = $dao->listProduto('name LIKE :name LIMIT 0, :quantity', $data);
+
+        if ($arr) {
+            return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
+        }
+
+        return false;
     }
 
     /**
@@ -45,15 +93,16 @@ class ProdutoService
      * @param $description
      * @return mixed
      */
-    public static function salvar($id, $name, $price, $active, $description)
+    public static function salvar($id, $idLoja, $name, $price, $active, $description)
     {
-        $validation = new ProdutoValidate($name, $price, $active, $description);
+        $loja = LojaService::getLojaById($idLoja);
+
+        $validation = new ProdutoValidate($name, $loja, $price, $active, $description);
 
         if ($validation->getNumErrors()) {
             return false;
         }
 
-        $loja = LojaService::getLojaById(Auth::getId());
         $date = date('Y-m-d H:i:s');
 
         $produto = new Produto($id, $loja, $name, $price, $date, $description, $active);

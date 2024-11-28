@@ -2,6 +2,8 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Models\Entity\Loja;
+
 class ProdutoValidate
 {
     /**
@@ -12,13 +14,18 @@ class ProdutoValidate
 
     /**
      * @param $name
+     * @param Loja $loja
      * @param $price
      * @param $active
      * @param $description
      * @return mixed
      */
-    public function __construct($name, $price, $active, $description)
+    public function __construct($name, Loja $loja, $price, $active, $description)
     {
+        if (!$loja->getId()) {
+            $this->addError('Loja Inválida.');
+        }
+
         if (!is_numeric($price)) {
             $this->addError('Preço Inválido.');
         }

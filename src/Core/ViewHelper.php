@@ -35,7 +35,9 @@ class ViewHelper extends \stdClass
     public function formatToReal(string $property)
     {
         if (property_exists($this, $property)) {
-            return number_format($this->$property, 2, ',', '.');
+            if ($this->$property) {
+                return number_format($this->$property, 2, ',', '.');
+            }
         }
 
         return false;

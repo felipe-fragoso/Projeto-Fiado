@@ -39,11 +39,11 @@
                         ?>
                     <tr>
                         <td><a
-                                href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>"><?= $produto->name ?></a>
+                                href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>"><?= $produto->nome ?></a>
                         </td>
-                        <td>R$ <?= $produto->formatToReal('price') ?></td>
-                        <td><?= $produto->dateToBr('date') ?></td>
-                        <td><?= $produto->active ? 'Sim' : 'Não' ?></td>
+                        <td>R$ <?= $produto->formatToReal('preco') ?></td>
+                        <td><?= $produto->dateToBr('data') ?></td>
+                        <td><?= $produto->ativo ? 'Sim' : 'Não' ?></td>
                         <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>">Detalhe</a></td>
                         <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?= $produto->id ?>">Editar</a></td>
                     </tr>
