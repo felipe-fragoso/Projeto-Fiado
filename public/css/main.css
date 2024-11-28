@@ -75,7 +75,9 @@ input[type=text]:disabled {
 .full-modal {
     display: none;
     z-index: 999;
-    position: absolute;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.7);
     left: 0;
     right: 0;
@@ -85,6 +87,8 @@ input[type=text]:disabled {
 
 .modal-content {
     width: 1200px;
+    max-width: 80vw;
+    max-height: 80vh;
     margin: auto;
     margin-top: 100px;
     background-color: var(--main-white-background);
@@ -398,6 +402,10 @@ input[type=text]:disabled {
 
 .table-box table tr:nth-of-type(2n+1) {
     background-color: #ececec;
+}
+
+.table-box:has(tbody:empty) {
+    display: none;
 }
 
 /** *FIM* Table **/
@@ -887,6 +895,43 @@ input[type=text]:disabled {
     justify-content: space-between;
 }
 
+/* Modal adicionar Produto */
+
+#modal-add-produto header {
+    padding-bottom: 10px;
+    text-indent: 4px;
+    font-size: 24px;
+    color: #555;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#modal-add-produto h4 {
+    margin-top: 20px;
+    color: #333;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#modal-add-produto .table-box {
+    width: 100%;
+    overflow-y: auto;
+}
+
+#modal-add-produto .table-box th {
+    position: sticky;
+    top: 0;
+}
+
+#modal-add-produto .table-box:has(#pesq-list) {
+    max-height: 170px;
+}
+
+#modal-add-produto .table-box:has(#tablelist-produto-modal) {
+    max-height: 230px;
+}
+
+/** add produto box **/
+
 .add-produto-box {
     width: 100%;
     display: flex;
@@ -906,23 +951,4 @@ input[type=text]:disabled {
 
 .add-produto-search input {
     padding: 0 4px !important;
-}
-
-.add-produto-box .table-box {
-    width: 100%;
-}
-
-#modal-add-produto header {
-    padding-bottom: 10px;
-    text-indent: 4px;
-    font-size: 24px;
-    color: #555;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-#modal-add-produto h4 {
-    margin-top: 20px;
-    color: #333;
-    font-size: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
