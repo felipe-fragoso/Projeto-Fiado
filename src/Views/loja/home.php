@@ -1,3 +1,4 @@
+<?php /** @var Fiado\Core\ViewHelper $data */?>
 <main class="main-content-aside">
     <section class="system-section">
         <header class="section-header section-header-padding">
@@ -7,78 +8,22 @@
             <a class="carrossel-button carrossel-left" onclick="carrossel(this)"></a>
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
+                <?php if ($data->ultimasCompras):
+                        /** @var Fiado\Core\ViewHelper $compra */
+                    foreach ($data->ultimasCompras as $compra): ?>
                 <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxxXXXXXXXXXXXXXX</h3>
+                    <h3 class="card-title">Compra Cliente: <?=$compra->id?></h3>
                     <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
+                        <p><b>Valor:</b> R$ <?=$compra->formatToReal('total')?></p>
+                        <p><b>Data:</b> <?=$compra->dateToBr('data')?></p>
+                        <p><b>Pago:</b> <?=$compra->pago ? 'Sim' : 'Não'?></p>
+                        <p><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->id?>">Mais Detalhes</a></p>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
+                <?php
+                        endforeach;
+                        endif;
+                    ?>
             </div>
         </div>
     </section>
@@ -90,30 +35,21 @@
             <a class="carrossel-button carrossel-left" onclick="carrossel(this)"></a>
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
+                <?php if ($data->ultimasPendentes):
+                        /** @var Fiado\Core\ViewHelper $compra */
+                    foreach ($data->ultimasPendentes as $compra): ?>
                 <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
+                    <h3 class="card-title">Compra Cliente: <?=$compra->id?></h3>
                     <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
+                        <p><b>Valor:</b> R$ <?=$compra->formatToReal('total')?></p>
+                        <p><b>Data:</b> <?=$compra->dateToBr('data')?></p>
+                        <p><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->id?>">Mais Detalhes</a></p>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra Cliente: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
+                <?php
+                        endforeach;
+                        endif;
+                    ?>
             </div>
         </div>
     </section>
@@ -125,94 +61,64 @@
             <div class="card card-medium">
                 <h3 class="card-title">Ultimas dias</h3>
                 <div class="card-content">
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
+                    <p><b>Total:</b> R$ <?=$data->graficos->dias->getTotal()?></p>
                     <div class="grafico-barra">
-                        <div class="g-moeda">real</div>
+                        <div class="g-moeda"><?= $data->graficos->dias->getMoeda() ?></div>
+                        <?php
+                            foreach ($data->graficos->dias->getBars() as $bar):
+                                ?>
                         <div class="g-barra">
-                            <div class="g-barra-titulo">05/Mai</div>
-                            <div class="g-barra-valor">100</div>
+                            <div class="g-barra-titulo"><?= $bar['name'] ?></div>
+                            <div class="g-barra-valor"><?= $bar['value'] ?: 0 ?></div>
                         </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">04/Mai</div>
-                            <div class="g-barra-valor">30</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">03/Mai</div>
-                            <div class="g-barra-valor">50</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">02/Mai</div>
-                            <div class="g-barra-valor">50</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">01/Mai</div>
-                            <div class="g-barra-valor">50</div>
-                        </div>
+                        <?php
+                            endforeach;
+                        ?>
                     </div>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra">Mais Detalhes</a></p>
+                    <p><a href="<?=$_SERVER["BASE_URL"]?>compra">Mais Detalhes</a></p>
                 </div>
             </div>
             <div class="card card-medium">
                 <h3 class="card-title">Valores pendentes</h3>
                 <div class="card-content">
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
+                    <p><b>Total:</b> R$ <?=$data->graficos->mesPendente->getTotal() ?></p>
                     <div class="grafico-barra">
-                        <div class="g-moeda">real</div>
+                        <div class="g-moeda"><?= $data->graficos->mesPendente->getMoeda() ?></div>
+                        <?php
+                            foreach ($data->graficos->mesPendente->getBars() as $bar):
+                                ?>
                         <div class="g-barra">
-                            <div class="g-barra-titulo">Jan/24</div>
-                            <div class="g-barra-valor">1000</div>
+                            <div class="g-barra-titulo"><?=$bar['name']?></div>
+                            <div class="g-barra-valor"><?=$bar['value'] ?: 0?></div>
                         </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Fev/24</div>
-                            <div class="g-barra-valor">300</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mar/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Abr/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mai/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
+                        <?php
+                            endforeach;
+                        ?>
                     </div>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/pendente">Mais Detalhes</a></p>
+                    <p><a href="<?=$_SERVER["BASE_URL"]?>compra/pendente">Mais Detalhes</a></p>
                 </div>
             </div>
             <div class="card card-medium">
                 <h3 class="card-title">Compras</h3>
                 <div class="card-content">
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
+                    <p><b>Total:</b> R$ <?=$data->graficos->mes->getTotal()?></p>
                     <div class="grafico-barra">
-                        <div class="g-moeda">real</div>
+                        <div class="g-moeda"><?=$data->graficos->mes->getMoeda()?></div>
+                        <?php
+                            foreach ($data->graficos->mes->getBars() as $bar):
+                                ?>
                         <div class="g-barra">
-                            <div class="g-barra-titulo">Jan/24</div>
-                            <div class="g-barra-valor">1000</div>
+                            <div class="g-barra-titulo"><?=$bar['name']?></div>
+                            <div class="g-barra-valor"><?=$bar['value'] ?: 0?></div>
                         </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Fev/24</div>
-                            <div class="g-barra-valor">300</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mar/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Abr/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mai/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
+                        <?php
+                            endforeach;
+                        ?>
                     </div>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra">Mais Detalhes</a></p>
+                    <p><a href="<?=$_SERVER["BASE_URL"]?>compra">Mais Detalhes</a></p>
                 </div>
             </div>
         </div>
     </section>
 </main>
-<script src="<?= $_SERVER["BASE_URL"] ?>js/grafico.js"></script>
+<script src="<?=$_SERVER["BASE_URL"]?>js/grafico.js"></script>
