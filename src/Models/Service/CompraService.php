@@ -79,7 +79,7 @@ class CompraService
      * @param int $loja
      * @param \DateTime|int $start
      * @param \DateTime $end
-     * @param \DateTimebool $paid
+     * @param ?bool $paid
      * @return mixed
      */
     public static function getTotal(int $loja, \DateTime  | int $start, \DateTime $end = new \DateTime(), bool $paid = null)
@@ -101,6 +101,33 @@ class CompraService
     }
 
     /**
+     * @param int $idLoja
+     * @param int $idCliente
+     * @param \DateTime|int $start
+     * @param \DateTime $end
+     * @param ?bool $paid
+     * @return mixed
+     */
+    public static function getTotalCliente(int $idLoja, int $idCliente, \DateTime  | int $start, \DateTime $end = new \DateTime(), bool $paid = null)
+    {
+        $dao = new FiadoDao();
+        $data = new ParamData(null);
+
+        if ($start instanceof \DateTime) {
+            $data->addData('start', $start->format('Y-m-d H:i:s'));
+        } else {
+            $data->addData('start', $start, \PDO::PARAM_INT);
+        }
+
+        $data->addData('end', $end->format('Y-m-d H:i:s'));
+        $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
+        $data->addData('id_cliente', $idCliente, \PDO::PARAM_INT);
+        $data->addData('paid', $paid);
+
+        return $dao->totalCliente($data);
+    }
+
+    /**
      * @param $id
      * @param $cliente
      * @param $loja
@@ -110,10 +137,10 @@ class CompraService
      * @param $paid
      * @return mixed
      */
-    public static function salvar($id, $cliente, $loja, $total, $date, $dueDate, $paid)
+    public static function salvar($id, $idCliente, $idLoja, $total, $date, $dueDate, $paid)
     {
-        $cliente = ClienteService::getClienteById($cliente);
-        $loja = LojaService::getLojaById($loja);
+        $cliente = ClienteService::getClienteById($idCliente);
+        $loja = LojaService::getLojaById($idLoja);
 
         $validation = new CompraValidate($cliente, $loja, $total, $date, $dueDate, $paid);
 

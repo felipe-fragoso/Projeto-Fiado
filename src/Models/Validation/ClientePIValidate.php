@@ -26,9 +26,10 @@ class ClientePIValidate
             $this->addError('Cliente inválido');
         }
 
-        if (!is_numeric($telephone)) {
-            $this->addError('Telefone Inválido.');
-        }
+        // Comentado até sanitizar dados
+        // if (!is_numeric($telephone)) {
+        //     $this->addError('Telefone Inválido.');
+        // }
 
         return $this;
     }

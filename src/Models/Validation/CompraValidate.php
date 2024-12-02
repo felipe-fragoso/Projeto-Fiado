@@ -4,6 +4,9 @@ namespace Fiado\Models\Validation;
 
 use Fiado\Models\Entity\Cliente;
 use Fiado\Models\Entity\Loja;
+use Fiado\Models\Service\ClienteLojaService;
+use Fiado\Models\Service\CompraService;
+use Fiado\Models\Service\ConfigService;
 
 class CompraValidate
 {
@@ -30,6 +33,15 @@ class CompraValidate
 
         if (!$loja->getId()) {
             $this->addError('Loja inválida');
+        }
+
+        $clienteLoja = ClienteLojaService::getClienteLoja($loja->getId(), $cliente->getId());
+        $configLoja = ConfigService::getConfigByLoja($loja->getId());
+        $totalPendente = CompraService::getTotalCliente($loja->getId(), $cliente->getId(), 0, new \DateTime, false);
+        $maxCredit = $clienteLoja->getMaxCredit() ?: $configLoja->getMaxCredit();
+
+        if (($total + $totalPendente) > $maxCredit) {
+            $this->addError('Valor excede limite de crédito do cliente');
         }
 
         return $this;
