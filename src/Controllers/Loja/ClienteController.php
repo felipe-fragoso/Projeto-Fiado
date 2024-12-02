@@ -40,6 +40,11 @@ class ClienteController extends Controller
         }
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
+
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'cliente');
+        }
+
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
 
         $data['data'] = new ViewHelper([
@@ -63,6 +68,11 @@ class ClienteController extends Controller
         }
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
+
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'cliente');
+        }
+        
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
 
         $data['data'] = new ViewHelper([
@@ -97,6 +107,10 @@ class ClienteController extends Controller
         }
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
+
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'cliente');
+        }
 
         $data['data'] = new ViewHelper([
             'id' => $clienteLoja->getId(),

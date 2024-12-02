@@ -14,7 +14,6 @@ class ProdutoController extends Controller
     {
         $idLoja = Auth::getId();
         
-        $data['view'] = 'loja/produto/home';
         $data['produtos'] = array_map(fn(Produto $produto) => new ViewHelper([
             'id' => $produto->getId(),
             'nome' => $produto->getName(),
@@ -22,6 +21,7 @@ class ProdutoController extends Controller
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
         ]), ProdutoService::listProduto($idLoja, 0, 9) ?: []);
+        $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);
     }

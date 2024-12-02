@@ -49,6 +49,7 @@ class CompraController extends Controller
     public function pendente()
     {
         $loja = LojaService::getLojaById(Auth::getId());
+        
         $data['data'] = new ViewHelper([
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
