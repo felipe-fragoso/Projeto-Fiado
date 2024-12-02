@@ -9,6 +9,7 @@ use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Service\ClienteLojaService;
 use Fiado\Models\Service\ClientePIService;
 use Fiado\Models\Service\ClienteService;
+use Fiado\Models\Service\ConfigService;
 use Fiado\Models\Service\LojaService;
 
 class ClienteController extends Controller
@@ -119,10 +120,11 @@ class ClienteController extends Controller
         $phone = $_POST['ipt-tel'] ?? null;
         $address = $_POST['ipt-endereco'] ?? null;
 
-        $credit = $_POST['ipt-credito'] ?? null ?: null;
-        $active = (($_POST['sel-ativo'] ?? 'S') == 'S') ? true : false;
-
         $idLoja = Auth::getId();
+        $configLoja = ConfigService::getConfigByLoja($idLoja);
+
+        $credit = $_POST['ipt-credito'] ?? $configLoja?->getMaxCredit() ?? null;
+        $active = (($_POST['sel-ativo'] ?? 'S') == 'S') ? true : false;
 
         $page = $id ? '/editar' : '/novo';
         $type = $emailCliente ? '?tipo=c' : '';

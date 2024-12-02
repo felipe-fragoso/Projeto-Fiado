@@ -2,9 +2,9 @@
 
 namespace Fiado\Models\Validation;
 
-use Fiado\Models\Entity\Cliente;
+use Fiado\Models\Entity\Loja;
 
-class ClientePIValidate
+class ConfigValidate
 {
     /**
      * @var mixed
@@ -14,22 +14,16 @@ class ClientePIValidate
 
     /**
      * @param $id
-     * @param Cliente $cliente
-     * @param $address
-     * @param $telephone
-     * @param $description
+     * @param Loja $loja
+     * @param $payLimit
+     * @param $maxCredit
      * @return mixed
      */
-    public function __construct($id, Cliente $cliente, $address, $telephone, $description)
+    public function __construct($id, Loja $loja, $payLimit, $maxCredit)
     {
-        if (!$cliente->getId()) {
-            $this->addError('Cliente inválido');
+        if (!$loja->getId()) {
+            $this->addError('Loja inválida.');
         }
-
-        // Comentado até sanitizar dados
-        // if (!is_numeric($telephone)) {
-        //     $this->addError('Telefone Inválido.');
-        // }
 
         return $this;
     }
