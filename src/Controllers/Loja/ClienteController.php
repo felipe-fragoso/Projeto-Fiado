@@ -121,7 +121,7 @@ class ClienteController extends Controller
         $address = $_POST['ipt-endereco'] ?? null;
 
         $idLoja = Auth::getId();
-        $configLoja = ConfigService::getConfigByLoja($idLoja);
+        $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 
         $credit = $_POST['ipt-credito'] ?? $configLoja?->getMaxCredit() ?? null;
         $active = (($_POST['sel-ativo'] ?? 'S') == 'S') ? true : false;

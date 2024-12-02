@@ -35,10 +35,10 @@ class CompraValidate
             $this->addError('Loja inválida');
         }
 
-        $clienteLoja = ClienteLojaService::getClienteLoja($loja->getId(), $cliente->getId());
-        $configLoja = ConfigService::getConfigByLoja($loja->getId());
+        $clienteLoja = ClienteLojaService::getClienteLoja($loja->getId(), $cliente->getId()) ?: null;
+        $configLoja = ConfigService::getConfigByLoja($loja->getId()) ?: null;
         $totalPendente = CompraService::getTotalCliente($loja->getId(), $cliente->getId(), 0, new \DateTime, false);
-        $maxCredit = $clienteLoja->getMaxCredit() ?: $configLoja->getMaxCredit();
+        $maxCredit = $clienteLoja?->getMaxCredit() ?: $configLoja?->getMaxCredit();
 
         if (($total + $totalPendente) > $maxCredit) {
             $this->addError('Valor excede limite de crédito do cliente');

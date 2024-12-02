@@ -126,14 +126,15 @@ class CompraController extends Controller
         $listProduto = $_POST['ipt-list-produto'] ?? null;
 
         $idLoja = Auth::getId();
-        $configLoja = ConfigService::getConfigByLoja($idLoja);
+        $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
+        $payLimit = $configLoja?->getPayLimit() ?? 0;
 
         $id = null;
         $date = date('Y-m-d H:i:s');
         $paid = false;
         $dueDate = new \DateTime();
         $listProduto = $listProduto ? json_decode($listProduto) : [];
-        $dueDate = $dueDate->modify("+{$configLoja->getPayLimit()} day")->format('Y-m-d H:i:s');
+        $dueDate = $dueDate->modify("+{$payLimit} day")->format('Y-m-d H:i:s');
 
         if (!$idCliente || !$listProduto) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra/nova');
