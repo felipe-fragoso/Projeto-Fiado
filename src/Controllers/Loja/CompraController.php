@@ -54,14 +54,18 @@ class CompraController extends Controller
             'nome' => $loja->getName(),
             'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of'), new \DateTime(), false),
             'total' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false),
-            'list' => array_map(function (Fiado $item) {return new ViewHelper([
-                'id' => $item->getId(),
-                'idCliente' => $item->getCliente()->getId(),
-                'nome' => $item->getCliente()->getName(),
-                'total' => $item->getTotal(),
-                'data' => $item->getDate(),
-                'vencimento' => $item->getDueDate(),
-            ]);}, CompraService::listCompraPendenteLoja($loja->getId()) ?: []),
+            'list' => array_map(function (Fiado $item) {
+                $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
+
+                return new ViewHelper([
+                    'id' => $item->getId(),
+                    'idCliente' => $clienteLoja->getId(),
+                    'nome' => $item->getCliente()->getName(),
+                    'total' => $item->getTotal(),
+                    'data' => $item->getDate(),
+                    'vencimento' => $item->getDueDate(),
+                ]);
+            }, CompraService::listCompraPendenteLoja($loja->getId()) ?: []),
         ]);
         $data['view'] = 'loja/compra/pending';
 
