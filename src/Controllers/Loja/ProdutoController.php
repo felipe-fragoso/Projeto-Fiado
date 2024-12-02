@@ -19,7 +19,7 @@ class ProdutoController extends Controller
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
-        ]), ProdutoService::listProduto(0, 9));
+        ]), ProdutoService::listProduto(0, 9) ?: []);
 
         $this->load('loja/template', $data);
     }
