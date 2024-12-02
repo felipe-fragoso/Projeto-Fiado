@@ -55,6 +55,8 @@ class CompraService
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
         }
+
+        return false;
     }
 
     /**
@@ -73,6 +75,8 @@ class CompraService
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
         }
+
+        return false;
     }
 
     /**
