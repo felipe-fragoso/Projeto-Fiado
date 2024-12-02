@@ -3,6 +3,7 @@
 namespace Fiado\Models\Validation;
 
 use Fiado\Models\Service\ClienteService;
+use Fiado\Models\Service\LojaService;
 
 class ClienteValidate
 {
@@ -30,7 +31,7 @@ class ClienteValidate
             $this->addError('Email Inválido');
         }
 
-        if ($id === null && ClienteService::getClienteByEmail($email)) {
+        if ($id === null && (ClienteService::getClienteByEmail($email) || LojaService::getLojaByEmail($email))) {
             $this->addError('Email existente');
         }
 

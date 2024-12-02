@@ -2,6 +2,9 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Models\Service\ClienteService;
+use Fiado\Models\Service\LojaService;
+
 class LojaValidate
 {
     /**
@@ -22,6 +25,10 @@ class LojaValidate
     {
         if (!is_numeric($cnpj)) {
             $this->addError('CNPJ Inválido.');
+        }
+
+        if ($id === null && (LojaService::getLojaByEmail($email) || ClienteService::getClienteByEmail($email))) {
+            $this->addError('Email existente');
         }
 
         return $this;
