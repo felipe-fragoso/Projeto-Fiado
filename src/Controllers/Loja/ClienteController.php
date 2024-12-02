@@ -40,6 +40,11 @@ class ClienteController extends Controller
         }
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
+
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'cliente');
+        }
+
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
 
         $data['data'] = new ViewHelper([
@@ -63,6 +68,11 @@ class ClienteController extends Controller
         }
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
+
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'cliente');
+        }
+        
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
 
         $data['data'] = new ViewHelper([
@@ -98,6 +108,10 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'cliente');
+        }
+
         $data['data'] = new ViewHelper([
             'id' => $clienteLoja->getId(),
             'email' => $clienteLoja->getCliente()->getEmail(),
@@ -121,7 +135,7 @@ class ClienteController extends Controller
         $address = $_POST['ipt-endereco'] ?? null;
 
         $idLoja = Auth::getId();
-        $configLoja = ConfigService::getConfigByLoja($idLoja);
+        $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 
         $credit = $_POST['ipt-credito'] ?? $configLoja?->getMaxCredit() ?? null;
         $active = (($_POST['sel-ativo'] ?? 'S') == 'S') ? true : false;

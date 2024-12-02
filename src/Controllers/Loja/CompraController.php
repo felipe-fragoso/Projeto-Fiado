@@ -49,19 +49,24 @@ class CompraController extends Controller
     public function pendente()
     {
         $loja = LojaService::getLojaById(Auth::getId());
+        
         $data['data'] = new ViewHelper([
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
             'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of'), new \DateTime(), false),
             'total' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false),
-            'list' => array_map(function (Fiado $item) {return new ViewHelper([
-                'id' => $item->getId(),
-                'idCliente' => $item->getCliente()->getId(),
-                'nome' => $item->getCliente()->getName(),
-                'total' => $item->getTotal(),
-                'data' => $item->getDate(),
-                'vencimento' => $item->getDueDate(),
-            ]);}, CompraService::listCompraPendenteLoja($loja->getId()) ?: []),
+            'list' => array_map(function (Fiado $item) {
+                $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
+
+                return new ViewHelper([
+                    'id' => $item->getId(),
+                    'idCliente' => $clienteLoja->getId(),
+                    'nome' => $item->getCliente()->getName(),
+                    'total' => $item->getTotal(),
+                    'data' => $item->getDate(),
+                    'vencimento' => $item->getDueDate(),
+                ]);
+            }, CompraService::listCompraPendenteLoja($loja->getId()) ?: []),
         ]);
         $data['view'] = 'loja/compra/pending';
 
@@ -122,14 +127,15 @@ class CompraController extends Controller
         $listProduto = $_POST['ipt-list-produto'] ?? null;
 
         $idLoja = Auth::getId();
-        $configLoja = ConfigService::getConfigByLoja($idLoja);
+        $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
+        $payLimit = $configLoja?->getPayLimit() ?? 0;
 
         $id = null;
         $date = date('Y-m-d H:i:s');
         $paid = false;
         $dueDate = new \DateTime();
         $listProduto = $listProduto ? json_decode($listProduto) : [];
-        $dueDate = $dueDate->modify("+{$configLoja->getPayLimit()} day")->format('Y-m-d H:i:s');
+        $dueDate = $dueDate->modify("+{$payLimit} day")->format('Y-m-d H:i:s');
 
         if (!$idCliente || !$listProduto) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra/nova');

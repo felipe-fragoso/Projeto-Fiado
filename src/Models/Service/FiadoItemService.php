@@ -14,7 +14,7 @@ class FiadoItemService
     /**
      * @param array $arr
      */
-    private static function getCompraObj(array $arr)
+    private static function getFiadoItemObj(array $arr)
     {
         return new FiadoItem(
             $arr['id'],
@@ -35,7 +35,7 @@ class FiadoItemService
         $arr = $dao->listFiadoItem(new ParamData(new ParamItem('id_fiado', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
-            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
+            return array_map(function ($item) {return self::getFiadoItemObj($item);}, $arr);
         }
 
         return false;
@@ -51,7 +51,7 @@ class FiadoItemService
         $arr = $dao->getFiadoItemById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
-            return self::getCompraObj($arr);
+            return self::getFiadoItemObj($arr);
         }
 
         return false;

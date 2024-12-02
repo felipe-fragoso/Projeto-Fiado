@@ -61,19 +61,21 @@ class AuthController extends Controller
         }
 
         if ($cpf) {
-            if (ClienteService::salvar(null, $cpf, $name, $email, $password)) {
-                return $this->redirect($urlDashboard);
+            if (!ClienteService::salvar(null, $cpf, $name, $email, $password)) {
+                return $this->redirect($urlCadastro);
             }
 
-            return $this->redirect($urlCadastro);
         }
 
         if ($cnpj) {
-            if (LojaService::salvar(null, $cnpj, $name, $email, $password)) {
-                return $this->redirect($urlDashboard);
+            if (!LojaService::salvar(null, $cnpj, $name, $email, $password)) {
+                return $this->redirect($urlCadastro);
             }
-
-            return $this->redirect($urlCadastro);
+            
+        }
+        
+        if (AuthService::authenticate($email, $password)) {
+            return $this->redirect($urlDashboard);
         }
     }
 }

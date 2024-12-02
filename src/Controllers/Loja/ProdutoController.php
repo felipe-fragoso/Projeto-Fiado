@@ -12,14 +12,16 @@ class ProdutoController extends Controller
 {
     public function index()
     {
-        $data['view'] = 'loja/produto/home';
+        $idLoja = Auth::getId();
+        
         $data['produtos'] = array_map(fn(Produto $produto) => new ViewHelper([
             'id' => $produto->getId(),
             'nome' => $produto->getName(),
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
-        ]), ProdutoService::listProduto(0, 9));
+        ]), ProdutoService::listProduto($idLoja, 0, 9) ?: []);
+        $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);
     }
@@ -108,9 +110,10 @@ class ProdutoController extends Controller
 
     public function listProdutoWithJSON()
     {
+        $idLoja = Auth::getId();
         $text = $_POST['texto'] ?? "";
 
-        $produtos = ProdutoService::listProdutoWith($text, 10);
+        $produtos = ProdutoService::listProdutoWith($idLoja, $text, 10);
 
         if ($produtos) {
             $list = array_map(function (Produto $item) {

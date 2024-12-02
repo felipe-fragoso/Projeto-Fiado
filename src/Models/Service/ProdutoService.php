@@ -48,14 +48,15 @@ class ProdutoService
      * @param $quantity
      * @return mixed
      */
-    public static function listProduto($first, $quantity)
+    public static function listProduto($idLoja, $first, $quantity)
     {
         $dao = new ProdutoDao();
 
         $data = new ParamData(new ParamItem('first', $first, \PDO::PARAM_INT));
         $data->addData('last', $quantity, \PDO::PARAM_INT);
-
-        $arr = $dao->listProduto('1=1 LIMIT :first, :last', $data);
+        $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
+        
+        $arr = $dao->listProduto('id_loja = :id_loja LIMIT :first, :last', $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
@@ -69,14 +70,15 @@ class ProdutoService
      * @param $quantity
      * @return mixed
      */
-    public static function listProdutoWith($text, $quantity)
+    public static function listProdutoWith($idLoja, $text, $quantity)
     {
         $dao = new ProdutoDao();
-
+        
         $data = new ParamData(new ParamItem('name', "%$text%"));
         $data->addData('quantity', $quantity, \PDO::PARAM_INT);
+        $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
 
-        $arr = $dao->listProduto('name LIKE :name LIMIT 0, :quantity', $data);
+        $arr = $dao->listProduto('id_loja = :id_loja AND name LIKE :name LIMIT 0, :quantity', $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
