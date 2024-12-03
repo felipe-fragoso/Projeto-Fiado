@@ -8,19 +8,18 @@ Substituindo a antiga caderneta de fiado por algo mais moderno.
 
 # Instalação
 
-## Requesitos
-- PHP 8.2 ou posterior
+## Requisitos
+- PHP 8.2 ou superior
 - Composer
 - MySQL
 
 ## Instalando
 
-> [!NOTE]
-> Caso ja possua o Composer instalado pule a primeria etapa.
+> [!NOTE] Caso ja possua o Composer instalado pule a primeria etapa.
 
 1. Primeiramente instale o [Composer](https://getcomposer.org/) seguindo a documentação do proprio site.
 2. Clone esse repositório.
-3. Depois de instalado o Composer utilize o seguinte comando no repositório do projeto:
+3. Depois de instalar o Composer utilize o seguinte comando no repositório do projeto:
 
 ```
 php composer.phar install
