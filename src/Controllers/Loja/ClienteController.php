@@ -9,6 +9,7 @@ use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Service\ClienteLojaService;
 use Fiado\Models\Service\ClientePIService;
 use Fiado\Models\Service\ClienteService;
+use Fiado\Models\Service\CompraService;
 use Fiado\Models\Service\ConfigService;
 use Fiado\Models\Service\LojaService;
 
@@ -46,12 +47,19 @@ class ClienteController extends Controller
         }
 
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
+        $listCompra = CompraService::listCompraLojaCliente($clienteLoja->getLoja()->getId(), $clienteLoja->getCliente()->getId()) ?: [];
 
         $data['data'] = new ViewHelper([
             'id' => $clienteLoja->getId(),
             'nome' => $clienteLoja->getCliente()->getName(),
             'email' => $clienteLoja->getCliente()->getEmail(),
             'telefone' => $clientePI ? $clientePI->getTelephone() : null,
+            'list' => array_map(function ($compra) {return new ViewHelper([
+                'id' => $compra->getId(),
+                'valor' => $compra->getTotal(),
+                'data' => $compra->getDate(),
+                'pago' => $compra->getPaid(),
+            ]);}, $listCompra),
         ]);
         $data['view'] = 'loja/cliente/home';
 
@@ -72,7 +80,7 @@ class ClienteController extends Controller
         if (!$clienteLoja) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
-        
+
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
 
         $data['data'] = new ViewHelper([
