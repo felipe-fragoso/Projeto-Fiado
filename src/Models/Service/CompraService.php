@@ -80,6 +80,27 @@ class CompraService
     }
 
     /**
+     * @param int $idLoja
+     * @param int $idCliente
+     */
+    public static function listCompraLojaCliente(int $idLoja, int $idCliente)
+    {
+        $dao = new FiadoDao();
+
+        $paramData = new ParamData(null);
+        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
+        $paramData->addData('id_cliente', $idCliente, \PDO::PARAM_INT);
+
+        $arr = $dao->listFiadoCliente($paramData);
+
+        if ($arr) {
+            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
+        }
+
+        return false;
+    }
+
+    /**
      * @param int $loja
      * @param \DateTime|int $start
      * @param \DateTime $end

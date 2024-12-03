@@ -22,6 +22,17 @@ class FiadoDao extends Model
      * @param ParamData $data
      * @return mixed
      */
+    public function listFiadoCliente(ParamData $data)
+    {
+        $statement = $this->select('fiado', 'id_loja = :id_loja AND id_cliente = :id_cliente', $data);
+
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param ParamData $data
+     * @return mixed
+     */
     public function listFiadoPendente(ParamData $data)
     {
         $statement = $this->select('fiado', 'id_loja = :id_loja AND paid = :paid', $data);
