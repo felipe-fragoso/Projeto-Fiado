@@ -15,7 +15,8 @@ Substituindo a antiga caderneta de fiado por algo mais moderno.
 
 ## Instalando
 
-> [!NOTE] Caso ja possua o Composer instalado pule a primeria etapa.
+> [!NOTE]
+> Caso ja possua o Composer instalado pule a primeria etapa.
 
 1. Primeiramente instale o [Composer](https://getcomposer.org/) seguindo a documentação do proprio site.
 2. Clone esse repositório.
