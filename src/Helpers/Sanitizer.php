@@ -1,0 +1,114 @@
+<?php
+namespace Fiado\Helpers;
+
+class Sanitizer
+{
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeInt(?string $data): ?int
+    {
+        if (filter_var($data, FILTER_VALIDATE_INT)) {
+            return (int) $data;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeBool(?string $data): ?bool
+    {
+        if (filter_var($data, FILTER_VALIDATE_BOOL)) {
+            return (bool) $data;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeFloat(?string $data): ?float
+    {
+        if (filter_var($data, FILTER_VALIDATE_FLOAT)) {
+            return (float) $data;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeCpf(?string $data): ?string
+    {
+        if ($data !== null) {
+            return str_replace(['.', '-'], '', trim($data));
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeCnpj(?string $data): ?string
+    {
+        if ($data !== null) {
+            return str_replace(['.', '-', '/'], '', trim($data));
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeTel(?string $data): ?string
+    {
+        if ($data !== null) {
+            return str_replace(['(', ')', '-', ' '], '', trim($data));
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $data
+     */
+    public static function sanitizeYesNoInput(?string $data): ?bool
+    {
+        if (($data === 'S') || ($data === 1) || ($data === 'Y')) {
+            return true;
+        }
+
+        if (($data === 'N') || ($data === 0) || ($data === 'N')) {
+            return false;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     * @return mixed
+     */
+    public static function sanitizeJson(?string $data)
+    {
+        if ($decoded = json_decode($data)) {
+            return $decoded;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function escape(?string $data): ?string
+    {
+        return htmlspecialchars(trim($data), ENT_QUOTES, "UTF-8");
+    }
+}
