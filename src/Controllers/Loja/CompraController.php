@@ -5,6 +5,8 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Core\ViewHelper;
+use Fiado\Enums\FormDataType;
+use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Entity\FiadoItem;
@@ -49,7 +51,7 @@ class CompraController extends Controller
     public function pendente()
     {
         $loja = LojaService::getLojaById(Auth::getId());
-        
+
         $data['data'] = new ViewHelper([
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
@@ -123,31 +125,32 @@ class CompraController extends Controller
 
     public function salvar()
     {
-        $idCliente = $_POST['sel-cliente'] ?? null;
-        $listProduto = $_POST['ipt-list-produto'] ?? null;
-
+        $form = new FormData();
         $idLoja = Auth::getId();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
+
+        $form->setItem('idCliente', FormDataType::Int)->getValueFrom('sel-cliente');
+        $form->setItem('listProduto', FormDataType::JsonText)->getValueFrom('ipt-list-produto', []);
+
         $payLimit = $configLoja?->getPayLimit() ?? 0;
 
         $id = null;
         $date = date('Y-m-d H:i:s');
         $paid = false;
         $dueDate = new \DateTime();
-        $listProduto = $listProduto ? json_decode($listProduto) : [];
         $dueDate = $dueDate->modify("+{$payLimit} day")->format('Y-m-d H:i:s');
 
-        if (!$idCliente || !$listProduto) {
+        if (!$form->idCliente || !$form->listProduto) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra/nova');
         }
 
         $total = 0;
-        foreach ($listProduto as $produto) {
+        foreach ($form->listProduto as $produto) {
             $total += $produto->preco * $produto->quantidade;
         }
 
-        if ($idFiado = CompraService::salvar($id, $idCliente, $idLoja, $total, $date, $dueDate, $paid)) {
-            foreach ($listProduto as $item) {
+        if ($idFiado = CompraService::salvar($id, $form->idCliente, $idLoja, $total, $date, $dueDate, $paid)) {
+            foreach ($form->listProduto as $item) {
                 FiadoItemService::salvar(null, $idFiado, $item->id, $item->preco, $item->quantidade);
             }
 

@@ -5,6 +5,8 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Core\ViewHelper;
+use Fiado\Enums\FormDataType;
+use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Service\ClienteLojaService;
 use Fiado\Models\Service\ClientePIService;
@@ -134,44 +136,45 @@ class ClienteController extends Controller
 
     public function salvar()
     {
-        $id = $_POST['ipt-id'] ?? null;
-        $name = $_POST['ipt-nome'] ?? null;
-        $email = $_POST['ipt-email'] ?? null;
-        $emailCliente = $_POST['ipt-email-cliente'] ?? null;
-        $cpf = $_POST['ipt-cpf'] ?? null;
-        $phone = $_POST['ipt-tel'] ?? null;
-        $address = $_POST['ipt-endereco'] ?? null;
-
+        $form = new FormData();
         $idLoja = Auth::getId();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 
-        $credit = $_POST['ipt-credito'] ?? $configLoja?->getMaxCredit() ?? null;
-        $active = (($_POST['sel-ativo'] ?? 'S') == 'S') ? true : false;
+        $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
+        $form->setItem('name')->getValueFrom('ipt-nome');
+        $form->setItem('email')->getValueFrom('ipt-email');
+        $form->setItem('emailCliente')->getValueFrom('ipt-email-cliente');
+        $form->setItem('cpf', FormDataType::Cpf)->getValueFrom('ipt-cpf');
+        $form->setItem('phone', FormDataType::Telephone)->getValueFrom('ipt-tel');
+        $form->setItem('address')->getValueFrom('ipt-endereco');
 
-        $page = $id ? '/editar' : '/novo';
-        $type = $emailCliente ? '?tipo=c' : '';
+        $form->setItem('credit', FormDataType::Float)->getValueFrom('ipt-credito', $configLoja?->getMaxCredit());
+        $form->setItem('active', FormDataType::YesNoInput)->getValueFrom('sel-ativo', true);
+
+        $page = $form->id ? '/editar' : '/novo';
+        $type = $form->emailCliente ? '?tipo=c' : '';
         $baseUrl = $_SERVER["BASE_URL"] . 'cliente';
         $backUrl = $baseUrl . $page . $type;
 
-        if ($email && !$emailCliente && !$id) {
-            if (!$idCliente = ClienteService::salvar(null, $cpf, $name, $email, null)) {
+        if ($form->email && !$form->emailCliente && !$form->id) {
+            if (!$idCliente = ClienteService::salvar(null, $form->cpf, $form->name, $form->email, null)) {
                 $this->redirect($backUrl);
             }
 
-            ClientePIService::salvar(null, $idCliente, $address, $phone, null);
-        } elseif ($emailCliente && !$id) {
-            $idCliente = ClienteService::getClienteByEmail($emailCliente)->getId();
+            ClientePIService::salvar(null, $idCliente, $form->address, $form->phone, null);
+        } elseif ($form->emailCliente && !$form->id) {
+            $idCliente = ClienteService::getClienteByEmail($form->emailCliente)->getId();
         }
 
-        if ($id) {
-            $idCliente = ClienteLojaService::getClienteLojaById($id)->getCliente()->getId();
+        if ($form->id) {
+            $idCliente = ClienteLojaService::getClienteLojaById($form->id)->getCliente()->getId();
         }
 
         if (!isset($idCliente)) {
             $this->redirect($backUrl);
         }
 
-        if (ClienteLojaService::salvar($id, $idLoja, $idCliente, $credit, $active)) {
+        if (ClienteLojaService::salvar($form->id, $idLoja, $idCliente, $form->credit, $form->active)) {
             $this->redirect($baseUrl);
         }
 

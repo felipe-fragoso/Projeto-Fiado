@@ -5,6 +5,8 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Core\ViewHelper;
+use Fiado\Enums\FormDataType;
+use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\Config;
 use Fiado\Models\Service\ConfigService;
 use Fiado\Models\Service\LojaService;
@@ -50,13 +52,14 @@ class ConfigController extends Controller
 
     public function salvar()
     {
-        $id = $_POST['ipt-id'] ?: null;
-        $payLimit = $_POST['ipt-prazo'] ?? null;
-        $maxCredit = $_POST['ipt-credito'] ?? null;
-
+        $form = new FormData();
         $idLoja = Auth::getId();
 
-        if (ConfigService::salvar($id, $idLoja, $payLimit, $maxCredit)) {
+        $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
+        $form->setItem('payLimit', FormDataType::Int)->getValueFrom('ipt-prazo');
+        $form->setItem('maxCredit', FormDataType::Float)->getValueFrom('ipt-credito');
+
+        if (ConfigService::salvar($form->id, $idLoja, $form->payLimit, $form->maxCredit)) {
             $this->redirect($_SERVER["BASE_URL"] . 'config');
         }
 
