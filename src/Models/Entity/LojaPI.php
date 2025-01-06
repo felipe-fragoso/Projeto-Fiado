@@ -16,7 +16,7 @@ class LojaPI
     private string $closeHour;
 
     /**
-     * @param int $id
+     * @param ?int $id
      * @param Loja|LazyDataObj $loja
      * @param string $address
      * @param string $telephone
@@ -40,7 +40,7 @@ class LojaPI
         $this->address = $address;
         $this->telephone = $telephone;
         $this->description = $description;
-        $this->established = $established ?? date('Y-m-d H:i:s');
+        $this->established = $established;
         $this->openHour = $openHour;
         $this->closeHour = $closeHour;
     }
