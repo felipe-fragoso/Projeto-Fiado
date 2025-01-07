@@ -77,7 +77,7 @@ class LojaPiService
 
         $validation = new LojaPiValidate($id, $loja, $address, $telephone, $description, $established, $openHour, $closeHour);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 

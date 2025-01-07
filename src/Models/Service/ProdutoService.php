@@ -98,14 +98,13 @@ class ProdutoService
     public static function salvar($id, $idLoja, $name, $price, $active, $description)
     {
         $loja = LojaService::getLojaById($idLoja);
+        $date = date('Y-m-d H:i:s');
 
-        $validation = new ProdutoValidate($name, $loja, $price, $active, $description);
+        $validation = new ProdutoValidate($id, $loja, $name, $price, $date, $description, $active);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
-
-        $date = date('Y-m-d H:i:s');
 
         $produto = new Produto($id, $loja, $name, $price, $date, $description, $active);
         $dao = new ProdutoDao();

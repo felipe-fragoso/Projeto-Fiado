@@ -2,53 +2,30 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Cliente;
 
-class ClientePIValidate
+class ClientePIValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
      * @param $id
-     * @param Cliente $cliente
+     * @param $cliente
      * @param $address
      * @param $telephone
      * @param $description
-     * @return mixed
      */
-    public function __construct($id, Cliente $cliente, $address, $telephone, $description)
+    public function __construct($id, #[\SensitiveParameter] $cliente, $address, $telephone, $description)
     {
-        if (!$cliente->getId()) {
-            $this->addError('Cliente inválido');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('cliente', $cliente);
+        $this->setItem('endereco', $address);
+        $this->setItem('telefone', $telephone);
+        $this->setItem('descricao', $description);
 
-        // Comentado até sanitizar dados
-        // if (!is_numeric($telephone)) {
-        //     $this->addError('Telefone Inválido.');
-        // }
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('id')->isNull()->or()->isNumeric();
+        $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class)->isPresent($cliente?->getId());
+        $this->getItem('endereco')->isRequired()->isMaxLength(200);
+        $this->getItem('telefone')->isRequired()->isPhoneNumber()->isMaxLength(20);
+        $this->getItem('descricao')->isMaxLength(65533);
     }
 }

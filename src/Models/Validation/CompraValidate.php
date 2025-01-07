@@ -2,66 +2,49 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Cliente;
 use Fiado\Models\Entity\Loja;
 use Fiado\Models\Service\ClienteLojaService;
 use Fiado\Models\Service\CompraService;
 use Fiado\Models\Service\ConfigService;
 
-class CompraValidate
+class CompraValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
-     * @param Cliente $cliente
-     * @param Loja $loja
+     * @param $id
+     * @param $cliente
+     * @param $loja
      * @param $total
      * @param $date
      * @param $dueDate
      * @param $paid
-     * @return mixed
      */
-    public function __construct(Cliente $cliente, Loja $loja, $total, $date, $dueDate, $paid)
+    public function __construct($id, #[\SensitiveParameter] $cliente, #[\SensitiveParameter] $loja, $total, $date, $dueDate, $paid)
     {
-        if (!$cliente->getId()) {
-            $this->addError('Cliente inválido');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('cliente', $cliente);
+        $this->setItem('loja', $loja);
+        $this->setItem('total', $total);
+        $this->setItem('data', $date);
+        $this->setItem('data_vencimento', $dueDate);
+        $this->setItem('pago', $paid);
 
-        if (!$loja->getId()) {
-            $this->addError('Loja inválida');
-        }
+        $this->getItem('id')->isNumeric()->or()->isNull();
+        $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class)->isPresent($cliente?->getId());
+        $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
+        $this->getItem('total')->isRequired()->isNumeric()->isMinValue(0.01)->isMaxValue(10 ** 8 - 0.01);
+        $this->getItem('data')->isRequired()->isDate();
+        $this->getItem('data_vencimento')->isRequired()->isDate();
+        $this->getItem('pago')->isRequired()->isBool();
 
         $clienteLoja = ClienteLojaService::getClienteLoja($loja->getId(), $cliente->getId()) ?: null;
         $configLoja = ConfigService::getConfigByLoja($loja->getId()) ?: null;
-        $totalPendente = CompraService::getTotalCliente($loja->getId(), $cliente->getId(), 0, new \DateTime, false);
         $maxCredit = $clienteLoja?->getMaxCredit() ?: $configLoja?->getMaxCredit();
+        $totalPendente = CompraService::getTotalCliente($loja->getId(), $cliente->getId(), 0, new \DateTime, false);
 
-        if (($total + $totalPendente) > $maxCredit) {
-            $this->addError('Valor excede limite de crédito do cliente');
-        }
+        $this->setItem('credito', $total + $totalPendente);
 
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('credito')->isMaxValue($maxCredit)->isNumeric();
     }
 }

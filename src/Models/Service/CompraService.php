@@ -167,9 +167,9 @@ class CompraService
         $cliente = ClienteService::getClienteById($idCliente);
         $loja = LojaService::getLojaById($idLoja);
 
-        $validation = new CompraValidate($cliente, $loja, $total, $date, $dueDate, $paid);
+        $validation = new CompraValidate($id, $cliente, $loja, $total, $date, $dueDate, $paid);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 

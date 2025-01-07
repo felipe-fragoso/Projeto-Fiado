@@ -70,9 +70,9 @@ class FiadoItemService
         $fiado = CompraService::getCompra($idFiado);
         $produto = ProdutoService::getProduto($idProduto);
 
-        $validation = new FiadoItemValidate($fiado, $produto, $value, $quantity);
+        $validation = new FiadoItemValidate($id, $fiado, $produto, $value, $quantity);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 
