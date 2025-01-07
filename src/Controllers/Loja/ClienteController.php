@@ -163,7 +163,9 @@ class ClienteController extends Controller
 
             ClientePIService::salvar(null, $idCliente, $form->address, $form->phone, null);
         } elseif ($form->emailCliente && !$form->id) {
-            $idCliente = ClienteService::getClienteByEmail($form->emailCliente)->getId();
+            if ($cliente = ClienteService::getClienteByEmail($form->emailCliente)) {
+                $idCliente = $cliente->getId();
+            }
         }
 
         if ($form->id) {

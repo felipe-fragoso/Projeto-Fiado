@@ -5,27 +5,28 @@ namespace Fiado\Models\Entity;
 class Cliente
 {
     private ?int $id;
-    private int $cpf;
+    private string $cpf;
     private string $name;
     private string $email;
     private ?string $senha;
     private string $date;
 
     /**
-     * @param int $id
+     * @param ?int $id
      * @param string $cpf
      * @param string $name
      * @param string $email
      * @param string $senha
+     * @param string $date
      */
-    public function __construct(?int $id, string $cpf, string $name, string $email, ?string $senha, string $date = null)
+    public function __construct(?int $id, string $cpf, string $name, string $email, ?string $senha, string $date)
     {
         $this->id = $id;
         $this->cpf = $cpf;
         $this->name = $name;
         $this->email = $email;
         $this->senha = $this->hashpassword($senha);
-        $this->date = $date ?? date('Y-m-d H:i:s');
+        $this->date = $date;
     }
 
     /**
@@ -37,9 +38,9 @@ class Cliente
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getCpf(): int
+    public function getCpf(): string
     {
         return $this->cpf;
     }

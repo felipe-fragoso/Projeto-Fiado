@@ -2,53 +2,38 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\LojaService;
 
-class LojaValidate
+class LojaValidate extends Validator
 {
-    /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
     /**
      * @param $id
      * @param $cnpj
      * @param $name
      * @param $email
      * @param $password
-     * @return mixed
+     * @param $date
      */
-    public function __construct($id, $cnpj, $name, $email, $password)
+    public function __construct($id, $cnpj, $name, $email, #[\SensitiveParameter] $password, $date)
     {
-        if (!is_numeric($cnpj)) {
-            $this->addError('CNPJ Inválido.');
+        $this->setItem('id', $id);
+        $this->setItem('cnpj', $cnpj);
+        $this->setItem('nome', $name);
+        $this->setItem('email', $email);
+        $this->setItem('senha', $password);
+        $this->setItem('data', $date);
+
+        $this->getItem('id')->isNull()->or()->isNumeric();
+        $this->getItem('cnpj')->isRequired()->isCnpj();
+        $this->getItem('nome')->isRequired()->isMaxLength(150);
+        $this->getItem('email')->isRequired()->isMaxLength(150)->isEmail();
+        $this->getItem('senha')->isRequired()->isMaxLength(60)->isMinLength(4);
+        $this->getItem('data')->isRequired()->isDate();
+
+        if ($id === null) {
+            $this->getItem('email')->isUnique(LojaService::getLojaByEmail($email) || ClienteService::getClienteByEmail($email));
         }
-
-        if ($id === null && (LojaService::getLojaByEmail($email) || ClienteService::getClienteByEmail($email))) {
-            $this->addError('Email existente');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
     }
 }

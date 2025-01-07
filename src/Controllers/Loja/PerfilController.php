@@ -86,7 +86,7 @@ class PerfilController extends Controller
             $lojaPI = LojaPiService::getLojaPiById($form->id);
         }
 
-        LojaPiService::salvar(
+        $successLojaPI = LojaPiService::salvar(
             $form->id,
             $idLoja,
             $form->address ?? $lojaPI?->getAddress() ?? '',
@@ -101,10 +101,14 @@ class PerfilController extends Controller
             $loja = LojaService::getLojaById($idLoja);
         }
 
-        if ($loja && !LojaService::salvar($loja->getId(), $loja->getCnpj(), $form->name, $loja->getEmail(), $loja->getSenha())) {
-            $this->redirect($_SERVER["BASE_URL"] . 'perfil/editar');
+        if (isset($loja)) {
+            $successLoja = LojaService::salvar($loja->getId(), $loja->getCnpj(), $form->name, $loja->getEmail(), $loja->getSenha(), $loja->getDate());
         }
 
-        $this->redirect($_SERVER["BASE_URL"] . 'perfil');
+        if ($successLojaPI !== false && $successLoja !== false) {
+            $this->redirect($_SERVER["BASE_URL"] . 'perfil');
+        }
+
+        $this->redirect($_SERVER["BASE_URL"] . 'perfil/editar');
     }
 }

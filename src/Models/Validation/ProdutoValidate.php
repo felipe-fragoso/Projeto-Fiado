@@ -2,52 +2,36 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Loja;
 
-class ProdutoValidate
+class ProdutoValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
+     * @param $id
+     * @param $loja
      * @param $name
-     * @param Loja $loja
      * @param $price
-     * @param $active
+     * @param $date
      * @param $description
-     * @return mixed
+     * @param $active
      */
-    public function __construct($name, Loja $loja, $price, $active, $description)
+    public function __construct($id, #[\SensitiveParameter] $loja, $name, $price, $date, $description, $active)
     {
-        if (!$loja->getId()) {
-            $this->addError('Loja Inválida.');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('loja', $loja);
+        $this->setItem('nome', $name);
+        $this->setItem('preco', $price);
+        $this->setItem('data', $date);
+        $this->setItem('descricao', $description);
+        $this->setItem('ativo', $active);
 
-        if (!is_numeric($price)) {
-            $this->addError('Preço Inválido.');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('id')->isNumeric()->or()->isNull();
+        $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
+        $this->getItem('nome')->isRequired()->isMaxLength('150');
+        $this->getItem('preco')->isRequired()->isMaxValue(10 ** 8 - 0.01)->isMinValue(0.01);
+        $this->getItem('data')->isRequired()->isDate();
+        $this->getItem('descricao')->isMaxLength(65533);
+        $this->getItem('ativo')->isRequired()->isBool();
     }
 }

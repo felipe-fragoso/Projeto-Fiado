@@ -66,13 +66,9 @@ class ConfigService
     {
         $loja = LojaService::getLojaById($idLoja);
 
-        if (!$loja) {
-            return false;
-        }
-
         $validation = new ConfigValidate($id, $loja, $payLimit, $maxCredit);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 

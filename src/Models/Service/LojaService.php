@@ -12,7 +12,7 @@ class LojaService
 {
     private static function getLojaObj(array $arr)
     {
-        return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha']);
+        return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha'], $arr['date']);
     }
 
     /**
@@ -51,15 +51,17 @@ class LojaService
      * @param Loja $store
      * @return mixed
      */
-    public static function salvar($id, $cnpj, $name, $email, $password)
+    public static function salvar($id, $cnpj, $name, $email, $password, $date = null)
     {
-        $validation = new LojaValidate($id, $cnpj, $name, $email, $password);
+        $date = $date ?? date('Y-m-d H:i:s');
 
-        if ($validation->getNumErrors()) {
+        $validation = new LojaValidate($id, $cnpj, $name, $email, $password, $date);
+
+        if ($validation->getQtyErrors()) {
             return false;
         }
 
-        $store = new Loja($id, $cnpj, $name, $email, $password);
+        $store = new Loja($id, $cnpj, $name, $email, $password, $date);
         $dao = new LojaDao();
 
         if ($store->getId()) {

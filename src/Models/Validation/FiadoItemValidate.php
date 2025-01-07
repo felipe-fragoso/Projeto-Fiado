@@ -2,52 +2,31 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Entity\Produto;
 
-class FiadoItemValidate
+class FiadoItemValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
-     * @param Fiado $fiado
-     * @param Produto $produto
+     * @param $id
+     * @param $fiado
+     * @param $produto
      * @param $value
      * @param $quantity
-     * @return mixed
      */
-    public function __construct(Fiado $fiado, Produto $produto, $value, $quantity)
+    public function __construct($id, #[\SensitiveParameter] $fiado, #[\SensitiveParameter] $produto, $value, $quantity)
     {
-        if (!$fiado->getId()) {
-            $this->addError('Fiado inválido');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('fiado', $fiado);
+        $this->setItem('produto', $produto);
+        $this->setItem('valor', $value);
+        $this->setItem('quantidade', $quantity);
 
-        if (!$produto->getId()) {
-            $this->addError('Produto inválido');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('id')->isNumeric()->or()->isNull();
+        $this->getItem('fiado')->isRequired()->isInstanceOf(Fiado::class)->isPresent($fiado?->getId());
+        $this->getItem('produto')->isRequired()->isInstanceOf(Produto::class)->isPresent($produto?->getId());
+        $this->getItem('valor')->isRequired()->isNumeric()->isMaxValue(10 ** 8 - 0.01)->isMinValue(0.01);
+        $this->getItem('quantidade')->isRequired()->isNumeric()->isMinValue(1);
     }
 }

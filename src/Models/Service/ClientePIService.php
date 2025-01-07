@@ -55,7 +55,7 @@ class ClientePIService
 
         $validation = new ClientePIValidate($id, $cliente, $address, $telephone, $description);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 

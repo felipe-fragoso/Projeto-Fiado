@@ -95,7 +95,7 @@ class ClienteLojaService
         
         $validation = new ClienteLojaValidate($id, $loja, $cliente, $maxCredit, $active);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 

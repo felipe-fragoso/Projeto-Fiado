@@ -2,51 +2,39 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Loja;
 
-class LojaPIValidate
+class LojaPIValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
      * @param $id
-     * @param Loja $loja
+     * @param $loja
      * @param $address
      * @param $telephone
      * @param $description
      * @param $established
      * @param $openHour
      * @param $closeHour
-     * @return mixed
      */
-    public function __construct($id, Loja $loja, $address, $telephone, $description, $established, $openHour, $closeHour)
+    public function __construct($id, #[\SensitiveParameter] $loja, $address, $telephone, $description, $established, $openHour, $closeHour)
     {
-        if (!$loja->getId()) {
-            $this->addError('Loja Inválida.');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('loja', $loja);
+        $this->setItem('endereco', $address);
+        $this->setItem('telefone', $telephone);
+        $this->setItem('descricao', $description);
+        $this->setItem('fundado', $established);
+        $this->setItem('abre', $openHour);
+        $this->setItem('fecha', $closeHour);
 
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('id')->isNull()->or()->isNumeric();
+        $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
+        $this->getItem('endereco')->isMaxLength(200);
+        $this->getItem('telefone')->isMaxLength(20)->isPhoneNumber();
+        $this->getItem('descricao')->isMaxLength(65533);
+        $this->getItem('fundado')->isDate();
+        $this->getItem('abre')->isDate();
+        $this->getItem('fecha')->isDate();
     }
 }

@@ -2,57 +2,31 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Cliente;
 use Fiado\Models\Entity\Loja;
 
-class ClienteLojaValidate
+class ClienteLojaValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
      * @param $id
-     * @param Loja $loja
-     * @param Cliente $cliente
+     * @param $loja
+     * @param $cliente
      * @param $maxCredit
      * @param $active
-     * @return mixed
      */
-    public function __construct($id, Loja $loja, Cliente $cliente, $maxCredit, $active)
+    public function __construct($id, #[\SensitiveParameter] $loja, #[\SensitiveParameter] $cliente, $maxCredit, $active)
     {
-        if (!is_numeric($maxCredit) && $maxCredit !== null) {
-            $this->addError('Fiado máximo Inválido.');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('cliente', $cliente);
+        $this->setItem('loja', $loja);
+        $this->setItem('credito_maximo', $maxCredit);
+        $this->setItem('ativo', $active);
 
-        if (!$loja?->getId()) {
-            $this->addError('Loja inválida');
-        }
-
-        if (!$cliente->getId()) {
-            $this->addError('Cliente inválido');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('id')->isNumeric()->or()->isNull();
+        $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class)->isPresent($cliente?->getId());
+        $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
+        $this->getItem('credito_maximo')->isNumeric()->or()->isNull();
+        $this->getItem('ativo')->isRequired()->isBool();
     }
 }

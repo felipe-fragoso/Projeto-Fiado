@@ -2,57 +2,38 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\LojaService;
 
-class ClienteValidate
+class ClienteValidate extends Validator
 {
-    /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
     /**
      * @param $id
      * @param $cpf
      * @param $name
      * @param $email
      * @param $password
-     * @return mixed
+     * @param $date
      */
-    public function __construct($id, $cpf, $name, $email, $password)
+    public function __construct($id, $cpf, $name, $email, #[\SensitiveParameter] $password, $date)
     {
-        if (!is_numeric($cpf)) {
-            $this->addError('CPF Inválido.');
+        $this->setItem('id', $id);
+        $this->setItem('cpf', $cpf);
+        $this->setItem('nome', $name);
+        $this->setItem('email', $email);
+        $this->setItem('senha', $password);
+        $this->setItem('data', $date);
+
+        $this->getItem('id')->isNumeric()->or()->isNull();
+        $this->getItem('cpf')->isRequired()->isCpf();
+        $this->getItem('nome')->isRequired()->isMaxLength(150);
+        $this->getItem('email')->isRequired()->isEmail()->isMaxLength(150);
+        $this->getItem('senha')->isNull()->or()->isMinLength(4)->isMaxLength(60);
+        $this->getItem('data')->isRequired()->isDate();
+
+        if ($id === null) {
+            $this->getItem('email')->isUnique(ClienteService::getClienteByEmail($email) || LojaService::getLojaByEmail($email));
         }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->addError('Email Inválido');
-        }
-
-        if ($id === null && (ClienteService::getClienteByEmail($email) || LojaService::getLojaByEmail($email))) {
-            $this->addError('Email existente');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
     }
 }

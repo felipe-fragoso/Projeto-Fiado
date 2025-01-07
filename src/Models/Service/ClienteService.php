@@ -58,15 +58,17 @@ class ClienteService
      * @param $password
      * @return mixed
      */
-    public static function salvar($id, $cpf, $name, $email, $password)
+    public static function salvar($id, $cpf, $name, $email, $password, $date = null)
     {
-        $validation = new ClienteValidate($id, $cpf, $name, $email, $password);
+        $date = $date ?? date('Y-m-d H:i:s');
+        
+        $validation = new ClienteValidate($id, $cpf, $name, $email, $password, $date);
 
-        if ($validation->getNumErrors()) {
+        if ($validation->getQtyErrors()) {
             return false;
         }
 
-        $store = new Cliente($id, $cpf, $name, $email, $password, null);
+        $store = new Cliente($id, $cpf, $name, $email, $password, $date);
         $dao = new ClienteDao();
 
         if ($store->getId()) {
@@ -76,7 +78,7 @@ class ClienteService
                 'cpf' => $store->getCpf(),
                 'email' => $store->getEmail(),
                 'senha' => $store->getSenha(),
-                // 'date' => $store->getDate(),
+                'date' => $store->getDate(),
             ]);
         }
 

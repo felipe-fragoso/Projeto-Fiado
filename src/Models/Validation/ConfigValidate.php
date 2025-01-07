@@ -2,47 +2,27 @@
 
 namespace Fiado\Models\Validation;
 
+use Fiado\Core\Validator;
 use Fiado\Models\Entity\Loja;
 
-class ConfigValidate
+class ConfigValidate extends Validator
 {
     /**
-     * @var mixed
-     */
-    private $errors;
-    private int $numErrors = 0;
-
-    /**
      * @param $id
-     * @param Loja $loja
+     * @param $loja
      * @param $payLimit
      * @param $maxCredit
-     * @return mixed
      */
-    public function __construct($id, Loja $loja, $payLimit, $maxCredit)
+    public function __construct($id, #[\SensitiveParameter] $loja, $payLimit, $maxCredit)
     {
-        if (!$loja->getId()) {
-            $this->addError('Loja inválida.');
-        }
+        $this->setItem('id', $id);
+        $this->setItem('loja', $loja);
+        $this->setItem('prazo', $payLimit);
+        $this->setItem('credito_maximo', $maxCredit);
 
-        return $this;
-    }
-
-    /**
-     * @param string $msg
-     */
-    public function addError(string $msg)
-    {
-        $this->numErrors++;
-
-        $this->errors[] = ['msg' => $msg];
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumErrors()
-    {
-        return $this->numErrors;
+        $this->getItem('id')->isNumeric()->or()->isNull();
+        $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
+        $this->getItem('prazo')->isRequired()->isNumeric()->isMinValue(1)->isMaxValue(999);
+        $this->getItem('credito_maximo')->isRequired()->isNumeric()->isMinValue(0.01)->isMaxValue(9999);
     }
 }
