@@ -3,6 +3,9 @@
 namespace Fiado\Controllers\Landing;
 
 use Fiado\Core\Controller;
+use Fiado\Enums\FormDataType;
+use Fiado\Enums\InputType;
+use Fiado\Helpers\FormData;
 use Fiado\Models\Service\AuthService;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\LojaService;
@@ -18,14 +21,16 @@ class AuthController extends Controller
 
     public function entrar()
     {
-        $email = $_POST['ipt-email'] ?? null;
-        $password = $_POST['ipt-senha'] ?? null;
+        $form = new FormData();
 
-        if (empty($email) || empty($password)) {
+        $form->setItem('email')->getValueFrom('ipt-email');
+        $form->setItem('password')->getValueFrom('ipt-senha');
+        
+        if (!$form->email || !$form->password) {
             $this->redirect($_SERVER["BASE_URL"] . 'auth');
         }
 
-        if (AuthService::authenticate($email, $password)) {
+        if (AuthService::authenticate($form->email, $form->password)) {
             $this->redirect($_SERVER["BASE_URL"] . 'dashboard');
         }
 
@@ -34,7 +39,11 @@ class AuthController extends Controller
 
     public function cadastro()
     {
-        $data['tipo'] = $_GET['tipo'] ?? 'c';
+        $form = new FormData();
+
+        $form->setItem('type')->getValueFrom('tipo', 'c', InputType::Get);
+        
+        $data['tipo'] = $form->type;
         $data['view'] = 'signup';
 
         $this->load('signup', $data);
@@ -45,36 +54,36 @@ class AuthController extends Controller
      */
     public function salvar()
     {
-        $cpf = $_POST['ipt-cpf'] ?? null;
-        $cnpj = $_POST['ipt-cnpj'] ?? null;
-        $email = $_POST['ipt-email'] ?? null;
-        $name = $_POST['ipt-nome'] ?? null;
-        $password = $_POST['ipt-senha'] ?? null;
-        $conPassword = $_POST['ipt-con-senha'] ?? null;
-        $tipo = $_POST['tipo'] ?? null;
+        $form = new FormData();
 
-        $urlCadastro = $_SERVER["BASE_URL"] . "auth/cadastro?tipo={$tipo}";
+        $form->setItem('cpf', FormDataType::Cpf)->getValueFrom('ipt-cpf');
+        $form->setItem('cnpj', FormDataType::Cnpj)->getValueFrom('ipt-cnpj');
+        $form->setItem('email')->getValueFrom('ipt-email');
+        $form->setItem('name')->getValueFrom('ipt-nome');
+        $form->setItem('password')->getValueFrom('ipt-senha');
+        $form->setItem('conPassword')->getValueFrom('ipt-con-senha');
+        $form->setItem('type')->getValueFrom('tipo');
+        
+        $urlCadastro = $_SERVER["BASE_URL"] . "auth/cadastro?tipo={$form->type}";
         $urlDashboard = $_SERVER["BASE_URL"] . 'dashboard';
 
-        if (($password !== $conPassword) || (empty($email) || empty($password) || empty($password)) || (empty($cpf) && empty($cnpj))) {
+        if (($form->password !== $form->conPassword) || !$form->password || !$form->conPassword) {
             return $this->redirect($urlCadastro);
         }
 
-        if ($cpf) {
-            if (!ClienteService::salvar(null, $cpf, $name, $email, $password)) {
+        if ($form->cpf) {
+            if (!ClienteService::salvar(null, $form->cpf, $form->name, $form->email, $form->password)) {
                 return $this->redirect($urlCadastro);
             }
-
         }
 
-        if ($cnpj) {
-            if (!LojaService::salvar(null, $cnpj, $name, $email, $password)) {
+        if ($form->cnpj) {
+            if (!LojaService::salvar(null, $form->cnpj, $form->name, $form->email, $form->password)) {
                 return $this->redirect($urlCadastro);
             }
-            
         }
         
-        if (AuthService::authenticate($email, $password)) {
+        if (AuthService::authenticate($form->email, $form->password)) {
             return $this->redirect($urlDashboard);
         }
     }
