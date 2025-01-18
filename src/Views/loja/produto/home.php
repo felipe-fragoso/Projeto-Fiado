@@ -27,15 +27,15 @@
                 </thead>
                 <tbody>
                     <?php
-                        /** @var \Fiado\Core\ViewHelper[] $produtos */
-                        if (!$produtos):
-                    ?>
+                        if (!$data->produtos):
+                            ?>
                     <tr>
                         <td class="th-center" colspan="6">Nenhum produto encontrado</td>
                     </tr>
                     <?php
                         else:
-                            foreach ($produtos as $produto):
+                            /** @var \Fiado\Core\ViewHelper $produto */
+                            foreach ($data->produtos as $produto):
                         ?>
                     <tr>
                         <td><a

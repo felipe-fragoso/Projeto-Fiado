@@ -38,13 +38,13 @@
                             <label for="tipo-conta-cliente">Cliente</label>
                             <input type="radio" name="tipo-conta" value="form-um" id="tipo-conta-cliente"
                                 class="selecao-radio" onchange="mudaSelecao(this)"
-                                <?=($tipo == 'c') ? 'checked' : ''?> />
+                                <?=($data->tipo == 'c') ? 'checked' : ''?> />
                         </div>
                         <div class="selecao-header">
                             <label for="tipo-conta-empresa">Empresa</label>
                             <input type="radio" name="tipo-conta" value="form-dois" id="tipo-conta-empresa"
                                 class="selecao-radio" onchange="mudaSelecao(this)"
-                                <?=($tipo == 'e') ? 'checked' : ''?> />
+                                <?=($data->tipo == 'e') ? 'checked' : ''?> />
                         </div>
                     </div>
                     <div class="selecao-form-box">

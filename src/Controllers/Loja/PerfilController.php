@@ -4,7 +4,6 @@ namespace Fiado\Controllers\Loja;
 
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
-use Fiado\Core\ViewHelper;
 use Fiado\Enums\FormDataType;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\LojaPI;
@@ -22,23 +21,23 @@ class PerfilController extends Controller
             $lojaPI = new LojaPI(
                 null,
                 LojaService::getLojaById($idLoja),
-                'Sem Endereco',
-                'Sem Telefone',
-                'Sem Descricao',
-                '',
+                'Endereco vazio',
+                'Telefone vazio',
+                'Descrição vazia',
+                '0000-00-00 00:00:00',
                 '00:00:00',
                 '00:00:00');
         }
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'nome' => $lojaPI->getLoja()->getName(),
-            'endereco' => $lojaPI->getAddress(),
-            'telefone' => $lojaPI->getTelephone(),
+            'endereco' => $lojaPI->getAddress() ?: 'Endereço vazio',
+            'telefone' => $lojaPI->getTelephone() ?: 'Telefone vazio',
             'criada' => $lojaPI->getEstablished(),
             'abre' => $lojaPI->getOpenHour(),
             'fecha' => $lojaPI->getCloseHour(),
-            'descricao' => $lojaPI->getDescription(),
-        ]);
+            'descricao' => $lojaPI->getDescription() ?: 'Descrição vazia',
+        ];
         $data['view'] = 'loja/perfil/home';
 
         $this->load('loja/template', $data);
@@ -53,7 +52,7 @@ class PerfilController extends Controller
             $lojaPI = new LojaPI(null, LojaService::getLojaById($idLoja), '', '', '', '', '', '');
         }
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'id' => $lojaPI->getId(),
             'nome' => $lojaPI->getLoja()->getName(),
             'endereco' => $lojaPI->getAddress(),
@@ -62,7 +61,7 @@ class PerfilController extends Controller
             'abre' => $lojaPI->getOpenHour(),
             'fecha' => $lojaPI->getCloseHour(),
             'descricao' => $lojaPI->getDescription(),
-        ]);
+        ];
         $data['view'] = 'loja/perfil/edit';
 
         $this->load('loja/template', $data);

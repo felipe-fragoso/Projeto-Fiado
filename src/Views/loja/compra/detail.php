@@ -45,7 +45,6 @@
             <?php
                 endif;
             ?>
-
         </div>
     </section>
 </main>

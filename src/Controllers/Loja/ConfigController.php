@@ -4,7 +4,6 @@ namespace Fiado\Controllers\Loja;
 
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
-use Fiado\Core\ViewHelper;
 use Fiado\Enums\FormDataType;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\Config;
@@ -22,10 +21,10 @@ class ConfigController extends Controller
             $config = new Config(null, LojaService::getLojaById($idLoja), '0', '0.0');
         }
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'prazo' => $config->getPayLimit(),
             'credito' => $config->getMaxCredit(),
-        ]);
+        ];
         $data['view'] = 'loja/config/home';
 
         $this->load('loja/template', $data);
@@ -40,11 +39,11 @@ class ConfigController extends Controller
             $config = new Config(null, LojaService::getLojaById($idLoja), '', '');
         }
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'id' => $config->getId(),
             'prazo' => $config->getPayLimit(),
             'credito' => $config->getMaxCredit(),
-        ]);
+        ];
         $data['view'] = 'loja/config/edit';
 
         $this->load('loja/template', $data);

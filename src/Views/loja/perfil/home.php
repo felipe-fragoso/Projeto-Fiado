@@ -7,7 +7,7 @@
                 <div class="card-content">
                     <p><b>Nome:</b> <?=$data->nome?></p>
                     <p><b>Endereço:</b> <?=$data->endereco?></p>
-                    <p><b>Telefone:</b> <?=$data->telefone?></p>
+                    <p><b>Telefone:</b> <?=$data->formatPhone('telefone')?></p>
                     <p><b>Criada em:</b> <?=$data->dateToBr('criada')?></p>
                     <p><b>Hora funcionamento:</b> <?=$data->abre?> até <?=$data->fecha?></p>
                 </div>

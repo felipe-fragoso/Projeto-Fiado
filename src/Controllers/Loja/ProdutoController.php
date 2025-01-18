@@ -4,7 +4,6 @@ namespace Fiado\Controllers\Loja;
 
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
-use Fiado\Core\ViewHelper;
 use Fiado\Enums\FormDataType;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\Produto;
@@ -16,13 +15,13 @@ class ProdutoController extends Controller
     {
         $idLoja = Auth::getId();
 
-        $data['produtos'] = array_map(fn(Produto $produto) => new ViewHelper([
+        $data['produtos'] = array_map(fn(Produto $produto) => [
             'id' => $produto->getId(),
             'nome' => $produto->getName(),
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
-        ]), ProdutoService::listProduto($idLoja, 0, 9) ?: []);
+        ], ProdutoService::listProduto($idLoja, 0, 9) ?: []);
         $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);
@@ -50,13 +49,13 @@ class ProdutoController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'id' => $produto->getId(),
             'nome' => $produto->getName(),
             'preco' => $produto->getPrice(),
             'ativo' => $produto->getActive(),
             'descricao' => $produto->getDescription(),
-        ]);
+        ];
         $data['view'] = 'loja/produto/edit';
 
         $this->load('loja/template', $data);
@@ -77,13 +76,13 @@ class ProdutoController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
-        $data['view'] = 'loja/produto/detail';
-        $data['data'] = new ViewHelper([
+        $data = [
             'nome' => $produto->getName(),
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
             'descricao' => $produto->getDescription(),
-        ]);
+        ];
+        $data['view'] = 'loja/produto/detail';
 
         $this->load('loja/template', $data);
     }
@@ -113,9 +112,11 @@ class ProdutoController extends Controller
     public function listProdutoWithJSON()
     {
         $idLoja = Auth::getId();
-        $text = $_POST['texto'] ?? "";
 
-        $produtos = ProdutoService::listProdutoWith($idLoja, $text, 10);
+        $form = new FormData();
+        $form->setItem('text')->getValueFrom('texto', '');
+
+        $produtos = ProdutoService::listProdutoWith($idLoja, $form->text, 10);
 
         if ($produtos) {
             $list = array_map(function (Produto $item) {
