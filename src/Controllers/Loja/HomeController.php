@@ -34,11 +34,6 @@ class HomeController extends Controller
                 'total' => $compra->getTotal(),
                 'data' => $compra->getDate(),
             ], $ultimasPendentes ?: []),
-            'ultimasPendentes' => array_map(fn(Fiado $compra) => [
-                'id' => $compra->getId(),
-                'total' => $compra->getTotal(),
-                'data' => $compra->getDate(),
-            ], $ultimasPendentes ?: []),
             'graficos' => [
                 'dias' => ($dayGraph->getGraph)(5),
                 'mes' => ($monthGraph->getGraph)(5),

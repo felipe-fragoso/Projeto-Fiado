@@ -22,8 +22,8 @@
                 </div>
                 <?php
                         endforeach;
-                        endif;
-                    ?>
+                    endif;
+                ?>
             </div>
         </div>
     </section>
@@ -48,8 +48,8 @@
                 </div>
                 <?php
                         endforeach;
-                        endif;
-                    ?>
+                    endif;
+                ?>
             </div>
         </div>
     </section>
