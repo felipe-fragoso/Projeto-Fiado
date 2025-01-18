@@ -40,7 +40,7 @@ class CompraValidate extends Validator
 
         $clienteLoja = ClienteLojaService::getClienteLoja($loja->getId(), $cliente->getId()) ?: null;
         $configLoja = ConfigService::getConfigByLoja($loja->getId()) ?: null;
-        $maxCredit = $clienteLoja?->getMaxCredit() ?: $configLoja?->getMaxCredit();
+        $maxCredit = $clienteLoja?->getMaxCredit() ?: $configLoja?->getMaxCredit() ?? 0;
         $totalPendente = CompraService::getTotalCliente($loja->getId(), $cliente->getId(), 0, new \DateTime, false);
 
         $this->setItem('credito', $total + $totalPendente);

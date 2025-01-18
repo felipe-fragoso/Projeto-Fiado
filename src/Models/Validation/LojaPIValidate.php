@@ -31,10 +31,10 @@ class LojaPIValidate extends Validator
         $this->getItem('id')->isNull()->or()->isNumeric();
         $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
         $this->getItem('endereco')->isMaxLength(200);
-        $this->getItem('telefone')->isMaxLength(20)->isPhoneNumber();
+        $this->getItem('telefone')->isMaxLength(20)->isPhoneNumber()->or()->isEmpty();
         $this->getItem('descricao')->isMaxLength(65533);
-        $this->getItem('fundado')->isDate();
-        $this->getItem('abre')->isDate();
-        $this->getItem('fecha')->isDate();
+        $this->getItem('fundado')->isDate()->or()->isEmpty();
+        $this->getItem('abre')->isDate()->or()->isEmpty();
+        $this->getItem('fecha')->isDate()->or()->isEmpty();
     }
 }
