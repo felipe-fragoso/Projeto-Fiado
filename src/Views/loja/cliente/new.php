@@ -8,12 +8,12 @@
                 <div class="selecao-header">
                     <label for="novo-cliente">Novo Cliente</label>
                     <input type="radio" name="tipo-cliente" value="form-um" id="novo-cliente" class="selecao-radio"
-                        onchange="mudaSelecao(this)" <?=$tipo === 'n' ? 'checked' : ''?> />
+                        onchange="mudaSelecao(this)" <?=$data->tipo === 'n' ? 'checked' : ''?> />
                 </div>
                 <div class="selecao-header">
                     <label for="fiado-cliente">Cliente FiadoFacil</label>
                     <input type="radio" name="tipo-cliente" value="form-dois" id="fiado-cliente" class="selecao-radio"
-                        onchange="mudaSelecao(this)" <?=$tipo === 'c' ? 'checked' : ''?> />
+                        onchange="mudaSelecao(this)" <?=$data->tipo === 'c' ? 'checked' : ''?> />
                 </div>
             </div>
             <div class="selecao-form-box">

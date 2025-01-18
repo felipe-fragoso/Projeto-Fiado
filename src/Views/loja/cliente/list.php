@@ -27,26 +27,26 @@
                 </thead>
                 <tbody>
                     <?php
-                        if (!$listData):
+                        if (!$data->list):
                     ?>
                     <tr>
                         <td colspan="6" class="th-center">Nenhum registro encontrado</td>
                     </tr>
                     <?php
                         else:
-                            foreach ($listData as $clienteLoja):
+                            foreach ($data->list as $clienteLoja):
                         ?>
                     <tr>
                         <td>
                             <a href="<?=$_SERVER["BASE_URL"]?>cliente/ver/<?=$clienteLoja->id?>">
-                                <?= $clienteLoja->nome ?>
+                                <?=$clienteLoja->nome?>
                             </a>
                         </td>
-                        <td><?= $clienteLoja->email ?></td>
-                        <td><?= $clienteLoja->dateToBr('data') ?></td>
+                        <td><?=$clienteLoja->email?></td>
+                        <td><?=$clienteLoja->dateToBr('data')?></td>
                         <td><?=$clienteLoja->ativo ? 'Sim' : 'Não'?></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>cliente/detalhe/<?= $clienteLoja->id ?>">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>cliente/editar/<?= $clienteLoja->id ?>">Editar</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>cliente/detalhe/<?=$clienteLoja->id?>">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>cliente/editar/<?=$clienteLoja->id?>">Editar</a></td>
                     </tr>
                     <?php
                             endforeach;

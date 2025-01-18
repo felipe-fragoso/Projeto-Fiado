@@ -4,7 +4,6 @@ namespace Fiado\Controllers\Loja;
 
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
-use Fiado\Core\ViewHelper;
 use Fiado\Enums\FormDataType;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\ClienteLoja;
@@ -25,24 +24,24 @@ class CompraController extends Controller
         $list = array_map(function (Fiado $item) {
             $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
 
-            return new ViewHelper([
+            return [
                 'id' => $item->getId(),
                 'idClienteLoja' => $clienteLoja->getId(),
                 'nome' => $item->getCliente()->getName(),
                 'total' => $item->getTotal(),
                 'data' => $item->getDate(),
                 'pago' => $item->getPaid(),
-            ]);
+            ];
         }, CompraService::listCompraLoja($loja->getId()) ?: []);
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
-            'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of')),
-            'total' => CompraService::getTotal($loja->getId(), 0),
-            'pendente' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false),
+            'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of')) ?? 0,
+            'total' => CompraService::getTotal($loja->getId(), 0) ?? 0,
+            'pendente' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false) ?? 0,
             'list' => $list,
-        ]);
+        ];
         $data['view'] = 'loja/compra/home';
 
         $this->load('loja/template', $data);
@@ -52,24 +51,24 @@ class CompraController extends Controller
     {
         $loja = LojaService::getLojaById(Auth::getId());
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
-            'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of'), new \DateTime(), false),
-            'total' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false),
+            'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of'), new \DateTime(), false) ?? 0,
+            'total' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false) ?? 0,
             'list' => array_map(function (Fiado $item) {
                 $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
 
-                return new ViewHelper([
+                return [
                     'id' => $item->getId(),
                     'idCliente' => $clienteLoja->getId(),
                     'nome' => $item->getCliente()->getName(),
                     'total' => $item->getTotal(),
                     'data' => $item->getDate(),
                     'vencimento' => $item->getDueDate(),
-                ]);
+                ];
             }, CompraService::listCompraPendenteLoja($loja->getId()) ?: []),
-        ]);
+        ];
         $data['view'] = 'loja/compra/pending';
 
         $this->load('loja/template', $data);
@@ -92,19 +91,19 @@ class CompraController extends Controller
 
         $itensFiado = FiadoItemService::listFiadoItem($fiado->getId());
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'total' => $fiado->getTotal(),
             'data' => $fiado->getDate(),
             'dataVencimento' => $fiado->getDueDate(),
             'pago' => $fiado->getPaid(),
-            'itens' => array_map(function (FiadoItem $item) {return new ViewHelper([
+            'itens' => array_map(fn(FiadoItem $item) => [
                 'idProduto' => $item->getProduto()->getId(),
                 'nomeProduto' => $item->getProduto()->getName(),
                 'preco' => $item->getValue(),
                 'quantidade' => $item->getQuantity(),
                 'subtotal' => $item->getQuantity() * $item->getValue(),
-            ]);}, $itensFiado ?: []),
-        ]);
+            ], $itensFiado ?: []),
+        ];
         $data['view'] = 'loja/compra/detail';
 
         $this->load('loja/template', $data);
@@ -112,12 +111,12 @@ class CompraController extends Controller
 
     public function nova()
     {
-        $data['data'] = new ViewHelper([
-            'listCliente' => array_map(function (ClienteLoja $item) {return new ViewHelper([
+        $data = [
+            'listCliente' => array_map(fn(ClienteLoja $item) => [
                 'id' => $item->getCliente()->getId(),
                 'nome' => $item->getCliente()->getName(),
-            ]);}, ClienteLojaService::listClienteLoja(Auth::getId()) ?: []),
-        ]);
+            ], ClienteLojaService::listClienteLoja(Auth::getId()) ?: []),
+        ];
         $data['view'] = 'loja/compra/new';
 
         $this->load('loja/template', $data);
@@ -125,9 +124,10 @@ class CompraController extends Controller
 
     public function salvar()
     {
-        $form = new FormData();
         $idLoja = Auth::getId();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
+
+        $form = new FormData();
 
         $form->setItem('idCliente', FormDataType::Int)->getValueFrom('sel-cliente');
         $form->setItem('listProduto', FormDataType::JsonText)->getValueFrom('ipt-list-produto', []);

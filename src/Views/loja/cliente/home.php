@@ -7,9 +7,8 @@
                 <div class="card-content">
                     <p><b>Nome:</b> <?=$data->nome?></p>
                     <p><b>Email:</b> <?=$data->email?></p>
-                    <p><b>Telefone:</b> <?=$data->telefone?></p>
-                    <p><b><a href="<?=$_SERVER["BASE_URL"]?>cliente/detalhe/<?=$data->id?>">Mais
-                                detalhes</a></p>
+                    <p><b>Telefone:</b> <?=$data->formatPhone('telefone')?></p>
+                    <p><b><a href="<?=$_SERVER["BASE_URL"]?>cliente/detalhe/<?=$data->id?>">Mais detalhes</a></p>
                 </div>
             </div>
         </div>
@@ -35,8 +34,8 @@
             </div>
             <?php
                     endforeach;
-                    endif;
-                ?>
+                endif;
+            ?>
         </div>
     </section>
 </main>

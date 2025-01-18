@@ -4,8 +4,8 @@ namespace Fiado\Controllers\Loja;
 
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
-use Fiado\Core\ViewHelper;
 use Fiado\Enums\FormDataType;
+use Fiado\Enums\InputType;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Service\ClienteLojaService;
@@ -21,13 +21,13 @@ class ClienteController extends Controller
     {
         $loja = LojaService::getLojaById(Auth::getId());
 
-        $data['listData'] = array_map(function (ClienteLoja $clienteLoja) {return new ViewHelper([
+        $data['list'] = array_map(fn(ClienteLoja $clienteLoja) => [
             'id' => $clienteLoja->getId(),
             'nome' => $clienteLoja->getCliente()->getName(),
             'email' => $clienteLoja->getCliente()->getEmail(),
             'ativo' => $clienteLoja->getActive(),
             'data' => $clienteLoja->getCliente()->getDate(),
-        ]);}, ClienteLojaService::listClienteLoja($loja->getId()) ?: []);
+        ], ClienteLojaService::listClienteLoja($loja->getId()) ?: []);
         $data['view'] = 'loja/cliente/list';
 
         $this->load('loja/template', $data);
@@ -48,21 +48,21 @@ class ClienteController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
-        $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
+        $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId()) ?: null;
         $listCompra = CompraService::listCompraLojaCliente($clienteLoja->getLoja()->getId(), $clienteLoja->getCliente()->getId()) ?: [];
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'id' => $clienteLoja->getId(),
             'nome' => $clienteLoja->getCliente()->getName(),
             'email' => $clienteLoja->getCliente()->getEmail(),
-            'telefone' => $clientePI ? $clientePI->getTelephone() : null,
-            'list' => array_map(function ($compra) {return new ViewHelper([
+            'telefone' => $clientePI?->getTelephone() ?? 'Telefone vazio',
+            'list' => array_map(fn($compra) => [
                 'id' => $compra->getId(),
                 'valor' => $compra->getTotal(),
                 'data' => $compra->getDate(),
                 'pago' => $compra->getPaid(),
-            ]);}, $listCompra),
-        ]);
+            ], $listCompra),
+        ];
         $data['view'] = 'loja/cliente/home';
 
         $this->load('loja/template', $data);
@@ -83,17 +83,17 @@ class ClienteController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
-        $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId());
+        $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId()) ?: null;
 
-        $data['data'] = new ViewHelper([
+        $data = [
             'id' => $clienteLoja->getId(),
             'nome' => $clienteLoja->getCliente()->getName(),
             'email' => $clienteLoja->getCliente()->getEmail(),
             'data' => $clienteLoja->getCliente()->getDate(),
-            'telefone' => $clientePI ? $clientePI->getTelephone() : null,
-            'endereco' => $clientePI ? $clientePI->getAddress() : null,
-            'descricao' => $clientePI ? $clientePI->getDescription() : null,
-        ]);
+            'telefone' => $clientePI?->getTelephone() ?? 'Telefone vazio',
+            'endereco' => $clientePI?->getAddress() ?? 'Endereço vazio',
+            'descricao' => $clientePI?->getDescription() ?? 'Descrição vazia',
+        ];
         $data['view'] = 'loja/cliente/detail';
 
         $this->load('loja/template', $data);
@@ -101,7 +101,10 @@ class ClienteController extends Controller
 
     public function novo()
     {
-        $data['tipo'] = $_GET['tipo'] ?? 'n';
+        $form = new FormData();
+        $form->setItem('type')->getValueFrom('tipo', 'n', InputType::Get);
+
+        $data['tipo'] = $form->type;
         $data['view'] = 'loja/cliente/new';
 
         $this->load('loja/template', $data);
@@ -122,13 +125,16 @@ class ClienteController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
-        $data['data'] = new ViewHelper([
+        $form = new FormData();
+        $form->setItem('type')->getValueFrom('tipo', 'n', InputType::Get);
+
+        $data['tipo'] = $form->type;
+        $data = [
             'id' => $clienteLoja->getId(),
             'email' => $clienteLoja->getCliente()->getEmail(),
             'creditoMaximo' => $clienteLoja->getMaxCredit() ?? 0,
             'ativo' => $clienteLoja->getActive(),
-        ]);
-        $data['tipo'] = $_GET['tipo'] ?? 'n';
+        ];
         $data['view'] = 'loja/cliente/edit';
 
         $this->load('loja/template', $data);
