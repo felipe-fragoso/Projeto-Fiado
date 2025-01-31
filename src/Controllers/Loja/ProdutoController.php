@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\Produto;
 use Fiado\Models\Service\ProdutoService;
@@ -49,12 +50,14 @@ class ProdutoController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
+        $form = Flash::getForm();
+
         $data = [
             'id' => $produto->getId(),
-            'nome' => $produto->getName(),
-            'preco' => $produto->getPrice(),
-            'ativo' => $produto->getActive(),
-            'descricao' => $produto->getDescription(),
+            'nome' => $form['ipt-nome'] ?? $produto->getName(),
+            'preco' => $form['ipt-preco'] ?? $produto->getPrice(),
+            'ativo' => $form['sel-ativo'] ?? $produto->getActive(),
+            'descricao' => $form['txta-descricao'] ?? $produto->getDescription(),
         ];
         $data['view'] = 'loja/produto/edit';
 
@@ -93,12 +96,17 @@ class ProdutoController extends Controller
         $idLoja = Auth::getId();
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id', null);
-        $form->setItem('name')->getValueFrom('ipt-nome', 'asd');
+        $form->setItem('name')->getValueFrom('ipt-nome', '');
         $form->setItem('price', FormDataType::Float)->getValueFrom('ipt-preco', 0);
         $form->setItem('active', FormDataType::YesNoInput)->getValueFrom('sel-ativo', true);
         $form->setItem('description')->getValueFrom('txta-descricao', '');
 
+        Flash::setForm($form->getArray());
+
         if (ProdutoService::salvar($form->id, $idLoja, $form->name, $form->price, $form->active, $form->description)) {
+            Flash::clearForm();
+            Flash::setMessage('Operação realizada com sucesso');
+
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
