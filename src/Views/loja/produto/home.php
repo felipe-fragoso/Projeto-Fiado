@@ -6,6 +6,7 @@
         <header class="section-header section-header-padding">
             <h2>Produtos</h2>
         </header>
+        <?php $this->load('components/flashBar', $viewData)?>
         <div class="table-box">
             <table>
                 <thead>
@@ -28,7 +29,7 @@
                 <tbody>
                     <?php
                         if (!$data->produtos):
-                            ?>
+                    ?>
                     <tr>
                         <td class="th-center" colspan="6">Nenhum produto encontrado</td>
                     </tr>
@@ -36,21 +37,20 @@
                         else:
                             /** @var \Fiado\Core\ViewHelper $produto */
                             foreach ($data->produtos as $produto):
-                        ?>
+                    ?>
                     <tr>
-                        <td><a
-                                href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>"><?= $produto->nome ?></a>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?=$produto->id?>"><?=$produto->nome?></a>
                         </td>
-                        <td>R$ <?= $produto->formatToReal('preco') ?></td>
-                        <td><?= $produto->dateToBr('data') ?></td>
-                        <td><?= $produto->ativo ? 'Sim' : 'Não' ?></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?= $produto->id ?>">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?= $produto->id ?>">Editar</a></td>
+                        <td>R$ <?=$produto->formatToReal('preco')?></td>
+                        <td><?=$produto->dateToBr('data')?></td>
+                        <td><?=$produto->ativo ? 'Sim' : 'Não'?></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?=$produto->id?>">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?=$produto->id?>">Editar</a></td>
                     </tr>
                     <?php
                             endforeach;
-                            endif;
-                        ?>
+                        endif;
+                    ?>
                 </tbody>
             </table>
             <div class="pagination">

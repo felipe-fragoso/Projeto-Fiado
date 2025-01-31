@@ -48,16 +48,20 @@
                         </div>
                     </div>
                     <div class="selecao-form-box">
+                        <?php $this->load('components/flashBar', $viewData)?>
                         <div class="selecao-form-um">
                             <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/salvar">
                                 <label for="ipt-cpf">CPF:</label>
-                                <input type="text" name="ipt-cpf" id="ipt-cpf" />
+                                <input type="text" name="ipt-cpf" id="ipt-cpf"
+                                    value="<?=$flash?->form?->{'ipt-cpf'}?>" />
 
                                 <label for="ipt-nome">Nome:</label>
-                                <input type="text" name="ipt-nome" id="ipt-nome" />
+                                <input type="text" name="ipt-nome" id="ipt-nome"
+                                    value="<?=$flash?->form?->{'ipt-nome'}?>" />
 
                                 <label for="ipt-email">Email:</label>
-                                <input type="email" name="ipt-email" id="ipt-email" />
+                                <input type="email" name="ipt-email" id="ipt-email"
+                                    value="<?=$flash?->form?->{'ipt-email'}?>" />
 
                                 <label for="ipt-senha">Senha:</label>
                                 <input type="password" name="ipt-senha" id="ipt-senha" />
@@ -72,13 +76,16 @@
                         <div class="selecao-form-dois">
                             <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/salvar">
                                 <label for="ipt-cnpj">CNPJ:</label>
-                                <input type="text" name="ipt-cnpj" id="ipt-cnpj" />
+                                <input type="text" name="ipt-cnpj" id="ipt-cnpj"
+                                    value="<?=$flash?->form?->{'ipt-cnpj'}?>" />
 
                                 <label for="ipt-nome2">Nome:</label>
-                                <input type="text" name="ipt-nome" id="ipt-nome2" />
+                                <input type="text" name="ipt-nome" id="ipt-nome2"
+                                    value="<?=$flash?->form?->{'ipt-nome'}?>" />
 
                                 <label for="ipt-email2">Email:</label>
-                                <input type="email" name="ipt-email" id="ipt-email2" />
+                                <input type="email" name="ipt-email" id="ipt-email2"
+                                    value="<?=$flash?->form?->{'ipt-email'}?>" />
 
                                 <label for="ipt-senha2">Senha:</label>
                                 <input type="password" name="ipt-senha" id="ipt-senha2" />

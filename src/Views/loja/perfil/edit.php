@@ -5,6 +5,7 @@
             <h3>Detalhe Minha Loja</h3>
         </header>
         <div class="form-box">
+            <?php $this->load('components/flashBar', $viewData)?>
             <form method="POST" action="<?=$_SERVER["BASE_URL"]?>perfil/salvar">
                 <div class="full-input">
                     <label for="ipt-nome">Nome:</label>

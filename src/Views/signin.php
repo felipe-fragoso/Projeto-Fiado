@@ -31,9 +31,11 @@
                     <header>
                         <h1 class="login-signup-title">Entrar</h1>
                     </header>
+                    <?php $this->load('components/flashBar', $viewData)?>
                     <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/entrar">
                         <label for="ipt-email">Email:</label>
-                        <input type="email" name="ipt-email" id="ipt-email" />
+                        <input type="email" name="ipt-email" id="ipt-email"
+                            value="<?=$flash?->form?->{'ipt-email'}?>" />
 
                         <label for="ipt-senha">Senha:</label>
                         <input type="password" name="ipt-senha" id="ipt-senha" />

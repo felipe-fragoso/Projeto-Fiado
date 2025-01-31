@@ -6,6 +6,7 @@
         <header class="section-header section-header-padding">
             <h2>Clientes</h2>
         </header>
+        <?php $this->load('components/flashBar', $viewData)?>
         <div class="table-box">
             <table>
                 <thead>
