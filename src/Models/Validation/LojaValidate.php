@@ -14,15 +14,17 @@ class LojaValidate extends Validator
      * @param $name
      * @param $email
      * @param $password
+     * @param $conPassword
      * @param $date
      */
-    public function __construct($id, $cnpj, $name, $email, #[\SensitiveParameter] $password, $date)
+    public function __construct($id, $cnpj, $name, $email, #[\SensitiveParameter] $password, #[\SensitiveParameter] $conPassword, $date)
     {
         $this->setItem('id', $id);
         $this->setItem('cnpj', $cnpj);
         $this->setItem('nome', $name);
         $this->setItem('email', $email);
         $this->setItem('senha', $password);
+        $this->setItem('confirma senha', $conPassword);
         $this->setItem('data', $date);
 
         $this->getItem('id')->isNull()->or()->isNumeric();
@@ -30,6 +32,7 @@ class LojaValidate extends Validator
         $this->getItem('nome')->isRequired()->isMaxLength(150);
         $this->getItem('email')->isRequired()->isMaxLength(150)->isEmail();
         $this->getItem('senha')->isRequired()->isMaxLength(60)->isMinLength(4);
+        $this->getItem('confirma senha')->isEqual($password, 'As senhas não coincidem');
         $this->getItem('data')->isRequired()->isDate();
 
         if ($id === null) {
