@@ -5,6 +5,8 @@ namespace Fiado\Controllers\Landing;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
 use Fiado\Enums\InputType;
+use Fiado\Enums\MessageType;
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Service\AuthService;
 use Fiado\Models\Service\ClienteService;
@@ -25,8 +27,12 @@ class AuthController extends Controller
 
         $form->setItem('email')->getValueFrom('ipt-email');
         $form->setItem('password')->getValueFrom('ipt-senha');
-        
+
+        Flash::setForm($form->getArray());
+
         if (!$form->email || !$form->password) {
+            Flash::setMessage('Por favor preencher os campos', MessageType::Warning);
+
             $this->redirect($_SERVER["BASE_URL"] . 'auth');
         }
 
@@ -34,7 +40,7 @@ class AuthController extends Controller
             $this->redirect($_SERVER["BASE_URL"] . 'dashboard');
         }
 
-        $this->redirect($_SERVER["BASE_URL"] . 'auth/login');
+        $this->redirect($_SERVER["BASE_URL"] . 'auth');
     }
 
     public function cadastro()
@@ -42,7 +48,7 @@ class AuthController extends Controller
         $form = new FormData();
 
         $form->setItem('type')->getValueFrom('tipo', 'c', InputType::Get);
-        
+
         $data['tipo'] = $form->type;
         $data['view'] = 'signup';
 
@@ -63,28 +69,30 @@ class AuthController extends Controller
         $form->setItem('password')->getValueFrom('ipt-senha');
         $form->setItem('conPassword')->getValueFrom('ipt-con-senha');
         $form->setItem('type')->getValueFrom('tipo');
-        
+
         $urlCadastro = $_SERVER["BASE_URL"] . "auth/cadastro?tipo={$form->type}";
         $urlDashboard = $_SERVER["BASE_URL"] . 'dashboard';
 
-        if (($form->password !== $form->conPassword) || !$form->password || !$form->conPassword) {
-            return $this->redirect($urlCadastro);
-        }
+        Flash::setForm($form->getArray());
 
-        if ($form->cpf) {
-            if (!ClienteService::salvar(null, $form->cpf, $form->name, $form->email, $form->password)) {
+        if ($form->type === "c") {
+            if (!ClienteService::salvar(null, $form->cpf, $form->name, $form->email, $form->password, $form->conPassword)) {
                 return $this->redirect($urlCadastro);
             }
         }
 
-        if ($form->cnpj) {
-            if (!LojaService::salvar(null, $form->cnpj, $form->name, $form->email, $form->password)) {
+        if ($form->type === 'e') {
+            if (!LojaService::salvar(null, $form->cnpj, $form->name, $form->email, $form->password, $form->conPassword)) {
                 return $this->redirect($urlCadastro);
             }
         }
-        
+
         if (AuthService::authenticate($form->email, $form->password)) {
+            Flash::clearForm();
+
             return $this->redirect($urlDashboard);
         }
+
+        return $this->redirect($urlCadastro);
     }
 }

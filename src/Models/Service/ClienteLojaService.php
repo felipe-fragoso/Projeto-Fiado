@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\LazyDataObj;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
@@ -90,12 +91,14 @@ class ClienteLojaService
      */
     public static function salvar($id, $idLoja, $idCliente, $maxCredit, $active)
     {
-        $cliente = ClienteService::getClienteById($idCliente);
-        $loja = LojaService::getLojaById($idLoja);
-        
+        $cliente = ClienteService::getClienteById($idCliente) ?: null;
+        $loja = LojaService::getLojaById($idLoja) ?: null;
+
         $validation = new ClienteLojaValidate($id, $loja, $cliente, $maxCredit, $active);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 

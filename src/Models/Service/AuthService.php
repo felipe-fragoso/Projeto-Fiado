@@ -3,6 +3,8 @@
 namespace Fiado\Models\Service;
 
 use Fiado\Core\Auth;
+use Fiado\Enums\MessageType;
+use Fiado\Helpers\Flash;
 
 class AuthService
 {
@@ -21,6 +23,8 @@ class AuthService
         }
 
         if (!isset($system)) {
+            Flash::setMessage('Email não encontrado', MessageType::Error);
+
             return false;
         }
 
@@ -31,9 +35,13 @@ class AuthService
                     'email' => $email,
                 ], $system);
 
+                Flash::clearForm();
+
                 return true;
             }
         }
+
+        Flash::setMessage('Email e/ou senha incorretos', MessageType::Error);
 
         return false;
     }

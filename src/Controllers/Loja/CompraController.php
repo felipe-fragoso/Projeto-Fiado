@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Entity\Fiado;
@@ -129,8 +130,10 @@ class CompraController extends Controller
 
         $form = new FormData();
 
-        $form->setItem('idCliente', FormDataType::Int)->getValueFrom('sel-cliente');
+        $form->setItem('idCliente', FormDataType::Int)->getValueFrom('sel-cliente', 0);
         $form->setItem('listProduto', FormDataType::JsonText)->getValueFrom('ipt-list-produto', []);
+
+        Flash::setForm($form->getArray());
 
         $payLimit = $configLoja?->getPayLimit() ?? 0;
 
@@ -139,10 +142,6 @@ class CompraController extends Controller
         $paid = false;
         $dueDate = new \DateTime();
         $dueDate = $dueDate->modify("+{$payLimit} day")->format('Y-m-d H:i:s');
-
-        if (!$form->idCliente || !$form->listProduto) {
-            $this->redirect($_SERVER["BASE_URL"] . 'compra/nova');
-        }
 
         $total = 0;
         foreach ($form->listProduto as $produto) {
@@ -153,6 +152,9 @@ class CompraController extends Controller
             foreach ($form->listProduto as $item) {
                 FiadoItemService::salvar(null, $idFiado, $item->id, $item->preco, $item->quantidade);
             }
+
+            Flash::clearForm();
+            Flash::setMessage('Operação realizada com sucesso');
 
             $this->redirect($_SERVER["BASE_URL"] . 'compra');
         }

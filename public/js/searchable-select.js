@@ -52,6 +52,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         wrapper.appendChild(input);
         wrapper.appendChild(list);
+
+        if (select.selectedIndex !== 0) {
+            input.value = select.options[select.selectedIndex].label;
+
+            input.dispatchEvent(new Event('blur'));
+        }
     });
 })
 

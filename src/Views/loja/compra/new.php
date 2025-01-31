@@ -4,6 +4,7 @@
             <h2 class="page-header">Cadastro de Fiado</h2>
         </header>
         <form id="form-compra" method="POST" action="<?=$_SERVER["BASE_URL"]?>compra/salvar" class="form-box">
+            <?php $this->load('components/flashBar', $viewData)?>
             <div class="full-input">
                 <label for="sel-cliente">Cliente:</label>
                 <select name="sel-cliente" id="sel-cliente" class="select-searchable">
@@ -11,15 +12,17 @@
                     <?php
                         if ($data->listCliente):
                             foreach ($data->listCliente as $item):
-                        ?>
-                    <option value="<?=$item->id?>"><?=$item->nome?></option>
+                    ?>
+                    <option value="<?=$item->id?>" <?=$flash?->form?->{'sel-cliente'} == $item->id ? 'selected' : ''?>>
+                        <?=$item->nome?></option>
                     <?php
                             endforeach;
-                            endif;
-                        ?>
+                        endif;
+                    ?>
                 </select>
             </div>
-            <input type="hidden" name="ipt-list-produto" id="list-produto">
+            <input type="hidden" name="ipt-list-produto" id="list-produto"
+                value="<?=htmlentities(json_encode((array) $flash?->form?->{'ipt-list-produto'}))?>">
         </form>
     </section>
     <section class="system-section">

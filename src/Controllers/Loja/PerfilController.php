@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\LojaPI;
 use Fiado\Models\Service\LojaPiService;
@@ -52,15 +53,17 @@ class PerfilController extends Controller
             $lojaPI = new LojaPI(null, LojaService::getLojaById($idLoja), '', '', '', '', '', '');
         }
 
+        $form = Flash::getForm();
+
         $data = [
             'id' => $lojaPI->getId(),
-            'nome' => $lojaPI->getLoja()->getName(),
-            'endereco' => $lojaPI->getAddress(),
-            'telefone' => $lojaPI->getTelephone(),
-            'criada' => $lojaPI->getEstablished(),
-            'abre' => $lojaPI->getOpenHour(),
-            'fecha' => $lojaPI->getCloseHour(),
-            'descricao' => $lojaPI->getDescription(),
+            'nome' => $form['ipt-nome'] ?? $lojaPI->getLoja()->getName(),
+            'endereco' => $form['ipt-endereco'] ?? $lojaPI->getAddress(),
+            'telefone' => $form['ipt-telefone'] ?? $lojaPI->getTelephone(),
+            'criada' => $form['ipt-criada'] ?? $lojaPI->getEstablished(),
+            'abre' => $form['ipt-abre'] ?? $lojaPI->getOpenHour(),
+            'fecha' => $form['ipt-fecha'] ?? $lojaPI->getCloseHour(),
+            'descricao' => $form['txt-descricao'] ?? $lojaPI->getDescription(),
         ];
         $data['view'] = 'loja/perfil/edit';
 
@@ -80,6 +83,8 @@ class PerfilController extends Controller
         $form->setItem('openHour')->getValueFrom('ipt-abre');
         $form->setItem('closeHour')->getValueFrom('ipt-fecha');
         $form->setItem('description')->getValueFrom('txt-descricao');
+
+        Flash::setForm($form->getArray());
 
         if ($form->id) {
             $lojaPI = LojaPiService::getLojaPiById($form->id);
@@ -101,10 +106,21 @@ class PerfilController extends Controller
         }
 
         if (isset($loja)) {
-            $successLoja = LojaService::salvar($loja->getId(), $loja->getCnpj(), $form->name, $loja->getEmail(), $loja->getSenha(), $loja->getDate());
+            $successLoja = LojaService::salvar(
+                $loja->getId(),
+                $loja->getCnpj(),
+                $form->name,
+                $loja->getEmail(),
+                $loja->getSenha(),
+                $loja->getSenha(),
+                $loja->getDate(),
+            );
         }
 
         if ($successLojaPI !== false && $successLoja !== false) {
+            Flash::clearForm();
+            Flash::setMessage('Operação realizada com sucesso');
+
             $this->redirect($_SERVER["BASE_URL"] . 'perfil');
         }
 

@@ -25,23 +25,23 @@ class CompraValidate extends Validator
         $this->setItem('id', $id);
         $this->setItem('cliente', $cliente);
         $this->setItem('loja', $loja);
-        $this->setItem('total', $total);
+        $this->setItem('total produto', $total);
         $this->setItem('data', $date);
         $this->setItem('data_vencimento', $dueDate);
         $this->setItem('pago', $paid);
 
         $this->getItem('id')->isNumeric()->or()->isNull();
-        $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class)->isPresent($cliente?->getId());
+        $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class, '')->isPresent($cliente?->getId(), '');
         $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
-        $this->getItem('total')->isRequired()->isNumeric()->isMinValue(0.01)->isMaxValue(10 ** 8 - 0.01);
+        $this->getItem('total produto')->isRequired()->isNumeric()->isMinValue(0.01, 'Nenhum produto adicionado')->isMaxValue(10 ** 8 - 0.01);
         $this->getItem('data')->isRequired()->isDate();
         $this->getItem('data_vencimento')->isRequired()->isDate();
         $this->getItem('pago')->isRequired()->isBool();
 
-        $clienteLoja = ClienteLojaService::getClienteLoja($loja->getId(), $cliente->getId()) ?: null;
-        $configLoja = ConfigService::getConfigByLoja($loja->getId()) ?: null;
+        $clienteLoja = ClienteLojaService::getClienteLoja($loja?->getId() ?? 0, $cliente?->getId() ?? 0) ?: null;
+        $configLoja = ConfigService::getConfigByLoja($loja?->getId()) ?: null;
         $maxCredit = $clienteLoja?->getMaxCredit() ?: $configLoja?->getMaxCredit() ?? 0;
-        $totalPendente = CompraService::getTotalCliente($loja->getId(), $cliente->getId(), 0, new \DateTime, false);
+        $totalPendente = CompraService::getTotalCliente($loja?->getId() ?? 0, $cliente?->getId() ?? 0, 0, new \DateTime, false);
 
         $this->setItem('credito', $total + $totalPendente);
 

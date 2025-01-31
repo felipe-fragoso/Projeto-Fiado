@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
 use Fiado\Models\Dao\ClienteDao;
@@ -49,7 +50,7 @@ class ClienteService
 
         return false;
     }
-    
+
     /**
      * @param $id
      * @param $cpf
@@ -58,13 +59,15 @@ class ClienteService
      * @param $password
      * @return mixed
      */
-    public static function salvar($id, $cpf, $name, $email, $password, $date = null)
+    public static function salvar($id, $cpf, $name, $email, $password, $conPassword, $date = null)
     {
         $date = $date ?? date('Y-m-d H:i:s');
-        
-        $validation = new ClienteValidate($id, $cpf, $name, $email, $password, $date);
+
+        $validation = new ClienteValidate($id, $cpf, $name, $email, $password, $conPassword, $date);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 

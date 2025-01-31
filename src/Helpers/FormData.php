@@ -35,4 +35,18 @@ class FormData
     {
         return $this->itens[$name]?->value;
     }
+
+    /**
+     * @return array
+     */
+    public function getArray()
+    {
+        $array = [];
+
+        foreach ($this->itens as $item) {
+            $array[$item->name] = $item->value;
+        }
+
+        return $array;
+    }
 }

@@ -23,7 +23,7 @@ class ClientePIValidate extends Validator
         $this->setItem('descricao', $description);
 
         $this->getItem('id')->isNull()->or()->isNumeric();
-        $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class)->isPresent($cliente?->getId());
+        $this->getItem('cliente')->isRequired('')->isInstanceOf(Cliente::class, '')->isPresent($cliente?->getId(), '');
         $this->getItem('endereco')->isRequired()->isMaxLength(200);
         $this->getItem('telefone')->isRequired()->isPhoneNumber()->isMaxLength(20);
         $this->getItem('descricao')->isMaxLength(65533);

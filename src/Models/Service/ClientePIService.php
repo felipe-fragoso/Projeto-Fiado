@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\LazyDataObj;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
@@ -51,11 +52,13 @@ class ClientePIService
      */
     public static function salvar($id, $idCliente, $address, $telephone, $description)
     {
-        $cliente = ClienteService::getClienteById($idCliente);
+        $cliente = ClienteService::getClienteById($idCliente) ?: null;
 
         $validation = new ClientePIValidate($id, $cliente, $address, $telephone, $description);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 
