@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\LazyDataObj;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
@@ -64,11 +65,13 @@ class ConfigService
      */
     public static function salvar($id, $idLoja, $payLimit, $maxCredit)
     {
-        $loja = LojaService::getLojaById($idLoja);
+        $loja = LojaService::getLojaById($idLoja) ?: null;
 
         $validation = new ConfigValidate($id, $loja, $payLimit, $maxCredit);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 

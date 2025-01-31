@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
 use Fiado\Models\Dao\LojaDao;
@@ -10,6 +11,9 @@ use Fiado\Models\Validation\LojaValidate;
 
 class LojaService
 {
+    /**
+     * @param array $arr
+     */
     private static function getLojaObj(array $arr)
     {
         return new Loja($arr['id'], $arr['cnpj'], $arr['name'], $arr['email'], $arr['senha'], $arr['date']);
@@ -51,13 +55,15 @@ class LojaService
      * @param Loja $store
      * @return mixed
      */
-    public static function salvar($id, $cnpj, $name, $email, $password, $date = null)
+    public static function salvar($id, $cnpj, $name, $email, $password, $conPassword, $date = null)
     {
         $date = $date ?? date('Y-m-d H:i:s');
 
-        $validation = new LojaValidate($id, $cnpj, $name, $email, $password, $date);
+        $validation = new LojaValidate($id, $cnpj, $name, $email, $password, $conPassword, $date);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 

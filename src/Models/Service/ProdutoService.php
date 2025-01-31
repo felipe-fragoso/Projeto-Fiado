@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\LazyDataObj;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
@@ -55,7 +56,7 @@ class ProdutoService
         $data = new ParamData(new ParamItem('first', $first, \PDO::PARAM_INT));
         $data->addData('last', $quantity, \PDO::PARAM_INT);
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
-        
+
         $arr = $dao->listProduto('id_loja = :id_loja LIMIT :first, :last', $data);
 
         if ($arr) {
@@ -73,7 +74,7 @@ class ProdutoService
     public static function listProdutoWith($idLoja, $text, $quantity)
     {
         $dao = new ProdutoDao();
-        
+
         $data = new ParamData(new ParamItem('name', "%$text%"));
         $data->addData('quantity', $quantity, \PDO::PARAM_INT);
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
@@ -97,12 +98,14 @@ class ProdutoService
      */
     public static function salvar($id, $idLoja, $name, $price, $active, $description)
     {
-        $loja = LojaService::getLojaById($idLoja);
+        $loja = LojaService::getLojaById($idLoja) ?: null;
         $date = date('Y-m-d H:i:s');
 
         $validation = new ProdutoValidate($id, $loja, $name, $price, $date, $description, $active);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 

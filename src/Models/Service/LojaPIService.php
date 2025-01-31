@@ -2,6 +2,7 @@
 
 namespace Fiado\Models\Service;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\LazyDataObj;
 use Fiado\Helpers\ParamData;
 use Fiado\Helpers\ParamItem;
@@ -73,11 +74,13 @@ class LojaPiService
      */
     public static function salvar($id, $idLoja, $address, $telephone, $description, $established, $openHour, $closeHour)
     {
-        $loja = LojaService::getLojaById($idLoja);
+        $loja = LojaService::getLojaById($idLoja) ?: null;
 
         $validation = new LojaPiValidate($id, $loja, $address, $telephone, $description, $established, $openHour, $closeHour);
 
         if ($validation->getQtyErrors()) {
+            Flash::setError($validation->getErrors());
+
             return false;
         }
 
