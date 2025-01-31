@@ -327,7 +327,7 @@ input[type=text]:disabled {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-#main-menu>header {
+#main-menu > header {
     width: 100%;
     font-size: 13px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -681,7 +681,7 @@ input[type=text]:disabled {
     padding-bottom: 20px;
 }
 
-.system-section>.section-header {
+.system-section > .section-header {
     font-size: 16px;
     color: #333;
     font-variant: small-caps;
@@ -951,4 +951,68 @@ input[type=text]:disabled {
 
 .add-produto-search input {
     padding: 0 4px !important;
+}
+
+/** Flashbar system **/
+
+.flashbar-base {
+    margin: 5px 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.flashbar-content {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.flashbar-content::before {
+    content: '(!)';
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-right: 8px;
+    font-size: 12px;
+    transform: scale(1.3);
+    color: #fff;
+}
+
+.flashbar-content > span {
+    width: 100%;
+}
+
+.flashbar-type-error {
+    background: #db5a4f;
+}
+
+.flashbar-type-warning {
+    background: #eec857;
+    color: #af0100;
+}
+
+.flashbar-type-warning::before {
+    color: #af0100;
+}
+
+.flashbar-type-success {
+    background: #69c9ab;
+}
+
+.flashbar-type-info {
+    background: #7cb8cf;
+}
+
+.flashbar-content-close {
+    transform: scale(1.4, 1.3);
+    align-self: center;
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
 }
