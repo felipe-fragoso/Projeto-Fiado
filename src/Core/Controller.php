@@ -2,17 +2,35 @@
 
 namespace Fiado\Core;
 
+use Fiado\Helpers\Flash;
 use Fiado\Helpers\Sanitizer;
 
 class Controller
 {
+    private ViewHelper $parsedViewData;
+    private ViewHelper $parsedFlash;
+
     /**
      * @param string $viewName
      * @param array $viewData
      */
     protected function load(string $viewName, array $viewData)
     {
-        $data = $this->parseData($viewData);
+        if (!isset($this->parsedViewData)) {
+            $this->parsedViewData = $this->parseData($viewData);
+        }
+
+        $data = $this->parsedViewData;
+
+        if (!isset($this->parsedFlash)) {
+            $this->parsedFlash = $this->parseData([
+                'message' => Flash::getMessage(),
+                'error' => Flash::getError(),
+                'form' => Flash::getForm(),
+            ]);
+        }
+
+        $flash = $this->parsedFlash;
 
         $include = $_SERVER["VIEWPATH"] . $viewName . '.php';
 
