@@ -103,7 +103,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isNull(string $errorMsg = 'Valor não nulo')
+    public function isNull(string $errorMsg = 'Não é nulo')
     {
         $this->errorCondition = !is_null($this->value);
         $this->checkError($errorMsg, ValidatorErrorType::InvalidValue);
@@ -115,7 +115,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isEmpty(string $errorMsg = 'Valor não vazio')
+    public function isEmpty(string $errorMsg = 'Não está vazio')
     {
         $this->errorCondition = $this->value !== '';
         $this->checkError($errorMsg, ValidatorErrorType::NotEmpty);
@@ -127,7 +127,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isRequired(string $errorMsg = 'Valor vazio')
+    public function isRequired(string $errorMsg = 'Está vazio')
     {
         $this->errorCondition = ($this->value === null || $this->value == '') && $this->value !== false;
         $this->checkError($errorMsg, ValidatorErrorType::Required);
@@ -140,7 +140,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isMaxValue(int | float $max, string $errorMsg = 'Valor excedeu o limite')
+    public function isMaxValue(int | float $max, string $errorMsg = 'Excedeu o limite')
     {
         $this->errorCondition = $this->value > $max;
         $this->checkError($errorMsg, ValidatorErrorType::ValueTooHigh);
@@ -155,7 +155,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isMinValue(int | float $min, string $errorMsg = 'Valor abaixo mínimo')
+    public function isMinValue(int | float $min, string $errorMsg = 'Abaixo do mínimo')
     {
         $this->errorCondition = $this->value < $min;
         $this->checkError($errorMsg, ValidatorErrorType::ValueTooLow);
@@ -195,7 +195,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isRange($min, $max, string $errorMsg = 'Valor fora do intervalo')
+    public function isRange($min, $max, string $errorMsg = 'Fora do intervalo')
     {
         $this->errorCondition = ($this->value < $min) || ($this->value > $max);
         $this->checkError($errorMsg, ValidatorErrorType::NotInRange);
@@ -207,7 +207,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isNumeric(string $errorMsg = 'Valor não numérico')
+    public function isNumeric(string $errorMsg = 'Não é numérico')
     {
         $this->errorCondition = !is_numeric($this->value);
         $this->checkError($errorMsg, ValidatorErrorType::NonNumeric);
@@ -219,7 +219,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isEmail(string $errorMsg = 'Email inválido')
+    public function isEmail(string $errorMsg = 'Não é um email válido')
     {
         $this->errorCondition = !filter_var($this->value, FILTER_VALIDATE_EMAIL);
         $this->checkError($errorMsg, ValidatorErrorType::InvalidEmail);
@@ -292,7 +292,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isCpf(string $errorMsg = 'CPF inválido')
+    public function isCpf(string $errorMsg = 'Não é um CPF válido')
     {
         $this->errorCondition = !$this->validateCpf();
         $this->checkError($errorMsg, ValidatorErrorType::InvalidCpf);
@@ -304,7 +304,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isCnpj(string $errorMsg = 'CNPJ inválido')
+    public function isCnpj(string $errorMsg = 'Não é um CNPJ válido')
     {
         $this->errorCondition = !$this->validateCnpj();
         $this->checkError($errorMsg, ValidatorErrorType::InvalidCnpj);
@@ -316,7 +316,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isDate(string $errorMsg = 'Data inválida')
+    public function isDate(string $errorMsg = 'Não é uma data válida')
     {
         $this->errorCondition = !strtotime((string) $this->value);
         $this->checkError($errorMsg, ValidatorErrorType::InvalidDate);
@@ -328,7 +328,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isPhoneNumber(string $errorMsg = 'Telefone inválido')
+    public function isPhoneNumber(string $errorMsg = 'Não é um telefone válido')
     {
         $this->errorCondition = !preg_match('/^\d{2}\d{8,9}$/', (string) $this->value);
         $this->checkError($errorMsg, ValidatorErrorType::InvalidePhoneNumber);
@@ -354,7 +354,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isEqual($value, string $errorMsg = 'Valor inválido')
+    public function isEqual($value, string $errorMsg = 'Inválido')
     {
         $this->errorCondition = $this->value !== $value;
         $this->checkError($errorMsg, ValidatorErrorType::NotEqual);
@@ -367,7 +367,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isUnique($occurrence, string $errorMsg = 'Valor não único')
+    public function isUnique($occurrence, string $errorMsg = 'Não é único')
     {
         $this->errorCondition = $occurrence != 0;
         $this->checkError($errorMsg, ValidatorErrorType::NotUnique);
@@ -380,7 +380,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isPresent($occurrence, string $errorMsg = 'Valor não existe')
+    public function isPresent($occurrence, string $errorMsg = 'Não existe')
     {
         $this->errorCondition = $occurrence < 1;
         $this->checkError($errorMsg, ValidatorErrorType::DoesNotExist);
@@ -393,7 +393,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isNew($occurrence, string $errorMsg = 'Valor já existe')
+    public function isNew($occurrence, string $errorMsg = 'Já existe')
     {
         $this->errorCondition = $occurrence > 0;
         $this->checkError($errorMsg, ValidatorErrorType::AlreadyExists);
@@ -406,7 +406,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isInstanceOf($class, string $errorMsg = 'Valor inválido')
+    public function isInstanceOf($class, string $errorMsg = 'Inválido')
     {
         $this->errorCondition = !($this->value instanceof $class);
         $this->checkError($errorMsg, ValidatorErrorType::InvalidInstance);
@@ -418,7 +418,7 @@ class ValidatorItem
      * @param string $errorMsg
      * @return ValidatorItem
      */
-    public function isBool(string $errorMsg = 'Valor não booleano')
+    public function isBool(string $errorMsg = 'Não é booleano')
     {
         $this->errorCondition = !is_bool($this->value);
         $this->checkError($errorMsg, ValidatorErrorType::NonBoolean);
