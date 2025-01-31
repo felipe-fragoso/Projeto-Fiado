@@ -45,11 +45,28 @@ class ProdutoService
     }
 
     /**
+     * @param $idLoja
+     * @return mixed
+     */
+    public static function totalProduto($idLoja)
+    {
+        $dao = new ProdutoDao();
+
+        $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
+
+        if ($arr = $dao->countProduto('id_loja = :id_loja', $data)) {
+            return $arr[0];
+        }
+
+        return false;
+    }
+
+    /**
      * @param $first
      * @param $quantity
      * @return mixed
      */
-    public static function listProduto($idLoja, $first, $quantity)
+    public static function listProduto($idLoja, int $first, int $quantity)
     {
         $dao = new ProdutoDao();
 
