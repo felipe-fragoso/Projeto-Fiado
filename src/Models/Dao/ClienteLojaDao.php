@@ -39,14 +39,26 @@ class ClienteLojaDao extends Model
     }
 
     /**
+     * @param string $condition
      * @param ParamData $data
      * @return mixed
      */
-    public function listCliente(ParamData $data)
+    public function listCliente(string $condition, ParamData $data)
     {
-        $statement = $this->select('cliente_loja', 'id_loja = :id_loja', $data);
+        $statement = $this->select('cliente_loja', $condition, $data);
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param ParamData $data
+     * @return mixed
+     */
+    public function countCliente(ParamData $data)
+    {
+        $statement = $this->select('cliente_loja', 'id_loja = :id_loja', $data, 'COUNT(*)');
+
+        return $statement->fetch(\PDO::FETCH_COLUMN);
     }
 
     /**
