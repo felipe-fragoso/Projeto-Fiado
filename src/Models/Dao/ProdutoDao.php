@@ -31,6 +31,18 @@ class ProdutoDao extends Model
     }
 
     /**
+     * @param string $condition
+     * @param ParamData $data
+     * @return mixed
+     */
+    public function countProduto(string $condition, ParamData $data)
+    {
+        $statement = $this->select('produto', $condition, $data, "COUNT(*)");
+
+        return $statement->fetch(\PDO::FETCH_COLUMN);
+    }
+
+    /**
      * @param array $data
      * @return mixed
      */

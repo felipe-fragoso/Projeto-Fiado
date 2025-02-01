@@ -46,12 +46,18 @@ class CompraService
 
     /**
      * @param int $idLoja
+     * @param int $first
+     * @param int $quantity
      */
-    public static function listCompraLoja(int $idLoja)
+    public static function listCompraLoja(int $idLoja, int $first, int $quantity)
     {
         $dao = new FiadoDao();
 
-        $arr = $dao->listFiado(new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT)));
+        $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
+        $data->addData('first', $first, \PDO::PARAM_INT);
+        $data->addData('last', $quantity, \PDO::PARAM_INT);
+
+        $arr = $dao->listFiado('id_loja = :id_loja LIMIT :first, :last', $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
@@ -63,7 +69,41 @@ class CompraService
     /**
      * @param int $idLoja
      */
-    public static function listCompraPendenteLoja(int $idLoja)
+    public static function totalCompraLoja(int $idLoja)
+    {
+        $dao = new FiadoDao();
+
+        return $dao->countFiado(new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT)));
+    }
+
+    /**
+     * @param int $idLoja
+     * @param int $first
+     * @param int $quantity
+     */
+    public static function listCompraPendenteLoja(int $idLoja, int $first, int $quantity)
+    {
+        $dao = new FiadoDao();
+
+        $paramData = new ParamData(null);
+        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
+        $paramData->addData('paid', false, \PDO::PARAM_INT);
+        $paramData->addData('first', $first, \PDO::PARAM_INT);
+        $paramData->addData('last', $quantity, \PDO::PARAM_INT);
+
+        $arr = $dao->listFiadoPendente('id_loja = :id_loja AND paid = :paid LIMIT :first, :last', $paramData);
+
+        if ($arr) {
+            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int $idLoja
+     */
+    public static function totalCompraPendenteLoja(int $idLoja)
     {
         $dao = new FiadoDao();
 
@@ -71,13 +111,7 @@ class CompraService
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('paid', false, \PDO::PARAM_INT);
 
-        $arr = $dao->listFiadoPendente($paramData);
-
-        if ($arr) {
-            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
-        }
-
-        return false;
+        return $dao->countFiadoPendente($paramData);
     }
 
     /**

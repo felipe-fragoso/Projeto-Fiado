@@ -47,38 +47,26 @@
                         if ($data->list):
                             /** @var Fiado\Core\ViewHelper $item */
                             foreach ($data->list as $item):
-                        ?>
+                    ?>
                     <tr>
                         <td>
-                            <a href="<?=$_SERVER["BASE_URL"]?>cliente/ver/<?= $item->idCliente ?>">
-                                <?= $item->nome ?>
+                            <a href="<?=$_SERVER["BASE_URL"]?>cliente/ver/<?=$item->idCliente?>">
+                                <?=$item->nome?>
                             </a>
                         </td>
-                        <td>R$ <?= $item->formatToReal('total') ?></td>
-                        <td><?= $item->dateToBr('data') ?></td>
-                        <td><?= $item->dateToBr('vencimento') ?></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?= $item->id ?>">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?= $item->id ?>">Encerrar</a></td>
+                        <td>R$ <?=$item->formatToReal('total')?></td>
+                        <td><?=$item->dateToBr('data')?></td>
+                        <td><?=$item->dateToBr('vencimento')?></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->id?>">Detalhe</a></td>
+                        <td><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->id?>">Encerrar</a></td>
                     </tr>
                     <?php
                             endforeach;
-                            endif;
-                        ?>
+                        endif;
+                    ?>
                 </tbody>
             </table>
-            <div class="pagination">
-                <ol>
-                    <li><a href="">Primeira</a></li>
-                    <li><a href="">Anterior</a></li>
-                    <li><span>1</span></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">Próximo</a></li>
-                    <li><a href="">Última</a></li>
-                </ol>
-            </div>
+            <?php $this->load('components/pagination', $viewData)?>
         </div>
     </section>
 </main>

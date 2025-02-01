@@ -15,8 +15,8 @@ class HomeController extends Controller
     public function index()
     {
         $idLoja = Auth::getId();
-        $ultimasCompras = CompraService::listCompraLoja($idLoja);
-        $ultimasPendentes = CompraService::listCompraPendenteLoja($idLoja);
+        $ultimasCompras = CompraService::listCompraLoja($idLoja, 0, 10);
+        $ultimasPendentes = CompraService::listCompraPendenteLoja($idLoja, 0, 10);
 
         $dayGraph = new BarGraph(new GetCompraGraph($idLoja), IntervalGraphType::Day);
         $monthGraphPending = new BarGraph(new GetCompraGraph($idLoja, false));

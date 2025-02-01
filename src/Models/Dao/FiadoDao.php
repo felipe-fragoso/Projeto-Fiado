@@ -8,14 +8,26 @@ use Fiado\Helpers\ParamData;
 class FiadoDao extends Model
 {
     /**
+     * @param string $condition
      * @param ParamData $data
      * @return mixed
      */
-    public function listFiado(ParamData $data)
+    public function listFiado(string $condition, ParamData $data)
     {
-        $statement = $this->select('fiado', 'id_loja = :id_loja', $data);
+        $statement = $this->select('fiado', $condition, $data);
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param ParamData $data
+     * @return mixed
+     */
+    public function countFiado(ParamData $data)
+    {
+        $statement = $this->select('fiado', 'id_loja = :id_loja', $data, 'COUNT(*)');
+
+        return $statement->fetch(\PDO::FETCH_COLUMN);
     }
 
     /**
@@ -30,14 +42,26 @@ class FiadoDao extends Model
     }
 
     /**
+     * @param $condition
      * @param ParamData $data
      * @return mixed
      */
-    public function listFiadoPendente(ParamData $data)
+    public function listFiadoPendente($condition, ParamData $data)
     {
-        $statement = $this->select('fiado', 'id_loja = :id_loja AND paid = :paid', $data);
+        $statement = $this->select('fiado', $condition, $data);
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param ParamData $data
+     * @return mixed
+     */
+    public function countFiadoPendente(ParamData $data)
+    {
+        $statement = $this->select('fiado', 'id_loja = :id_loja AND paid = :paid', $data, 'COUNT(*)');
+
+        return $statement->fetch(\PDO::FETCH_COLUMN);
     }
 
     /**

@@ -7,6 +7,7 @@ use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
+use Fiado\Helpers\Pagination;
 use Fiado\Models\Entity\Produto;
 use Fiado\Models\Service\ProdutoService;
 
@@ -15,6 +16,7 @@ class ProdutoController extends Controller
     public function index()
     {
         $idLoja = Auth::getId();
+        $pagination = new Pagination(ProdutoService::totalProduto($idLoja), $_SERVER["BASE_URL"] . 'produto');
 
         $data['produtos'] = array_map(fn(Produto $produto) => [
             'id' => $produto->getId(),
@@ -22,7 +24,8 @@ class ProdutoController extends Controller
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
-        ], ProdutoService::listProduto($idLoja, 0, 9) ?: []);
+        ], ProdutoService::listProduto($idLoja, $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
+        $data['pagination'] = $pagination;
         $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);

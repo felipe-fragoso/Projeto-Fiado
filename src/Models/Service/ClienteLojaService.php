@@ -66,11 +66,27 @@ class ClienteLojaService
     /**
      * @param int $loja
      */
-    public static function listClienteLoja(int $loja)
+    public static function totalClienteLoja(int $loja)
     {
         $dao = new ClienteLojaDao();
 
-        $arr = $dao->listCliente(new ParamData(new ParamItem('id_loja', $loja)));
+        return $dao->countCliente(new ParamData(new ParamItem('id_loja', $loja)));
+    }
+
+    /**
+     * @param int $loja
+     * @param int $first
+     * @param int $quantity
+     */
+    public static function listClienteLoja(int $loja, int $first, int $quantity)
+    {
+        $dao = new ClienteLojaDao();
+
+        $data = new ParamData(new ParamItem('id_loja', $loja, \PDO::PARAM_INT));
+        $data->addData('first', $first, \PDO::PARAM_INT);
+        $data->addData('last', $quantity, \PDO::PARAM_INT);
+
+        $arr = $dao->listCliente('id_loja = :id_loja LIMIT :first, :last', $data);
 
         if ($arr) {
             return array_map(function ($item) {
