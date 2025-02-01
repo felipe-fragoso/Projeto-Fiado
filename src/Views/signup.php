@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="selecao-form-box">
-                        <?php $this->load('components/flashBar', $viewData)?>
+                        <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
                         <div class="selecao-form-um">
                             <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/salvar">
                                 <label for="ipt-cpf">CPF:</label>

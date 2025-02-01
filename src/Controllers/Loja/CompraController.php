@@ -47,7 +47,7 @@ class CompraController extends Controller
             'list' => $list,
         ];
         $data['view'] = 'loja/compra/home';
-        $data['pagination'] = $pagination;
+        $data['compraPagination'] = $pagination;
 
         $this->load('loja/template', $data);
     }
@@ -77,7 +77,7 @@ class CompraController extends Controller
             }, CompraService::listCompraPendenteLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []),
         ];
         $data['view'] = 'loja/compra/pending';
-        $data['pagination'] = $pagination;
+        $data['pendentePagination'] = $pagination;
 
         $this->load('loja/template', $data);
     }

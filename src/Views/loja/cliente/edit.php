@@ -5,7 +5,7 @@
         </header>
 
         <div class="form-box">
-            <?php $this->load('components/flashBar', $viewData)?>
+            <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
             <form method="post" action="<?=$_SERVER["BASE_URL"]?>cliente/salvar">
                 <div class="full-input">
                     <label for="ipt-email">Email:</label>

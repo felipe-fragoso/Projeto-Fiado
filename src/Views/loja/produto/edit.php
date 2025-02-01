@@ -4,7 +4,7 @@
             <h2 class="page-header">Edição de Produto</h2>
         </header>
         <form method="post" action="<?=$_SERVER["BASE_URL"]?>produto/salvar" class="form-box">
-            <?php $this->load('components/flashBar', $viewData)?>
+            <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
             <div class="full-input">
                 <label for="ipt-nome">Nome:</label>
                 <input type="text" name="ipt-nome" id="ipt-nome" value="<?=$data->nome?>">

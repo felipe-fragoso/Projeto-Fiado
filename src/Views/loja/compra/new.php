@@ -4,7 +4,7 @@
             <h2 class="page-header">Cadastro de Fiado</h2>
         </header>
         <form id="form-compra" method="POST" action="<?=$_SERVER["BASE_URL"]?>compra/salvar" class="form-box">
-            <?php $this->load('components/flashBar', $viewData)?>
+            <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
             <div class="full-input">
                 <label for="sel-cliente">Cliente:</label>
                 <select name="sel-cliente" id="sel-cliente" class="select-searchable">

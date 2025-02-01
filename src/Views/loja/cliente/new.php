@@ -16,7 +16,7 @@
                         onchange="mudaSelecao(this)" <?=$data->tipo === 'c' ? 'checked' : ''?> />
                 </div>
             </div>
-            <?php $this->load('components/flashBar', $viewData)?>
+            <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
             <div class="selecao-form-box">
                 <div class="selecao-form-um">
                     <form method="post" action="<?=$_SERVER["BASE_URL"]?>cliente/salvar">
