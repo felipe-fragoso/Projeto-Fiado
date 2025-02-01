@@ -8,6 +8,7 @@ use Fiado\Enums\FormDataType;
 use Fiado\Enums\InputType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
+use Fiado\Helpers\Pagination;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Service\ClienteLojaService;
 use Fiado\Models\Service\ClientePIService;
@@ -20,7 +21,9 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $loja = LojaService::getLojaById(Auth::getId());
+        $idLoja = Auth::getId();
+        $pagination = new Pagination(ClienteLojaService::totalClienteLoja($idLoja), $_SERVER["BASE_URL"] . 'cliente');
+        $loja = LojaService::getLojaById($idLoja);
 
         $data['list'] = array_map(fn(ClienteLoja $clienteLoja) => [
             'id' => $clienteLoja->getId(),
@@ -28,8 +31,9 @@ class ClienteController extends Controller
             'email' => $clienteLoja->getCliente()->getEmail(),
             'ativo' => $clienteLoja->getActive(),
             'data' => $clienteLoja->getCliente()->getDate(),
-        ], ClienteLojaService::listClienteLoja($loja->getId()) ?: []);
+        ], ClienteLojaService::listClienteLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
         $data['view'] = 'loja/cliente/list';
+        $data['pagination'] = $pagination;
 
         $this->load('loja/template', $data);
     }

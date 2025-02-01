@@ -56,19 +56,7 @@
                         ?>
                 </tbody>
             </table>
-            <div class="pagination">
-                <ol>
-                    <li><a href="">Primeira</a></li>
-                    <li><a href="">Anterior</a></li>
-                    <li><span>1</span></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">Próximo</a></li>
-                    <li><a href="">Última</a></li>
-                </ol>
-            </div>
+            <?php $this->load('components/pagination', $viewData)?>
         </div>
     </section>
 </main>
