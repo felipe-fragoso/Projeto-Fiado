@@ -25,7 +25,7 @@ class ProdutoController extends Controller
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
         ], ProdutoService::listProduto($idLoja, $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
-        $data['pagination'] = $pagination;
+        $data['produtoPagination'] = $pagination;
         $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);

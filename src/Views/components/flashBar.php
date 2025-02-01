@@ -1,19 +1,19 @@
 <?php
-    if (isset($flash->message)):
+    if (isset($message)):
 ?>
 <div class="flashbar-base flashbar-msg">
-    <div class="flashbar-content flashbar-type-<?=strtolower($flash->message->type)?>">
-        <span><?=$flash->message->message?></span>
+    <div class="flashbar-content flashbar-type-<?=strtolower($message->type)?>">
+        <span><?=$message->message?></span>
         <div class="flashbar-content-close" onclick="this.parentNode.remove()">x</div>
     </div>
 </div>
 <?php
     endif;
-    if (isset($flash->error)):
+    if (isset($error)):
 ?>
 <div class="flashbar-base flashbar-error">
     <?php
-        foreach ($flash->error as $key => $error):
+        foreach ($error as $key => $error):
             foreach ($error as $errorMessage):
                 if ($errorMessage):
             ?>

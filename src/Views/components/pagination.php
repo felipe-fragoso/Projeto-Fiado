@@ -1,14 +1,14 @@
 <div class="pagination">
     <ol>
         <?php
-            if ($data->pagination->hasPrevious()):
+            if ($pagination->hasPrevious()):
         ?>
-        <li><a href="<?=$data->pagination->getFirstPage()?>">Primeira</a></li>
-        <li><a href="<?=$data->pagination->getPreviousPage()?>">Anterior</a></li>
+        <li><a href="<?=$pagination->getFirstPage()?>">Primeira</a></li>
+        <li><a href="<?=$pagination->getPreviousPage()?>">Anterior</a></li>
         <?php
             endif;
-            foreach ($data->pagination->getPages() as $number => $url):
-                if ($data->pagination->isCurrent($number)):
+            foreach ($pagination->getPages() as $number => $url):
+                if ($pagination->isCurrent($number)):
         ?>
         <li><span><?=$number?></span></li>
         <?php
@@ -18,10 +18,10 @@
         <?php
                 endif;
             endforeach;
-            if ($data->pagination->hasNext()):
+            if ($pagination->hasNext()):
         ?>
-        <li><a href="<?=$data->pagination->getNextPage()?>">Próximo</a></li>
-        <li><a href="<?=$data->pagination->getLastPage()?>">Última</a></li>
+        <li><a href="<?=$pagination->getNextPage()?>">Próximo</a></li>
+        <li><a href="<?=$pagination->getLastPage()?>">Última</a></li>
         <?php
             endif;
         ?>

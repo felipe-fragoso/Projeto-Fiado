@@ -33,7 +33,7 @@ class ClienteController extends Controller
             'data' => $clienteLoja->getCliente()->getDate(),
         ], ClienteLojaService::listClienteLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
         $data['view'] = 'loja/cliente/list';
-        $data['pagination'] = $pagination;
+        $data['clientePagination'] = $pagination;
 
         $this->load('loja/template', $data);
     }

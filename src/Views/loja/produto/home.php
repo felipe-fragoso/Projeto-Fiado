@@ -6,7 +6,7 @@
         <header class="section-header section-header-padding">
             <h2>Produtos</h2>
         </header>
-        <?php $this->load('components/flashBar', $viewData)?>
+        <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
         <div class="table-box">
             <table>
                 <thead>
@@ -53,7 +53,7 @@
                     ?>
                 </tbody>
             </table>
-            <?php $this->load('components/pagination', $viewData)?>
+            <?php $this->loadComponent('pagination', ['pagination' => $data->produtoPagination])?>
         </div>
     </section>
 </main>

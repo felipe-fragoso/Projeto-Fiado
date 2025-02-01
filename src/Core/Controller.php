@@ -20,8 +20,6 @@ class Controller
             $this->parsedViewData = $this->parseData($viewData);
         }
 
-        $data = $this->parsedViewData;
-
         if (!isset($this->parsedFlash)) {
             $this->parsedFlash = $this->parseData([
                 'message' => Flash::getMessage(),
@@ -30,9 +28,25 @@ class Controller
             ]);
         }
 
+        $data = $this->parsedViewData;
         $flash = $this->parsedFlash;
 
         $include = $_SERVER["VIEWPATH"] . $viewName . '.php';
+
+        if (file_exists($include)) {
+            include $include;
+        }
+    }
+
+    /**
+     * @param string $componentName
+     * @param array $componentData
+     */
+    protected function loadComponent(string $componentName, array $componentData)
+    {
+        extract($componentData);
+
+        $include = $_SERVER["COMPONENTPATH"] . $componentName . '.php';
 
         if (file_exists($include)) {
             include $include;

@@ -66,7 +66,7 @@
                     ?>
                 </tbody>
             </table>
-            <?php $this->load('components/pagination', $viewData)?>
+            <?php $this->loadComponent('pagination', ['pagination' => $data->pendentePagination])?>
         </div>
     </section>
 </main>

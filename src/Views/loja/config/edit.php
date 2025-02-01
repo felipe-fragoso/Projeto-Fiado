@@ -5,7 +5,7 @@
             <h3>Editar Minhas Configurações</h3>
         </header>
         <div class="form-box">
-            <?php $this->load('components/flashBar', $viewData)?>
+            <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
             <form method="POST" action="<?=$_SERVER["BASE_URL"]?>config/salvar">
                 <div class="full-input">
                     <label for="ipt-prazo">Prazo(Dias):</label>
