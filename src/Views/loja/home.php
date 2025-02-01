@@ -8,9 +8,11 @@
             <a class="carrossel-button carrossel-left" onclick="carrossel(this)"></a>
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
-                <?php if ($data->ultimasCompras):
-                    /** @var Fiado\Core\ViewHelper $compra */
-                    foreach ($data->ultimasCompras as $compra): ?>
+                <?php
+                    if ($data->ultimasCompras):
+                        /** @var Fiado\Core\ViewHelper $compra */
+                        foreach ($data->ultimasCompras as $compra):
+                ?>
                 <div class="card">
                     <h3 class="card-title">Compra Cliente: <?=$compra->id?></h3>
                     <div class="card-content">
@@ -35,9 +37,11 @@
             <a class="carrossel-button carrossel-left" onclick="carrossel(this)"></a>
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
-                <?php if ($data->ultimasPendentes):
-                    /** @var Fiado\Core\ViewHelper $compra */
-                    foreach ($data->ultimasPendentes as $compra): ?>
+                <?php
+                    if ($data->ultimasPendentes):
+                        /** @var Fiado\Core\ViewHelper $compra */
+                        foreach ($data->ultimasPendentes as $compra):
+                ?>
                 <div class="card">
                     <h3 class="card-title">Compra Cliente: <?=$compra->id?></h3>
                     <div class="card-content">
@@ -58,66 +62,32 @@
             <h2>Meus dados</h2>
         </header>
         <div class="list-card">
-            <div class="card card-medium">
-                <h3 class="card-title">Ultimas dias</h3>
-                <div class="card-content">
-                    <p><b>Total:</b> R$ <?=$data->graficos->dias->getTotal()?></p>
-                    <div class="grafico-barra">
-                        <div class="g-moeda"><?=$data->graficos->dias->getMoeda()?></div>
-                        <?php
-                            foreach ($data->graficos->dias->getBars() as $bar):
-                        ?>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo"><?=$bar->name?></div>
-                            <div class="g-barra-valor"><?=$bar->value ?: 0?></div>
-                        </div>
-                        <?php
-                            endforeach;
-                        ?>
-                    </div>
-                    <p><a href="<?=$_SERVER["BASE_URL"]?>compra">Mais Detalhes</a></p>
-                </div>
-            </div>
-            <div class="card card-medium">
-                <h3 class="card-title">Valores pendentes</h3>
-                <div class="card-content">
-                    <p><b>Total:</b> R$ <?=$data->graficos->mesPendente->getTotal()?></p>
-                    <div class="grafico-barra">
-                        <div class="g-moeda"><?=$data->graficos->mesPendente->getMoeda()?></div>
-                        <?php
-                            foreach ($data->graficos->mesPendente->getBars() as $bar):
-                        ?>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo"><?=$bar->name?></div>
-                            <div class="g-barra-valor"><?=$bar->value ?: 0?></div>
-                        </div>
-                        <?php
-                            endforeach;
-                        ?>
-                    </div>
-                    <p><a href="<?=$_SERVER["BASE_URL"]?>compra/pendente">Mais Detalhes</a></p>
-                </div>
-            </div>
-            <div class="card card-medium">
-                <h3 class="card-title">Compras</h3>
-                <div class="card-content">
-                    <p><b>Total:</b> R$ <?=$data->graficos->mes->getTotal()?></p>
-                    <div class="grafico-barra">
-                        <div class="g-moeda"><?=$data->graficos->mes->getMoeda()?></div>
-                        <?php
-                            foreach ($data->graficos->mes->getBars() as $bar):
-                        ?>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo"><?=$bar->name?></div>
-                            <div class="g-barra-valor"><?=$bar->value ?: 0?></div>
-                        </div>
-                        <?php
-                            endforeach;
-                        ?>
-                    </div>
-                    <p><a href="<?=$_SERVER["BASE_URL"]?>compra">Mais Detalhes</a></p>
-                </div>
-            </div>
+            <?php
+                $this->loadComponent(
+                    'barGraph',
+                    [
+                        'title' => 'Últimos dias',
+                        'url' => $_SERVER["BASE_URL"] . 'compra',
+                        'graph' => $data->graficos->dias,
+                    ]
+                );
+                $this->loadComponent(
+                    'barGraph',
+                    [
+                        'title' => 'Valores pendentes',
+                        'url' => $_SERVER["BASE_URL"] . 'compra/pendente',
+                        'graph' => $data->graficos->mesPendente,
+                    ]
+                );
+                $this->loadComponent(
+                    'barGraph',
+                    [
+                        'title' => 'Compras',
+                        'url' => $_SERVER["BASE_URL"] . 'compra',
+                        'graph' => $data->graficos->mes,
+                    ]
+                );
+            ?>
         </div>
     </section>
 </main>
