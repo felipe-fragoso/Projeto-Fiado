@@ -7,6 +7,7 @@ use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
+use Fiado\Helpers\Pagination;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Entity\FiadoItem;
@@ -20,7 +21,9 @@ class CompraController extends Controller
 {
     public function index()
     {
-        $loja = LojaService::getLojaById(Auth::getId());
+        $idLoja = Auth::getId();
+        $loja = LojaService::getLojaById($idLoja);
+        $pagination = new Pagination(CompraService::totalCompraLoja($idLoja), $_SERVER["BASE_URL"] . 'compra');
 
         $list = array_map(function (Fiado $item) {
             $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
@@ -33,7 +36,7 @@ class CompraController extends Controller
                 'data' => $item->getDate(),
                 'pago' => $item->getPaid(),
             ];
-        }, CompraService::listCompraLoja($loja->getId()) ?: []);
+        }, CompraService::listCompraLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
 
         $data = [
             'email' => $loja->getEmail(),
@@ -44,13 +47,16 @@ class CompraController extends Controller
             'list' => $list,
         ];
         $data['view'] = 'loja/compra/home';
+        $data['pagination'] = $pagination;
 
         $this->load('loja/template', $data);
     }
 
     public function pendente()
     {
-        $loja = LojaService::getLojaById(Auth::getId());
+        $idLoja = Auth::getId();
+        $loja = LojaService::getLojaById($idLoja);
+        $pagination = new Pagination(CompraService::totalCompraPendenteLoja($idLoja), $_SERVER["BASE_URL"] . 'compra/pendente');
 
         $data = [
             'email' => $loja->getEmail(),
@@ -68,9 +74,10 @@ class CompraController extends Controller
                     'data' => $item->getDate(),
                     'vencimento' => $item->getDueDate(),
                 ];
-            }, CompraService::listCompraPendenteLoja($loja->getId()) ?: []),
+            }, CompraService::listCompraPendenteLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []),
         ];
         $data['view'] = 'loja/compra/pending';
+        $data['pagination'] = $pagination;
 
         $this->load('loja/template', $data);
     }
