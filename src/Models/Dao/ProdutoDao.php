@@ -39,7 +39,7 @@ class ProdutoDao extends Model
     {
         $statement = $this->select('produto', $condition, $data, "COUNT(*)");
 
-        return $statement->fetch(\PDO::FETCH_NUM);
+        return $statement->fetch(\PDO::FETCH_COLUMN);
     }
 
     /**

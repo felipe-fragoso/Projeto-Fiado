@@ -54,11 +54,7 @@ class ProdutoService
 
         $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
 
-        if ($arr = $dao->countProduto('id_loja = :id_loja', $data)) {
-            return $arr[0];
-        }
-
-        return false;
+        return $dao->countProduto('id_loja = :id_loja', $data);
     }
 
     /**
