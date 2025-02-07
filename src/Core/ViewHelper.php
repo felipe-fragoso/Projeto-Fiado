@@ -2,6 +2,8 @@
 
 namespace Fiado\Core;
 
+use Fiado\Helpers\SqidsWrapper;
+
 class ViewHelper extends \stdClass
 {
     /**
@@ -53,6 +55,16 @@ class ViewHelper extends \stdClass
     {
         if (property_exists($this, $property)) {
             return preg_replace('/(\d{2})(\d{4,5})(\d{4})/', '($1) $2-$3', $this->$property);
+        }
+    }
+
+    /**
+     * @param string $property
+     */
+    public function formatIdx(string $property)
+    {
+        if (property_exists($this, $property)) {
+            return SqidsWrapper::encode($this->$property);
         }
     }
 }
