@@ -9,6 +9,7 @@ use Fiado\Enums\InputType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
+use Fiado\Helpers\SqidsWrapper;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Service\ClienteLojaService;
 use Fiado\Models\Service\ClientePIService;
@@ -39,10 +40,12 @@ class ClienteController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      */
-    public function ver(int $id = null)
+    public function ver($id = null)
     {
+        $id = SqidsWrapper::decode($id);
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
@@ -74,10 +77,12 @@ class ClienteController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      */
-    public function detalhe(int $id = null)
+    public function detalhe($id = null)
     {
+        $id = SqidsWrapper::decode($id);
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
@@ -116,10 +121,12 @@ class ClienteController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      */
-    public function editar(int $id = null)
+    public function editar($id = null)
     {
+        $id = SqidsWrapper::decode($id);
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
@@ -163,7 +170,7 @@ class ClienteController extends Controller
 
         Flash::setForm($form->getArray());
 
-        $page = $form->id ? "/editar/{$form->id}" : '/novo';
+        $page = $form->id ? '/editar/' . SqidsWrapper::encode($form->id) : '/novo';
         $type = $form->id ? '' : '?tipo=' . $form->type;
         $baseUrl = $_SERVER["BASE_URL"] . 'cliente';
         $backUrl = $baseUrl . $page . $type;

@@ -8,6 +8,7 @@ use Fiado\Enums\FormDataType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
+use Fiado\Helpers\SqidsWrapper;
 use Fiado\Models\Entity\Produto;
 use Fiado\Models\Service\ProdutoService;
 
@@ -39,10 +40,12 @@ class ProdutoController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      */
-    public function editar(int $id = null)
+    public function editar($id = null)
     {
+        $id = SqidsWrapper::decode($id);
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
@@ -68,10 +71,12 @@ class ProdutoController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      */
-    public function detalhe(int $id = null)
+    public function detalhe($id = null)
     {
+        $id = SqidsWrapper::decode($id);
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
@@ -86,7 +91,7 @@ class ProdutoController extends Controller
             'nome' => $produto->getName(),
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
-            'descricao' => $produto->getDescription(),
+            'descricao' => $produto->getDescription() ?: 'Sem descrição',
         ];
         $data['view'] = 'loja/produto/detail';
 
@@ -114,7 +119,7 @@ class ProdutoController extends Controller
         }
 
         if ($form->id) {
-            $this->redirect($_SERVER["BASE_URL"] . 'produto/editar/' . $form->id);
+            $this->redirect($_SERVER["BASE_URL"] . 'produto/editar/' . SqidsWrapper::encode($form->id));
         }
 
         $this->redirect($_SERVER["BASE_URL"] . 'produto/novo');
@@ -133,6 +138,7 @@ class ProdutoController extends Controller
             $list = array_map(function (Produto $item) {
                 return [
                     'id' => $item->getId(),
+                    'idEncoded' => SqidsWrapper::encode($item->getId()),
                     'nome' => $item->getName(),
                     'preco' => $item->getPrice(),
                 ];
