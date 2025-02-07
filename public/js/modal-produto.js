@@ -94,13 +94,13 @@ class ProdutoTable {
             let total = this.createSpan(formatReal(precoInput.value * quantidadeInput.value));
             let addBtn = this.createInput('Adicionar', 'button', 'new-btn basic-btn');
 
-            cells.push(new ItemCellTable(this.createLink(produto.nome, '/produto/detalhe/' + produto.id)));
+            cells.push(new ItemCellTable(this.createLink(produto.nome, '/produto/detalhe/' + produto.idEncoded)));
             cells.push(new ItemCellTable(this.wrapInputWithLabel("R$", precoInput, "table-form-input")));
             cells.push(new ItemCellTable(quantidadeInput));
             cells.push(new ItemCellTable(total));
             cells.push(new ItemCellTable(addBtn));
 
-            addBtn.addEventListener('click', () => this.addProduto(produto.id, produto.nome, precoInput.value, quantidadeInput.value));
+            addBtn.addEventListener('click', () => this.addProduto(produto.id, produto.idEncoded, produto.nome, precoInput.value, quantidadeInput.value));
             precoInput.addEventListener('input', () => total.textContent = formatReal(precoInput.value * quantidadeInput.value));
             quantidadeInput.addEventListener('input', () => total.textContent = formatReal(precoInput.value * quantidadeInput.value));
 
@@ -120,7 +120,7 @@ class ProdutoTable {
 
             let delBtn = this.createInput('Excluir', 'button', 'del-btn basic-btn');
 
-            cells.push(new ItemCellTable(this.createLink(produto.nome, '/produto/detalhe/' + produto.id)));
+            cells.push(new ItemCellTable(this.createLink(produto.nome, '/produto/detalhe/' + produto.idEncoded)));
             cells.push(new ItemCellTable(this.createSpan(formatReal(produto.preco))));
             cells.push(new ItemCellTable(this.createSpan(produto.quantidade)));
             cells.push(new ItemCellTable(this.createSpan(formatReal(produto.preco * produto.quantidade))));
@@ -145,7 +145,7 @@ class ProdutoTable {
             let editBtn = this.createInput('Editar', 'button', 'new-btn basic-btn');
             let delBtn = this.createInput('Excluir', 'button', 'del-btn basic-btn');
 
-            cells.push(new ItemCellTable(this.createLink(produto.nome, '/produto/detalhe/' + produto.id)));
+            cells.push(new ItemCellTable(this.createLink(produto.nome, '/produto/detalhe/' + produto.idEncoded)));
             cells.push(new ItemCellTable(this.createSpan(formatReal(produto.preco))));
             cells.push(new ItemCellTable(this.createSpan(produto.quantidade)));
             cells.push(new ItemCellTable(this.createSpan(formatReal(produto.preco * produto.quantidade))));
@@ -197,13 +197,13 @@ class ProdutoTable {
         this.updateSearchTable();
     }
 
-    addProduto(id, nome, preco, quantidade) {
+    addProduto(id, idEncoded, nome, preco, quantidade) {
         let idx = this.list.findIndex((produto) => produto.id === id);
 
         if (idx !== -1) {
             this.list[idx].quantidade = Number(this.list[idx].quantidade) + Number(quantidade);
         } else {
-            this.list.push({ id: id, nome: nome, preco: preco, quantidade: quantidade });
+            this.list.push({ id: id, idEncoded: idEncoded, nome: nome, preco: preco, quantidade: quantidade });
         }
 
         this.updateListInput(this.list);

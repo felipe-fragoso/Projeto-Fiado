@@ -8,6 +8,7 @@ use Fiado\Enums\FormDataType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
+use Fiado\Helpers\SqidsWrapper;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Entity\FiadoItem;
@@ -83,10 +84,12 @@ class CompraController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param $id
      */
-    public function detalhe(int $id = null)
+    public function detalhe($id = null)
     {
+        $id = SqidsWrapper::decode($id);
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra');
         }

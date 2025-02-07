@@ -14,12 +14,16 @@
                         foreach ($data->ultimasCompras as $compra):
                 ?>
                 <div class="card">
-                    <h3 class="card-title">Compra Cliente: <?=$compra->id?></h3>
+                    <h3 class="card-title">Compra Cliente: <?=$compra->formatIdx('id')?></h3>
                     <div class="card-content">
                         <p><b>Valor:</b> R$ <?=$compra->formatToReal('total')?></p>
                         <p><b>Data:</b> <?=$compra->dateToBr('data')?></p>
                         <p><b>Pago:</b> <?=$compra->pago ? 'Sim' : 'Não'?></p>
-                        <p><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->id?>">Mais Detalhes</a></p>
+                        <p>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->formatIdx('id')?>">
+                                Mais Detalhes
+                            </a>
+                        </p>
                     </div>
                 </div>
                 <?php
@@ -43,11 +47,15 @@
                         foreach ($data->ultimasPendentes as $compra):
                 ?>
                 <div class="card">
-                    <h3 class="card-title">Compra Cliente: <?=$compra->id?></h3>
+                    <h3 class="card-title">Compra Cliente: <?=$compra->formatIdx('id')?></h3>
                     <div class="card-content">
                         <p><b>Valor:</b> R$ <?=$compra->formatToReal('total')?></p>
                         <p><b>Data:</b> <?=$compra->dateToBr('data')?></p>
-                        <p><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->id?>">Mais Detalhes</a></p>
+                        <p>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->formatIdx('id')?>">
+                                Mais Detalhes
+                            </a>
+                        </p>
                     </div>
                 </div>
                 <?php

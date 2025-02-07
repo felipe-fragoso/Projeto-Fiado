@@ -39,13 +39,22 @@
                             foreach ($data->produtos as $produto):
                     ?>
                     <tr>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?=$produto->id?>"><?=$produto->nome?></a>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?=$produto->formatIdx('id')?>">
+                                <?=$produto->nome?>
+                            </a>
                         </td>
                         <td>R$ <?=$produto->formatToReal('preco')?></td>
                         <td><?=$produto->dateToBr('data')?></td>
                         <td><?=$produto->ativo ? 'Sim' : 'Não'?></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?=$produto->id?>">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?=$produto->id?>">Editar</a></td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>produto/detalhe/<?=$produto->formatIdx('id')?>">
+                                Detalhe
+                            </a>
+                        </td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>produto/editar/<?=$produto->formatIdx('id')?>">Editar</a>
+                        </td>
                     </tr>
                     <?php
                             endforeach;

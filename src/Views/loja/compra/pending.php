@@ -50,15 +50,19 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="<?=$_SERVER["BASE_URL"]?>cliente/ver/<?=$item->idCliente?>">
+                            <a href="<?=$_SERVER["BASE_URL"]?>cliente/ver/<?=$item->formatIdx('idCliente')?>">
                                 <?=$item->nome?>
                             </a>
                         </td>
                         <td>R$ <?=$item->formatToReal('total')?></td>
                         <td><?=$item->dateToBr('data')?></td>
                         <td><?=$item->dateToBr('vencimento')?></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->id?>">Detalhe</a></td>
-                        <td><a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->id?>">Encerrar</a></td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Detalhe</a>
+                        </td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Encerrar</a>
+                        </td>
                     </tr>
                     <?php
                             endforeach;
