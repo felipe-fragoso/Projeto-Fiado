@@ -29,6 +29,7 @@
             </div>
 
             <div>
+                <input type="hidden" name="hidden-token" value="<?=$token?>">
                 <input type="submit" value="Cadastrar" class="btn-enviar">
             </div>
         </form>

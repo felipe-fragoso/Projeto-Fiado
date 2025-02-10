@@ -60,6 +60,8 @@ class AuthController extends Controller
      */
     public function salvar()
     {
+        $this->checkToken($_SERVER["BASE_URL"]);
+
         $form = new FormData();
 
         $form->setItem('cpf', FormDataType::Cpf)->getValueFrom('ipt-cpf');

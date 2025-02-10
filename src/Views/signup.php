@@ -69,6 +69,7 @@
                                 <label for="ipt-con-senha">Confirmar Senha:</label>
                                 <input type="password" name="ipt-con-senha" id="ipt-con-senha" />
 
+                                <input type="hidden" name="hidden-token" value="<?=$token?>" />
                                 <input type="hidden" name="tipo" value="c" />
                                 <input type="submit" value="Cadastrar" class="btn-enviar" />
                             </form>
@@ -93,6 +94,7 @@
                                 <label for="ipt-con-senha2">Confirmar Senha:</label>
                                 <input type="password" name="ipt-con-senha" id="ipt-con-senha2" />
 
+                                <input type="hidden" name="hidden-token" value="<?=$token?>" />
                                 <input type="hidden" name="tipo" value="e" />
                                 <input type="submit" value="Cadastrar" class="btn-enviar" />
                             </form>

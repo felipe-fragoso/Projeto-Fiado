@@ -23,6 +23,7 @@
                     </select>
                 </div>
                 <div>
+                    <input type="hidden" name="hidden-token" value="<?=$token?>">
                     <input type="hidden" name="ipt-id" value="<?=$data->id?>">
                     <input type="submit" value="Editar" class="btn-enviar">
                 </div>

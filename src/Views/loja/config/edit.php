@@ -17,6 +17,7 @@
                     <input type="number" name="ipt-credito" id="ipt-credito" value="<?=$data->credito?>" min="0.01"
                         max="9999" step="0.01">
                 </div>
+                <input type="hidden" name="hidden-token" value="<?=$token?>">
                 <input type="hidden" name="ipt-id" value="<?=$data->id?>">
                 <input type="submit" class="btn-enviar" value="Salvar">
             </form>
