@@ -135,6 +135,8 @@ class CompraController extends Controller
 
     public function salvar()
     {
+        $this->checkToken($_SERVER["BASE_URL"] . 'compra');
+
         $idLoja = Auth::getId();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 

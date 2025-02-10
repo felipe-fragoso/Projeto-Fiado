@@ -43,6 +43,7 @@
                                 value="<?=$flash?->form?->{'ipt-endereco'}?>">
                         </div>
                         <div>
+                            <input type="hidden" name="hidden-token" value="<?=$token?>">
                             <input type="hidden" name="ipt-tipo" value="n">
                             <input type="submit" value="Cadastrar" class="btn-enviar">
                         </div>
@@ -56,6 +57,7 @@
                                 value="<?=$flash?->form?->{'ipt-email-cliente'}?>">
                         </div>
                         <div>
+                            <input type="hidden" name="hidden-token" value="<?=$token?>">
                             <input type="hidden" name="ipt-tipo" value="c">
                             <input type="submit" value="Cadastrar" class="btn-enviar">
                         </div>

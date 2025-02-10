@@ -152,6 +152,8 @@ class ClienteController extends Controller
 
     public function salvar()
     {
+        $this->checkToken($_SERVER["BASE_URL"] . 'cliente');
+
         $form = new FormData();
         $idLoja = Auth::getId();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;

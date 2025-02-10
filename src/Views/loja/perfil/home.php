@@ -1,6 +1,7 @@
 <?php /** @var Fiado\Core\ViewHelper $data */?>
 <main class="main-content-aside">
     <section class="system-section">
+        <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
         <div class="list-card">
             <div class="card card-full">
                 <h3 class="card-title">Detalhe Minha Loja</h3>

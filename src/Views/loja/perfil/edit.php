@@ -29,6 +29,7 @@
                     <label for="ipt-funcionamento-ate" class="inline-label">Até</label>
                     <input type="time" name="ipt-fecha" id="ipt-funcionamento-ate" value="<?=$data->fecha?>">
                 </div>
+                <input type="hidden" name="hidden-token" value="<?=$token?>">
                 <input type="hidden" name="ipt-id" value="<?=$data->id?>">
                 <input type="submit" class="btn-enviar" value="Salvar">
             </form>
@@ -44,6 +45,7 @@
                     <label for="ipt-descricao">Descrição:</label>
                     <textarea name="txt-descricao" id="ipt-descricao"><?=$data->descricao?></textarea>
                 </div>
+                <input type="hidden" name="hidden-token" value="<?=$token?>">
                 <input type="hidden" name="ipt-id" value="<?=$data->id?>">
                 <input type="submit" class="btn-enviar" value="Salvar">
             </form>

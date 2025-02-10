@@ -72,6 +72,8 @@ class PerfilController extends Controller
 
     public function salvar()
     {
+        $this->checkToken($_SERVER["BASE_URL"] . 'perfil');
+
         $form = new FormData();
         $idLoja = Auth::getId();
 

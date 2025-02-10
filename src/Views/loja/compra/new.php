@@ -21,6 +21,7 @@
                     ?>
                 </select>
             </div>
+            <input type="hidden" name="hidden-token" value="<?=$token?>">
             <input type="hidden" name="ipt-list-produto" id="list-produto"
                 value="<?=htmlentities(json_encode((array) $flash?->form?->{'ipt-list-produto'}))?>">
         </form>

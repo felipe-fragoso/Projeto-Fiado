@@ -2,8 +2,11 @@
 
 namespace Fiado\Core;
 
+use Fiado\Enums\MessageType;
 use Fiado\Helpers\Flash;
+use Fiado\Helpers\FormData;
 use Fiado\Helpers\Sanitizer;
+use Fiado\Helpers\TokenManager;
 
 class Controller
 {
@@ -28,6 +31,7 @@ class Controller
             ]);
         }
 
+        $token = TokenManager::getToken();
         $data = $this->parsedViewData;
         $flash = $this->parsedFlash;
 
@@ -60,6 +64,24 @@ class Controller
     {
         header("Location: {$url}");
         exit();
+    }
+
+    /**
+     * @param string $errorUrl
+     */
+    protected function checkToken(string $errorUrl)
+    {
+        $form = new FormData();
+
+        $form->setItem('token')->getValueFrom('hidden-token', '');
+
+        if (!TokenManager::checkToken($form->token)) {
+            Flash::clearForm();
+            Flash::clearError();
+            Flash::setMessage('Token inválido', MessageType::Warning);
+
+            $this->redirect($errorUrl);
+        }
     }
 
     /**
