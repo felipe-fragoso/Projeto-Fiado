@@ -16,8 +16,8 @@ class Fiado
 
     /**
      * @param int $id
-     * @param ClienteLazyDataObj $cliente
-     * @param LojaLazyDataObj $loja
+     * @param Cliente|LazyDataObj $cliente
+     * @param Loja|LazyDataObj $loja
      * @param string $total
      * @param string $date
      * @param string $dueDate
@@ -43,7 +43,7 @@ class Fiado
     }
 
     /**
-     * @return mixed
+     * @return Cliente|LazyDataObj
      */
     public function getCliente(): Cliente | LazyDataObj
     {
@@ -51,7 +51,7 @@ class Fiado
     }
 
     /**
-     * @return mixed
+     * @return Loja|LazyDataObj
      */
     public function getLoja(): Loja | LazyDataObj
     {
