@@ -94,11 +94,14 @@ class ClienteController extends Controller
         }
 
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId()) ?: null;
+        $lojaConfig = ConfigService::getConfigByLoja(Auth::getId());
+        $maxCredit = $clienteLoja->getMaxCredit() ?: $lojaConfig->getMaxCredit();
 
         $data = [
             'id' => $clienteLoja->getId(),
             'nome' => $clienteLoja->getCliente()->getName(),
             'email' => $clienteLoja->getCliente()->getEmail(),
+            'credito' => $maxCredit,
             'data' => $clienteLoja->getCliente()->getDate(),
             'telefone' => $clientePI?->getTelephone() ?? 'Telefone vazio',
             'endereco' => $clientePI?->getAddress() ?? 'Endereço vazio',
