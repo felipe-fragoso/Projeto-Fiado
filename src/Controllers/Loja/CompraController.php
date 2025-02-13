@@ -102,7 +102,14 @@ class CompraController extends Controller
 
         $itensFiado = FiadoItemService::listFiadoItem($fiado->getId());
 
+        $idLoja = Auth::getId();
+        $idCliente = $fiado->getCliente()->getId();
+
+        $clienteLoja = ClienteLojaService::getClienteLoja($idLoja, $idCliente);
+
         $data = [
+            'idClienteLoja' => $clienteLoja->getId(),
+            'cliente' => $fiado->getCliente()->getName(),
             'total' => $fiado->getTotal(),
             'data' => $fiado->getDate(),
             'dataVencimento' => $fiado->getDueDate(),

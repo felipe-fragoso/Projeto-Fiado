@@ -5,6 +5,11 @@
             <div class="card card-full">
                 <h3 class="card-title">Detalhe Compra</h3>
                 <div class="card-content">
+                    <p><b>Cliente:</b>
+                        <a href="<?=$_SERVER["BASE_URL"]?>cliente/ver/<?=$data->formatIdx('idClienteLoja')?>">
+                            <?=$data->cliente?>
+                        </a>
+                    </p>
                     <p><b>Total:</b> R$ <?=$data->formatToReal('total')?></p>
                     <p><b>Data compra:</b> <?=$data->dateToBr('data')?></p>
                     <p><b>Data Vencimento:</b> <?=$data->dateToBr('dataVencimento')?></p>
