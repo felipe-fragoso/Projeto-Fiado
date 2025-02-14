@@ -23,3 +23,12 @@ function setModal(modal) {
         modal.removeEventListener('click', null);
     });
 }
+
+/**
+ * 
+ * @param {HTMLDivElement} modal 
+ */
+function closeModal(modal) {
+    modal.style.display = 'none';
+    modal.removeEventListener('click', null);
+}
