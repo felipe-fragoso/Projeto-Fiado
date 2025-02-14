@@ -97,6 +97,17 @@ input[type=text]:disabled {
     box-shadow: 0 0 4px 6px #333;
 }
 
+.close-modal {
+    color: #f7f7f7;
+    background-color: #777;
+    padding: 8px 10px;
+    border-radius: 50%;
+    border: 2px solid #999;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
 /** **FIM** Modal */
 
 /** Botoes **/

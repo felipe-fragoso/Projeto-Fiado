@@ -52,6 +52,7 @@
         </div>
     </section>
     <div id="modal-add-produto" class="full-modal">
+        <a class="close-modal" href="javascript:;" onclick="closeModal(this.parentElement)">X</a>
         <div class="modal-content">
             <section>
                 <header>
