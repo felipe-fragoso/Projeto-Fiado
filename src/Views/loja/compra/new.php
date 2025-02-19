@@ -14,7 +14,7 @@
                             foreach ($data->listCliente as $item):
                     ?>
                     <option value="<?=$item->id?>" <?=$flash?->form?->{'sel-cliente'} == $item->id ? 'selected' : ''?>>
-                        <?=$item->nome?></option>
+                        <?=$item->nome?> (<?=$item->email?>)</option>
                     <?php
                             endforeach;
                         endif;

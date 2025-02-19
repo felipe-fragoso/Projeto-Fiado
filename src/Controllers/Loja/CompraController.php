@@ -133,6 +133,7 @@ class CompraController extends Controller
             'listCliente' => array_map(fn(ClienteLoja $item) => [
                 'id' => $item->getCliente()->getId(),
                 'nome' => $item->getCliente()->getName(),
+                'email' => $item->getCliente()->getEmail(),
             ], ClienteLojaService::listClienteLoja(Auth::getId(), 0, 9) ?: []),
         ];
         $data['view'] = 'loja/compra/new';
