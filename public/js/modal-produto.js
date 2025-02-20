@@ -37,6 +37,7 @@ class ProdutoTable {
         this.listInput = document.getElementById('list-produto');
         this.list = this.getListProduto();
         this.searchList = [];
+        this.total = 0.00;
     }
 
     createLink(name, url) {
@@ -164,6 +165,12 @@ class ProdutoTable {
     }
 
     updateTable(id, table) {
+        let total = document.querySelectorAll('.list-produto-total');
+
+        total.forEach((element) => {
+            element.querySelector('span').textContent = this.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        });
+
         let tBody = document.getElementById(id);
         tBody.innerHTML = "";
 
@@ -200,6 +207,8 @@ class ProdutoTable {
     addProduto(id, idEncoded, nome, preco, quantidade) {
         let idx = this.list.findIndex((produto) => produto.id === id);
 
+        this.total += preco * quantidade;
+
         if (idx !== -1) {
             this.list[idx].quantidade = Number(this.list[idx].quantidade) + Number(quantidade);
         } else {
@@ -220,6 +229,8 @@ class ProdutoTable {
 
     removeProduto(id) {
         let idx = this.list.findIndex((produto) => produto.id === id);
+
+        this.total -= this.list[idx].preco * this.list[idx].quantidade;
 
         if (idx !== -1) {
             this.list.splice(idx, 1);
