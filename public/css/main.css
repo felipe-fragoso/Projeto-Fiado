@@ -906,6 +906,15 @@ input[type=text]:disabled {
     justify-content: space-between;
 }
 
+.list-produto-total {
+    font-weight: bold;
+    align-self: self-end;
+}
+
+.list-produto-total span {
+    font-family: monospace;
+}
+
 /* Modal adicionar Produto */
 
 #modal-add-produto header {

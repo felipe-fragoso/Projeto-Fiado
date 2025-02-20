@@ -33,8 +33,9 @@
             </a>
             <input type="submit" value="Cadastrar" class="new-btn" form="form-compra">
         </div>
-        <header class="section-header section-header-padding">
+        <header class="section-header section-header-padding header-box">
             <h3>Lista produtos</h3>
+            <div class="list-produto-total">Total: <span></span></div>
         </header>
         <div class="table-box">
             <table>
@@ -43,7 +44,7 @@
                         <th>Nome</th>
                         <th>Valor</th>
                         <th>Qtde</th>
-                        <th>Valor Total</th>
+                        <th>Subtotal</th>
                         <th class="th-center" colspan="2">Opções</th>
                     </tr>
                 </thead>
@@ -72,7 +73,7 @@
                                     <th>Nome</th>
                                     <th>Valor</th>
                                     <th>Qtde</th>
-                                    <th>Valor Total</th>
+                                    <th>Subtotal</th>
                                     <th class="th-center">Opções</th>
                                 </tr>
                             </thead>
@@ -83,8 +84,9 @@
             </section>
 
             <section>
-                <header class="section-header section-header-padding">
+                <header class="section-header section-header-padding header-box">
                     <h4>Lista de Produtos</h4>
+                    <div class="list-produto-total">Total: <span></span></div>
                 </header>
                 <div class="table-box">
                     <table>
@@ -93,7 +95,7 @@
                                 <th>Nome</th>
                                 <th>Valor</th>
                                 <th>Qtde</th>
-                                <th>Valor Total</th>
+                                <th>Subtotal</th>
                                 <th class="th-center">Opções</th>
                             </tr>
                         </thead>
