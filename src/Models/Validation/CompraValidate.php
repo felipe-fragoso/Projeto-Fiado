@@ -33,7 +33,7 @@ class CompraValidate extends Validator
         $this->getItem('id')->isNumeric()->or()->isNull();
         $this->getItem('cliente')->isRequired()->isInstanceOf(Cliente::class, '')->isPresent($cliente?->getId(), '');
         $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
-        $this->getItem('total produto')->isRequired()->isNumeric()->isMinValue(0.01, 'Nenhum produto adicionado')->isMaxValue(10 ** 8 - 0.01);
+        $this->getItem('total produto')->isRequired()->isNumeric()->isMinValue(0.01, 'Total produto inválido')->isMaxValue(10 ** 8 - 0.01);
         $this->getItem('data')->isRequired()->isDate();
         $this->getItem('data_vencimento')->isRequired()->isDate();
         $this->getItem('pago')->isRequired()->isBool();
