@@ -90,7 +90,7 @@ class ProdutoTable {
         this.searchList.forEach((produto) => {
             let cells = [];
 
-            let precoInput = this.createInput(produto.preco, 'number', 'table-min-input', '1', '999', '0.01');
+            let precoInput = this.createInput(produto.preco, 'number', 'table-min-input', '0.01', '999', '0.01');
             let quantidadeInput = this.createInput(produto.quantidade || 1, 'number', '', '1', '999', '1')
             let total = this.createSpan(formatReal(precoInput.value * quantidadeInput.value));
             let addBtn = this.createInput('Adicionar', 'button', 'new-btn basic-btn');
@@ -205,6 +205,10 @@ class ProdutoTable {
     }
 
     addProduto(id, idEncoded, nome, preco, quantidade) {
+        if (preco < 0.01 || quantidade < 1) {
+            return;
+        }
+
         let idx = this.list.findIndex((produto) => produto.id === id);
 
         this.total += preco * quantidade;
