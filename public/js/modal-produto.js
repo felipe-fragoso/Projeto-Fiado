@@ -139,8 +139,10 @@ class ProdutoTable {
 
     getListTable() {
         let rows = document.createDocumentFragment();
+        this.total = 0.0;
 
         this.list.forEach((produto) => {
+            this.total += produto.preco * produto.quantidade;
             let cells = [];
 
             let editBtn = this.createInput('Editar', 'button', 'new-btn basic-btn');
@@ -211,8 +213,6 @@ class ProdutoTable {
 
         let idx = this.list.findIndex((produto) => produto.id === id);
 
-        this.total += preco * quantidade;
-
         if (idx !== -1) {
             this.list[idx].quantidade = Number(this.list[idx].quantidade) + Number(quantidade);
         } else {
@@ -233,8 +233,6 @@ class ProdutoTable {
 
     removeProduto(id) {
         let idx = this.list.findIndex((produto) => produto.id === id);
-
-        this.total -= this.list[idx].preco * this.list[idx].quantidade;
 
         if (idx !== -1) {
             this.list.splice(idx, 1);
