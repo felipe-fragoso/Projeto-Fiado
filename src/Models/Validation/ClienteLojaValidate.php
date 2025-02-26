@@ -5,6 +5,7 @@ namespace Fiado\Models\Validation;
 use Fiado\Core\Validator;
 use Fiado\Models\Entity\Cliente;
 use Fiado\Models\Entity\Loja;
+use Fiado\Models\Service\ClienteLojaService;
 
 class ClienteLojaValidate extends Validator
 {
@@ -28,5 +29,11 @@ class ClienteLojaValidate extends Validator
         $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
         $this->getItem('credito maximo')->isNumeric()->or()->isNull('')->isMinValue(0);
         $this->getItem('ativo')->isRequired()->isBool();
+
+        $clienteLoja = ClienteLojaService::getClienteLoja($loja?->getId() ?? 0, $cliente?->getId() ?? 0) ?: null;
+
+        $this->setItem('cliente loja', $clienteLoja);
+
+        $this->getItem('cliente loja')->isNew($clienteLoja?->getId());
     }
 }
