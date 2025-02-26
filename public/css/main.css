@@ -40,6 +40,27 @@ li {
     list-style: none;
 }
 
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.ico-spinner::after {
+    content: url('../img/spinner-solid.svg');
+    animation: spin 2s linear infinite;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    left: calc(50% - 0.5em);
+    top: calc(50% - 0.5em);
+    filter: invert(1);
+}
+
+.disabled {
+    filter: brightness(0.7);
+}
+
 input[type=text]:disabled {
     opacity: 0.7;
     color: light-dark(graytext, rgb(170, 170, 170));

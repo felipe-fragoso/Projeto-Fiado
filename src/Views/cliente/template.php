@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>FiadoFacil - Area do Cliente</title>
         <link rel="stylesheet" type="text/css" href="<?=$_SERVER["BASE_URL"]?>css/main.css">
+        <script src="<?=$_SERVER["BASE_URL"]?>js/main.js"></script>
         <script src="<?=$_SERVER["BASE_URL"]?>js/carrossel.js"></script>
     </head>
 
