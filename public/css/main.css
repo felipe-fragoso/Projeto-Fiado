@@ -964,6 +964,7 @@ input[type=text]:disabled {
 
 #modal-add-produto .table-box th {
     position: sticky;
+    z-index: 1;
     top: 0;
 }
 
