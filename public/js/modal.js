@@ -4,6 +4,7 @@ function showModal(id) {
     setModal(modal);
 
     modal.style.display = 'block';
+    document.body.classList.add('fixed');
 }
 
 /**
@@ -19,6 +20,7 @@ function setModal(modal) {
         e.stopPropagation();
 
         modal.style.display = 'none';
+        document.body.classList.remove('fixed');
 
         modal.removeEventListener('click', null);
     });
@@ -27,8 +29,10 @@ function setModal(modal) {
 /**
  * 
  * @param {HTMLDivElement} modal 
- */
+*/
 function closeModal(modal) {
     modal.style.display = 'none';
+    document.body.classList.remove('fixed');
+
     modal.removeEventListener('click', null);
 }
