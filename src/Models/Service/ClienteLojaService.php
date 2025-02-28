@@ -77,8 +77,9 @@ class ClienteLojaService
      * @param int $loja
      * @param int $first
      * @param int $quantity
+     * @param ?bool $active
      */
-    public static function listClienteLoja(int $loja, int $first, int $quantity)
+    public static function listClienteLoja(int $loja, int $first, int $quantity, ?bool $active = null)
     {
         $dao = new ClienteLojaDao();
 
@@ -86,7 +87,12 @@ class ClienteLojaService
         $data->addData('first', $first, \PDO::PARAM_INT);
         $data->addData('last', $quantity, \PDO::PARAM_INT);
 
-        $arr = $dao->listCliente('id_loja = :id_loja LIMIT :first, :last', $data);
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        $arr = $dao->listCliente("id_loja = :id_loja $active LIMIT :first, :last", $data);
 
         if ($arr) {
             return array_map(function ($item) {
