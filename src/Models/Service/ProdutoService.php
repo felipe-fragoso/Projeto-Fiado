@@ -58,11 +58,12 @@ class ProdutoService
     }
 
     /**
-     * @param $first
-     * @param $quantity
-     * @return mixed
+     * @param $idLoja
+     * @param int $first
+     * @param int $quantity
+     * @param ?bool $active
      */
-    public static function listProduto($idLoja, int $first, int $quantity)
+    public static function listProduto($idLoja, int $first, int $quantity, ?bool $active = null)
     {
         $dao = new ProdutoDao();
 
@@ -70,7 +71,12 @@ class ProdutoService
         $data->addData('last', $quantity, \PDO::PARAM_INT);
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
 
-        $arr = $dao->listProduto('id_loja = :id_loja LIMIT :first, :last', $data);
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        $arr = $dao->listProduto("id_loja = :id_loja $active LIMIT :first, :last", $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
@@ -80,11 +86,12 @@ class ProdutoService
     }
 
     /**
+     * @param $idLoja
      * @param $text
      * @param $quantity
-     * @return mixed
+     * @param ?bool $active
      */
-    public static function listProdutoWith($idLoja, $text, $quantity)
+    public static function listProdutoWith($idLoja, $text, $quantity, ?bool $active = null)
     {
         $dao = new ProdutoDao();
 
@@ -92,7 +99,12 @@ class ProdutoService
         $data->addData('quantity', $quantity, \PDO::PARAM_INT);
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
 
-        $arr = $dao->listProduto('id_loja = :id_loja AND name LIKE :name LIMIT 0, :quantity', $data);
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        $arr = $dao->listProduto("id_loja = :id_loja AND name LIKE :name $active LIMIT 0, :quantity", $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
