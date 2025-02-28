@@ -134,7 +134,7 @@ class ProdutoController extends Controller
         $form = new FormData();
         $form->setItem('text')->getValueFrom('texto', '');
 
-        $produtos = ProdutoService::listProdutoWith($idLoja, $form->text, 10);
+        $produtos = ProdutoService::listProdutoWith($idLoja, $form->text, 10, true);
 
         if ($produtos) {
             $list = array_map(function (Produto $item) {
