@@ -30,10 +30,12 @@ class ClienteLojaValidate extends Validator
         $this->getItem('credito maximo')->isNumeric()->or()->isNull('')->isMinValue(0);
         $this->getItem('ativo')->isRequired()->isBool();
 
-        $clienteLoja = ClienteLojaService::getClienteLoja($loja?->getId() ?? 0, $cliente?->getId() ?? 0) ?: null;
+        if (!$id) {
+            $clienteLoja = ClienteLojaService::getClienteLoja($loja?->getId() ?? 0, $cliente?->getId() ?? 0) ?: null;
 
-        $this->setItem('cliente loja', $clienteLoja);
+            $this->setItem('cliente loja', $clienteLoja);
 
-        $this->getItem('cliente loja')->isNew($clienteLoja?->getId());
+            $this->getItem('cliente loja')->isNew($clienteLoja?->getId());
+        }
     }
 }
