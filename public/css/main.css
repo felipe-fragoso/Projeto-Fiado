@@ -1062,3 +1062,46 @@ input[type=text]:disabled {
     font-weight: bold;
     cursor: pointer;
 }
+
+.search-box {
+    width: 100%;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.search-box label {
+    position: absolute;
+    background-color: #d7d7d7;
+    border-radius: 3px 0 0 3px;
+    padding: 0 7px 0 7px;
+    height: 28px;
+    color: #333;
+    line-height: 28px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0 94px 0 44px;
+    height: 28px;
+    border-radius: 3px;
+    border: 0;
+    background-color: #fff;
+    box-shadow: inset #999 0 0 3px 0;
+}
+
+.search-box .button-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.search-box button {
+    height: 28px;
+    padding: 0 13px 0 13px;
+    border: 0;
+    background-color: var(--main-green);
+    font-weight: bold;
+    color: #f7f7f7;
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+}
