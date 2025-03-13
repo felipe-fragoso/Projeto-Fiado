@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Enums\InputType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
@@ -24,7 +25,13 @@ class CompraController extends Controller
     {
         $idLoja = Auth::getId();
         $loja = LojaService::getLojaById($idLoja);
-        $pagination = new Pagination(CompraService::totalCompraLoja($idLoja), $_SERVER["BASE_URL"] . 'compra');
+        $form = new FormData();
+
+        $form->setItem('search')->getValueFrom('q', null, InputType::Get);
+
+        $page_url = $_SERVER["BASE_URL"] . 'compra' . $form->search ? "?q={$form->search}" : '';
+
+        $pagination = new Pagination(CompraService::totalCompraLoja($idLoja, $form->search), $page_url);
 
         $list = array_map(function (Fiado $item) {
             $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
@@ -37,7 +44,7 @@ class CompraController extends Controller
                 'data' => $item->getDate(),
                 'pago' => $item->getPaid(),
             ];
-        }, CompraService::listCompraLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
+        }, CompraService::listCompraLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage(), null, $form->search) ?: []);
 
         $data = [
             'email' => $loja->getEmail(),
@@ -48,6 +55,7 @@ class CompraController extends Controller
             'list' => $list,
         ];
         $data['view'] = 'loja/compra/home';
+        $data['search'] = $form->search;
         $data['compraPagination'] = $pagination;
 
         $this->load('loja/template', $data);
@@ -57,7 +65,13 @@ class CompraController extends Controller
     {
         $idLoja = Auth::getId();
         $loja = LojaService::getLojaById($idLoja);
-        $pagination = new Pagination(CompraService::totalCompraPendenteLoja($idLoja), $_SERVER["BASE_URL"] . 'compra/pendente');
+        $form = new FormData();
+
+        $form->setItem('search')->getValueFrom('q', null, InputType::Get);
+
+        $page_url = $_SERVER["BASE_URL"] . 'compra' . $form->search ? "?q={$form->search}" : '';
+
+        $pagination = new Pagination(CompraService::totalCompraPendenteLoja($idLoja, $form->search), $page_url);
 
         $data = [
             'email' => $loja->getEmail(),
@@ -75,9 +89,16 @@ class CompraController extends Controller
                     'data' => $item->getDate(),
                     'vencimento' => $item->getDueDate(),
                 ];
-            }, CompraService::listCompraPendenteLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []),
+            }, CompraService::listCompraPendenteLoja(
+                $loja->getId(),
+                $pagination->getFirstItemIndex(),
+                $pagination->getItensPerPage(),
+                null,
+                $form->search
+            ) ?: []),
         ];
         $data['view'] = 'loja/compra/pending';
+        $data['search'] = $form->search;
         $data['pendentePagination'] = $pagination;
 
         $this->load('loja/template', $data);

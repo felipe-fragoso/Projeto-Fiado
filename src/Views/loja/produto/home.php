@@ -3,6 +3,9 @@
         <a href="<?=$_SERVER["BASE_URL"]?>produto/novo" class="new-btn">Novo Produto</a>
     </section>
     <section class="system-section">
+        <?php
+            $this->loadComponent('searchBar', ['search' => $data->search, 'placeholder' => 'Pesquisar produto...'])
+        ?>
         <header class="section-header section-header-padding">
             <h2>Produtos</h2>
         </header>
