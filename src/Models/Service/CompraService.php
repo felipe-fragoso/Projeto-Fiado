@@ -48,8 +48,10 @@ class CompraService
      * @param int $idLoja
      * @param int $first
      * @param int $quantity
+     * @param ?bool $active
+     * @param ?string $like
      */
-    public static function listCompraLoja(int $idLoja, int $first, int $quantity)
+    public static function listCompraLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
         $dao = new FiadoDao();
 
@@ -57,7 +59,17 @@ class CompraService
         $data->addData('first', $first, \PDO::PARAM_INT);
         $data->addData('last', $quantity, \PDO::PARAM_INT);
 
-        $arr = $dao->listFiado('id_loja = :id_loja LIMIT :first, :last', $data);
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        $arr = $dao->listFiado("id_loja = :id_loja AND fiado.id_cliente = cliente.id $active $like LIMIT :first, :last", $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
@@ -68,20 +80,37 @@ class CompraService
 
     /**
      * @param int $idLoja
+     * @param ?string $like
+     * @param ?bool $active
+     * @return mixed
      */
-    public static function totalCompraLoja(int $idLoja)
+    public static function totalCompraLoja(int $idLoja, ?string $like = null, ?bool $active = null)
     {
         $dao = new FiadoDao();
 
-        return $dao->countFiado(new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT)));
+        $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
+
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        return $dao->countFiado("id_loja = :id_loja AND fiado.id_cliente = cliente.id {$like} {$active}", $data);
     }
 
     /**
      * @param int $idLoja
      * @param int $first
      * @param int $quantity
+     * @param ?bool $active
+     * @param ?string $like
      */
-    public static function listCompraPendenteLoja(int $idLoja, int $first, int $quantity)
+    public static function listCompraPendenteLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
         $dao = new FiadoDao();
 
@@ -91,7 +120,20 @@ class CompraService
         $paramData->addData('first', $first, \PDO::PARAM_INT);
         $paramData->addData('last', $quantity, \PDO::PARAM_INT);
 
-        $arr = $dao->listFiadoPendente('id_loja = :id_loja AND paid = :paid LIMIT :first, :last', $paramData);
+        if ($active !== null) {
+            $paramData->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        $arr = $dao->listFiadoPendente(
+            "id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active} LIMIT :first, :last",
+            $paramData
+        );
 
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
@@ -102,8 +144,11 @@ class CompraService
 
     /**
      * @param int $idLoja
+     * @param ?string $like
+     * @param ?bool $active
+     * @return mixed
      */
-    public static function totalCompraPendenteLoja(int $idLoja)
+    public static function totalCompraPendenteLoja(int $idLoja, ?string $like = null, ?bool $active = null)
     {
         $dao = new FiadoDao();
 
@@ -111,7 +156,17 @@ class CompraService
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('paid', false, \PDO::PARAM_INT);
 
-        return $dao->countFiadoPendente($paramData);
+        if ($active !== null) {
+            $paramData->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        return $dao->countFiadoPendente("id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}", $paramData);
     }
 
     /**
@@ -142,7 +197,7 @@ class CompraService
      * @param ?bool $paid
      * @return mixed
      */
-    public static function getTotal(int $loja, \DateTime  | int $start, \DateTime $end = new \DateTime(), bool $paid = null)
+    public static function getTotal(int $loja, \DateTime  | int $start, \DateTime $end = new \DateTime(), ?bool $paid = null)
     {
         $dao = new FiadoDao();
         $data = new ParamData(null);
@@ -168,7 +223,7 @@ class CompraService
      * @param ?bool $paid
      * @return mixed
      */
-    public static function getTotalCliente(int $idLoja, int $idCliente, \DateTime  | int $start, \DateTime $end = new \DateTime(), bool $paid = null)
+    public static function getTotalCliente(int $idLoja, int $idCliente, \DateTime  | int $start, \DateTime $end = new \DateTime(), ?bool $paid = null)
     {
         $dao = new FiadoDao();
         $data = new ParamData(null);
