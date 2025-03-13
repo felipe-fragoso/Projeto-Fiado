@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Enums\InputType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
@@ -17,7 +18,13 @@ class ProdutoController extends Controller
     public function index()
     {
         $idLoja = Auth::getId();
-        $pagination = new Pagination(ProdutoService::totalProduto($idLoja), $_SERVER["BASE_URL"] . 'produto');
+        $form = new FormData();
+
+        $form->setItem('search')->getValueFrom('q', null, InputType::Get);
+
+        $page_url = $_SERVER["BASE_URL"] . 'produto' . $form->search ? "?q={$form->search}" : '';
+
+        $pagination = new Pagination(ProdutoService::totalProduto($idLoja, $form->search), $page_url);
 
         $data['produtos'] = array_map(fn(Produto $produto) => [
             'id' => $produto->getId(),
@@ -25,8 +32,9 @@ class ProdutoController extends Controller
             'preco' => $produto->getPrice(),
             'data' => $produto->getDate(),
             'ativo' => $produto->getActive(),
-        ], ProdutoService::listProduto($idLoja, $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
+        ], ProdutoService::listProduto($idLoja, $pagination->getFirstItemIndex(), $pagination->getItensPerPage(), null, $form->search) ?: []);
         $data['produtoPagination'] = $pagination;
+        $data['search'] = $form->search;
         $data['view'] = 'loja/produto/home';
 
         $this->load('loja/template', $data);

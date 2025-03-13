@@ -16,15 +16,19 @@ use Fiado\Models\Service\ClientePIService;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\CompraService;
 use Fiado\Models\Service\ConfigService;
-use Fiado\Models\Service\LojaService;
 
 class ClienteController extends Controller
 {
     public function index()
     {
         $idLoja = Auth::getId();
-        $pagination = new Pagination(ClienteLojaService::totalClienteLoja($idLoja), $_SERVER["BASE_URL"] . 'cliente');
-        $loja = LojaService::getLojaById($idLoja);
+        $form = new FormData();
+
+        $form->setItem('search')->getValueFrom('q', null, InputType::Get);
+
+        $page_url = $_SERVER["BASE_URL"] . 'cliente' . $form->search ? "?q={$form->search}" : '';
+
+        $pagination = new Pagination(ClienteLojaService::totalClienteLoja($idLoja, $form->search), $page_url);
 
         $data['list'] = array_map(fn(ClienteLoja $clienteLoja) => [
             'id' => $clienteLoja->getId(),
@@ -32,8 +36,9 @@ class ClienteController extends Controller
             'email' => $clienteLoja->getCliente()->getEmail(),
             'ativo' => $clienteLoja->getActive(),
             'data' => $clienteLoja->getCliente()->getDate(),
-        ], ClienteLojaService::listClienteLoja($loja->getId(), $pagination->getFirstItemIndex(), $pagination->getItensPerPage()) ?: []);
+        ], ClienteLojaService::listClienteLoja($idLoja, $pagination->getFirstItemIndex(), $pagination->getItensPerPage(), null, $form->search) ?: []);
         $data['view'] = 'loja/cliente/list';
+        $data['search'] = $form->search;
         $data['clientePagination'] = $pagination;
 
         $this->load('loja/template', $data);

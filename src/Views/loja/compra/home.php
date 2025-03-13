@@ -21,6 +21,9 @@
         </div>
     </section>
     <section class="system-section">
+        <?php
+            $this->loadComponent('searchBar', ['search' => $data->search, 'placeholder' => 'Pesquisar compra por cliente...'])
+        ?>
         <header class="section-header section-header-padding">
             <h2>Compras</h2>
         </header>

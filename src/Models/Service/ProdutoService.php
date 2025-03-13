@@ -46,15 +46,27 @@ class ProdutoService
 
     /**
      * @param $idLoja
+     * @param ?string $like
+     * @param ?bool $active
      * @return mixed
      */
-    public static function totalProduto($idLoja)
+    public static function totalProduto($idLoja, ?string $like = null, ?bool $active = null)
     {
         $dao = new ProdutoDao();
 
         $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
 
-        return $dao->countProduto('id_loja = :id_loja', $data);
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        return $dao->countProduto("id_loja = :id_loja {$like} {$active}", $data);
     }
 
     /**
@@ -62,8 +74,9 @@ class ProdutoService
      * @param int $first
      * @param int $quantity
      * @param ?bool $active
+     * @param ?string $like
      */
-    public static function listProduto($idLoja, int $first, int $quantity, ?bool $active = null)
+    public static function listProduto($idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
         $dao = new ProdutoDao();
 
@@ -76,7 +89,12 @@ class ProdutoService
             $active = "AND active = :active";
         }
 
-        $arr = $dao->listProduto("id_loja = :id_loja $active LIMIT :first, :last", $data);
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        $arr = $dao->listProduto("id_loja = :id_loja $active $like LIMIT :first, :last", $data);
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);

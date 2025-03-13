@@ -64,13 +64,28 @@ class ClienteLojaService
     }
 
     /**
-     * @param int $loja
+     * @param int $idLoja
+     * @param ?string $like
+     * @param ?bool $active
+     * @return mixed
      */
-    public static function totalClienteLoja(int $loja)
+    public static function totalClienteLoja(int $idLoja, ?string $like = null, ?bool $active = null)
     {
         $dao = new ClienteLojaDao();
 
-        return $dao->countCliente(new ParamData(new ParamItem('id_loja', $loja)));
+        $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
+
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        return $dao->countCliente("id_loja = :id_loja AND cliente_loja.id_cliente = cliente.id {$like} {$active}", $data);
     }
 
     /**
@@ -78,8 +93,9 @@ class ClienteLojaService
      * @param int $first
      * @param int $quantity
      * @param ?bool $active
+     * @param ?string $like
      */
-    public static function listClienteLoja(int $loja, int $first, int $quantity, ?bool $active = null)
+    public static function listClienteLoja(int $loja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
         $dao = new ClienteLojaDao();
 
@@ -92,7 +108,12 @@ class ClienteLojaService
             $active = "AND active = :active";
         }
 
-        $arr = $dao->listCliente("id_loja = :id_loja $active LIMIT :first, :last", $data);
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        $arr = $dao->listCliente("id_loja = :id_loja AND cliente_loja.id_cliente = cliente.id {$active} {$like} LIMIT :first, :last", $data);
 
         if ($arr) {
             return array_map(function ($item) {

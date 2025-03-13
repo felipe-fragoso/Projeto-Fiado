@@ -3,6 +3,9 @@
         <a href="<?=$_SERVER["BASE_URL"]?>cliente/novo" class="new-btn">Novo Cliente</a>
     </section>
     <section class="system-section">
+        <?php
+            $this->loadComponent('searchBar', ['search' => $data->search, 'placeholder' => 'Pesquisar cliente...'])
+        ?>
         <header class="section-header section-header-padding">
             <h2>Clientes</h2>
         </header>
