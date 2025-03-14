@@ -892,6 +892,7 @@ input[type=text]:disabled {
     gap: 0 20px;
     padding: 30px 10px;
     width: 100%;
+    min-height: 210px;
     justify-content: space-between;
     align-items: flex-end;
 }
