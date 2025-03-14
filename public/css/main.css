@@ -65,6 +65,10 @@ li {
     position: fixed;
 }
 
+.text-center {
+    text-align: center;
+}
+
 input[type=text]:disabled {
     opacity: 0.7;
     color: light-dark(graytext, rgb(170, 170, 170));
