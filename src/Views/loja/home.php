@@ -9,7 +9,7 @@
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
                 <?php
-                    if ($data->ultimasCompras):
+                    if (!empty($data->ultimasCompras)):
                         /** @var Fiado\Core\ViewHelper $compra */
                         foreach ($data->ultimasCompras as $compra):
                 ?>
@@ -28,6 +28,15 @@
                 </div>
                 <?php
                         endforeach;
+                    else:
+                ?>
+                <div class="card card-big">
+                    <h3 class="card-title text-center">Vazio</h3>
+                    <div class="card-content text-center">
+                        <p>Nenhum registro encontrado</p>
+                    </div>
+                </div>
+                <?php
                     endif;
                 ?>
             </div>
@@ -42,7 +51,7 @@
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
                 <?php
-                    if ($data->ultimasPendentes):
+                    if (!empty($data->ultimasPendentes)):
                         /** @var Fiado\Core\ViewHelper $compra */
                         foreach ($data->ultimasPendentes as $compra):
                 ?>
@@ -60,6 +69,15 @@
                 </div>
                 <?php
                         endforeach;
+                    else:
+                ?>
+                <div class="card card-big">
+                    <h3 class="card-title text-center">Vazio</h3>
+                    <div class="card-content text-center">
+                        <p>Nenhum registro encontrado</p>
+                    </div>
+                </div>
+                <?php
                     endif;
                 ?>
             </div>
