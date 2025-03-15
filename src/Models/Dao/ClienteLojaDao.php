@@ -41,11 +41,15 @@ class ClienteLojaDao extends Model
     /**
      * @param string $condition
      * @param ParamData $data
-     * @return mixed
+     * @param ?string $limit
+     * @param ?string $orderBy
      */
-    public function listCliente(string $condition, ParamData $data)
+    public function listCliente(string $condition, ParamData $data, ?string $limit = null, ?string $orderBy = null)
     {
-        $statement = $this->select('cliente_loja, cliente', $condition, $data);
+        $condition = $condition . ($orderBy ? " ORDER BY {$orderBy}" : '');
+        $condition = $condition . ($limit ? " LIMIT {$limit}" : '');
+
+        $statement = $this->select('cliente_loja, cliente', $condition, $data, 'cliente_loja.*, cliente.name');
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
