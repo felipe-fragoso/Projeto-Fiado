@@ -69,7 +69,12 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listFiado("id_loja = :id_loja AND fiado.id_cliente = cliente.id $active $like LIMIT :first, :last", $data);
+        $arr = $dao->listFiado(
+            "id_loja = :id_loja AND fiado.id_cliente = cliente.id {$active} {$like}",
+            $data,
+            ':first, :last',
+            'fiado.date DESC'
+        );
 
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
@@ -131,8 +136,10 @@ class CompraService
         }
 
         $arr = $dao->listFiadoPendente(
-            "id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active} LIMIT :first, :last",
-            $paramData
+            "id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}",
+            $paramData,
+            ':first, :last',
+            'fiado.date DESC'
         );
 
         if ($arr) {

@@ -10,11 +10,15 @@ class FiadoDao extends Model
     /**
      * @param string $condition
      * @param ParamData $data
-     * @return mixed
+     * @param ?string $limit
+     * @param ?string $orderBy
      */
-    public function listFiado(string $condition, ParamData $data)
+    public function listFiado(string $condition, ParamData $data, ?string $limit = null, ?string $orderBy = null)
     {
-        $statement = $this->select('fiado, cliente', $condition, $data);
+        $condition = $condition . ($orderBy ? " ORDER BY {$orderBy}" : '');
+        $condition = $condition . ($limit ? " LIMIT {$limit}" : '');
+
+        $statement = $this->select('fiado, cliente', $condition, $data, 'fiado.*, cliente.name');
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -45,11 +49,15 @@ class FiadoDao extends Model
     /**
      * @param string $condition
      * @param ParamData $data
-     * @return mixed
+     * @param ?string $limit
+     * @param ?string $orderBy
      */
-    public function listFiadoPendente(string $condition, ParamData $data)
+    public function listFiadoPendente(string $condition, ParamData $data, ?string $limit = null, ?string $orderBy = null)
     {
-        $statement = $this->select('fiado, cliente', $condition, $data);
+        $condition = $condition . ($orderBy ? " ORDER BY {$orderBy}" : '');
+        $condition = $condition . ($limit ? " LIMIT {$limit}" : '');
+
+        $statement = $this->select('fiado, cliente', $condition, $data, 'fiado.*, cliente.name');
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -92,7 +100,12 @@ class FiadoDao extends Model
             $paid = 'IN(:paid, 0, 1)';
         }
 
-        $statement = $this->select('fiado', "paid $paid AND id_loja = :id_loja AND date BETWEEN :start AND :end", $data, "SUM(`total`)");
+        $statement = $this->select(
+            'fiado',
+            "paid $paid AND id_loja = :id_loja AND date BETWEEN :start AND :end",
+            $data,
+            "SUM(`total`)"
+        );
 
         return $statement->fetchColumn();
     }

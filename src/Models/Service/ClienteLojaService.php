@@ -113,7 +113,12 @@ class ClienteLojaService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listCliente("id_loja = :id_loja AND cliente_loja.id_cliente = cliente.id {$active} {$like} LIMIT :first, :last", $data);
+        $arr = $dao->listCliente(
+            "id_loja = :id_loja AND cliente_loja.id_cliente = cliente.id {$active} {$like}",
+            $data,
+            ':first, :last',
+            'cliente.date DESC'
+        );
 
         if ($arr) {
             return array_map(function ($item) {

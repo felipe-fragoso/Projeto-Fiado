@@ -21,10 +21,14 @@ class ProdutoDao extends Model
     /**
      * @param string $condition
      * @param ParamData $data
-     * @return mixed
+     * @param ?string $limit
+     * @param ?string $orderBy
      */
-    public function listProduto(string $condition, ParamData $data)
+    public function listProduto(string $condition, ParamData $data, ?string $limit = null, ?string $orderBy = null)
     {
+        $condition = $condition . ($orderBy ? " ORDER BY {$orderBy}" : '');
+        $condition = $condition . ($limit ? " LIMIT {$limit}" : '');
+
         $statement = $this->select('produto', $condition, $data);
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);

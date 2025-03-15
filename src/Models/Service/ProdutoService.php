@@ -80,7 +80,9 @@ class ProdutoService
     {
         $dao = new ProdutoDao();
 
-        $data = new ParamData(new ParamItem('first', $first, \PDO::PARAM_INT));
+        $data = new ParamData(null);
+
+        $data->addData('first', $first, \PDO::PARAM_INT);
         $data->addData('last', $quantity, \PDO::PARAM_INT);
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
 
@@ -94,35 +96,7 @@ class ProdutoService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listProduto("id_loja = :id_loja $active $like LIMIT :first, :last", $data);
-
-        if ($arr) {
-            return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $idLoja
-     * @param $text
-     * @param $quantity
-     * @param ?bool $active
-     */
-    public static function listProdutoWith($idLoja, $text, $quantity, ?bool $active = null)
-    {
-        $dao = new ProdutoDao();
-
-        $data = new ParamData(new ParamItem('name', "%$text%"));
-        $data->addData('quantity', $quantity, \PDO::PARAM_INT);
-        $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
-
-        if ($active !== null) {
-            $data->addData('active', $active, \PDO::PARAM_BOOL);
-            $active = "AND active = :active";
-        }
-
-        $arr = $dao->listProduto("id_loja = :id_loja AND name LIKE :name $active LIMIT 0, :quantity", $data);
+        $arr = $dao->listProduto("id_loja = :id_loja $active $like", $data, ':first, :last', 'date DESC');
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
