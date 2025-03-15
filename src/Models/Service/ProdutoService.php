@@ -81,7 +81,7 @@ class ProdutoService
         $dao = new ProdutoDao();
 
         $data = new ParamData(null);
-        
+
         $data->addData('first', $first, \PDO::PARAM_INT);
         $data->addData('last', $quantity, \PDO::PARAM_INT);
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
@@ -96,7 +96,7 @@ class ProdutoService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listProduto("id_loja = :id_loja $active $like", $data);
+        $arr = $dao->listProduto("id_loja = :id_loja $active $like", $data, ':first, :last', 'date DESC');
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
