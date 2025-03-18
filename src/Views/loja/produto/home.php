@@ -31,7 +31,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        if (!$data->produtos):
+                        if (!(array) $data->produtos):
                     ?>
                     <tr>
                         <td class="th-center" colspan="6">Nenhum produto encontrado</td>
