@@ -47,7 +47,13 @@
                 </thead>
                 <tbody>
                     <?php
-                        if ($data->list):
+                        if (!(array) $data->list):
+                    ?>
+                    <tr>
+                        <td class="th-center" colspan="6">Nenhuma compra encontrada</td>
+                    </tr>
+                    <?php
+                        else:
                             /** @var Fiado\Core\ViewHelper $item */
                             foreach ($data->list as $item):
                     ?>
