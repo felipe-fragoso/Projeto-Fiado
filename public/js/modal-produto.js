@@ -19,12 +19,14 @@ class ItemRowTable {
 }
 
 class ItemCellTable {
-    constructor(content) {
+    constructor(content, colspan) {
         this.content = content;
+        this.colspan = colspan;
     }
 
     getCell() {
         let cell = document.createElement('td');
+        cell.colSpan = this.colspan;
 
         cell.appendChild(this.content);
 
@@ -52,8 +54,9 @@ class ProdutoTable {
         return link;
     }
 
-    createSpan(textContent) {
+    createSpan(textContent, className = '') {
         let span = document.createElement('span');
+        span.setAttribute('class', className);
         span.textContent = textContent;
 
         return span;
@@ -116,6 +119,11 @@ class ProdutoTable {
     getDelTable() {
         let rows = document.createDocumentFragment();
 
+        if (this.list.length < 1) {
+            let row = new ItemRowTable([new ItemCellTable(this.createSpan('Nenhum produto registrado', 'full-span text-center'), 6)]);
+            rows.append(row.getItem());
+        }
+
         this.list.forEach((produto) => {
             let cells = [];
 
@@ -140,6 +148,11 @@ class ProdutoTable {
     getListTable() {
         let rows = document.createDocumentFragment();
         this.total = 0.0;
+
+        if (this.list.length < 1) {
+            let row = new ItemRowTable([new ItemCellTable(this.createSpan('Nenhum produto registrado', 'full-span text-center'), 6)]);
+            rows.append(row.getItem());
+        }
 
         this.list.forEach((produto) => {
             this.total += produto.preco * produto.quantidade;
