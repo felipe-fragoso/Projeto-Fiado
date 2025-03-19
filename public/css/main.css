@@ -69,6 +69,11 @@ li {
     text-align: center;
 }
 
+.full-span {
+    width: 100%;
+    display: block;
+}
+
 input[type=text]:disabled {
     opacity: 0.7;
     color: light-dark(graytext, rgb(170, 170, 170));

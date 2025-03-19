@@ -31,10 +31,10 @@
                 </thead>
                 <tbody>
                     <?php
-                        if (!$data->list):
+                        if (!(array) $data->list):
                     ?>
                     <tr>
-                        <td colspan="6" class="th-center">Nenhum registro encontrado</td>
+                        <td colspan="6" class="th-center">Nenhum cliente encontrado</td>
                     </tr>
                     <?php
                         else:
