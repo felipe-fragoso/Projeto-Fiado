@@ -114,6 +114,22 @@ class FiadoDao extends Model
      * @param ParamData $data
      * @return mixed
      */
+    public function totalVencido(ParamData $data)
+    {
+        $statement = $this->select(
+            'fiado',
+            "due_date < :due_date AND id_loja = :id_loja AND paid = :paid AND due_date > :from",
+            $data,
+            "SUM(`total`)"
+        );
+
+        return $statement->fetchColumn();
+    }
+
+    /**
+     * @param ParamData $data
+     * @return mixed
+     */
     public function totalCliente(ParamData $data)
     {
         $setPaid = array_filter($data->getData(), function ($paramItem) {

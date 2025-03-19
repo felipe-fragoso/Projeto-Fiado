@@ -104,6 +104,49 @@ class CompraController extends Controller
         $this->load('loja/template', $data);
     }
 
+    public function vencida()
+    {
+        $idLoja = Auth::getId();
+        $loja = LojaService::getLojaById($idLoja);
+        $form = new FormData();
+
+        $form->setItem('search')->getValueFrom('q', null, InputType::Get);
+
+        $page_url = $_SERVER["BASE_URL"] . 'compra' . $form->search ? "?q={$form->search}" : '';
+
+        $pagination = new Pagination(CompraService::totalCompraVencidaLoja($idLoja, $form->search), $page_url);
+
+        $data = [
+            'email' => $loja->getEmail(),
+            'nome' => $loja->getName(),
+            'esteMes' => CompraService::getTotalVencido($loja->getId(), new \DateTime('first day of')) ?? 0,
+            'total' => CompraService::getTotalVencido($loja->getId()) ?? 0,
+            'list' => array_map(function (Fiado $item) {
+                $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
+
+                return [
+                    'id' => $item->getId(),
+                    'idCliente' => $clienteLoja->getId(),
+                    'nome' => $item->getCliente()->getName(),
+                    'total' => $item->getTotal(),
+                    'data' => $item->getDate(),
+                    'vencimento' => $item->getDueDate(),
+                ];
+            }, CompraService::listCompraVencidaLoja(
+                $loja->getId(),
+                $pagination->getFirstItemIndex(),
+                $pagination->getItensPerPage(),
+                null,
+                $form->search
+            ) ?: []),
+        ];
+        $data['view'] = 'loja/compra/expired';
+        $data['search'] = $form->search;
+        $data['vencidaPagination'] = $pagination;
+
+        $this->load('loja/template', $data);
+    }
+
     /**
      * @param $id
      */

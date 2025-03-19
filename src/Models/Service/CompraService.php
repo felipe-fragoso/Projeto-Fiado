@@ -178,6 +178,90 @@ class CompraService
 
     /**
      * @param int $idLoja
+     * @param int $first
+     * @param int $quantity
+     * @param ?bool $active
+     * @param ?string $like
+     */
+    public static function listCompraVencidaLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
+    {
+        $dao = new FiadoDao();
+
+        $paramData = new ParamData(null);
+        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
+        $paramData->addData('paid', false, \PDO::PARAM_INT);
+        $paramData->addData('first', $first, \PDO::PARAM_INT);
+        $paramData->addData('last', $quantity, \PDO::PARAM_INT);
+        $paramData->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+
+        if ($like !== null) {
+            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        $arr = $dao->listFiadoPendente(
+            "id_loja = :id_loja AND paid = :paid AND due_date < :due_date AND fiado.id_cliente = cliente.id {$like} {$active}",
+            $paramData,
+            ':first, :last',
+            'fiado.date DESC'
+        );
+
+        if ($arr) {
+            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int $idLoja
+     * @param ?string $like
+     * @return mixed
+     */
+    public static function totalCompraVencidaLoja(int $idLoja, ?string $like = null)
+    {
+        $dao = new FiadoDao();
+
+        $paramData = new ParamData(null);
+        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
+        $paramData->addData('paid', false, \PDO::PARAM_INT);
+        $paramData->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+
+        if ($like !== null) {
+            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        return $dao->countFiadoPendente(
+            "id_loja = :id_loja AND paid = :paid AND due_date < :due_date AND fiado.id_cliente = cliente.id {$like}",
+            $paramData
+        );
+    }
+
+    /**
+     * @param int $loja
+     * @param \DateTime|int $from
+     * @return mixed
+     */
+    public static function getTotalVencido(int $loja, \DateTime | int $from = 0)
+    {
+        $dao = new FiadoDao();
+        $data = new ParamData(null);
+
+        if (is_int($from)) {
+            $from = \DateTime::createFromFormat('U', $from);
+        }
+
+        $data->addData('id_loja', $loja, \PDO::PARAM_INT);
+        $data->addData('paid', false, \PDO::PARAM_INT);
+        $data->addData('from', $from->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+        $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+
+        return $dao->totalVencido($data);
+    }
+
+    /**
+     * @param int $idLoja
      * @param int $idCliente
      */
     public static function listCompraLojaCliente(int $idLoja, int $idCliente)
