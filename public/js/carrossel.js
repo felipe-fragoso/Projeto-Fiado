@@ -21,9 +21,9 @@ function carrossel(link) {
     let carrosselItems = getCarrosselItems(link);
 
     if (scrollLeft) {
-        carrosselItems.scrollLeft -= 100;
+        carrosselItems.scrollTo({ left: carrosselItems.scrollLeft - 200, behavior: 'smooth' });
     } else {
-        carrosselItems.scrollLeft += 100;
+        carrosselItems.scrollTo({ left: carrosselItems.scrollLeft + 200, behavior: 'smooth' });
     }
 }
 /**
