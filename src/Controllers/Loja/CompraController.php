@@ -140,7 +140,7 @@ class CompraController extends Controller
                 $form->search
             ) ?: []),
         ];
-        $data['view'] = 'loja/compra/expired';
+        $data['view'] = 'loja/compra/overdue';
         $data['search'] = $form->search;
         $data['vencidaPagination'] = $pagination;
 
