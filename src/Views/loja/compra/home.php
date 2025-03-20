@@ -8,6 +8,7 @@
                     <p><b>Este mês:</b> R$ <?=$data->formatToReal('esteMes')?></p>
                     <p><b>Total:</b> R$ <?=$data->formatToReal('total')?></p>
                     <p><b>Pendente:</b> R$ <?=$data->formatToReal('pendente')?></p>
+                    <p><b>Vencidas:</b> R$ <?=$data->formatToReal('vencido')?></p>
                 </div>
             </div>
             <div class="card card-big">

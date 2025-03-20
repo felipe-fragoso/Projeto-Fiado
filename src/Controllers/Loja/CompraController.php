@@ -52,6 +52,7 @@ class CompraController extends Controller
             'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of')) ?? 0,
             'total' => CompraService::getTotal($loja->getId(), 0) ?? 0,
             'pendente' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false) ?? 0,
+            'vencido' => CompraService::getTotalVencido($loja->getId()) ?? 0,
             'list' => $list,
         ];
         $data['view'] = 'loja/compra/home';
