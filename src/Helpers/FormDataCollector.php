@@ -78,6 +78,26 @@ class FormDataCollector
 
     /**
      * @param string $name
+     * @param ?string $default
+     * @param InputType $type
+     */
+    public static function getDatetime(string $name, ?string $default, InputType $type = InputType::Post)
+    {
+        return Sanitizer::sanitizeDatetime(filter_input($type->value, $name)) ?? $default;
+    }
+
+    /**
+     * @param string $name
+     * @param ?string $default
+     * @param InputType $type
+     */
+    public static function getTime(string $name, ?string $default, InputType $type = InputType::Post)
+    {
+        return Sanitizer::sanitizeTime(filter_input($type->value, $name)) ?? $default;
+    }
+
+    /**
+     * @param string $name
      * @param ?bool $default
      * @param InputType $type
      */

@@ -76,6 +76,36 @@ class Sanitizer
     }
 
     /**
+     * @param ?string $data
+     */
+    public static function sanitizeDatetime(?string $data): ?string
+    {
+        if ($data !== null) {
+            $date = \DateTime::createFromFormat('Y-m-d\TH:i', $data);
+
+            if (!\DateTime::getLastErrors()) {
+                return $date->format('Y-m-d H:i:s');
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param ?string $data
+     */
+    public static function sanitizeTime(?string $data): ?string
+    {
+        if ($data !== null) {
+            if (preg_match('/^[\d]{2}:[\d]{2}$/', $data)) {
+                return $data;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param string $data
      */
     public static function sanitizeYesNoInput(?string $data): ?bool

@@ -12,6 +12,8 @@ enum FormDataType {
     case Cpf;
     case Cnpj;
     case Telephone;
+    case Datetime;
+    case Time;
     case YesNoInput;
     case JsonText;
 
@@ -24,6 +26,8 @@ enum FormDataType {
             self::Bool => FormDataCollector::getBool(...),
             self::Cpf => FormDataCollector::getCpf(...),
             self::Cnpj => FormDataCollector::getCnpj(...),
+            self::Datetime => FormDataCollector::getDatetime(...),
+            self::Time => FormDataCollector::getTime(...),
             self::Telephone => FormDataCollector::getTelephone(...),
             self::YesNoInput => FormDataCollector::getYesNoInput(...),
             self::JsonText => FormDataCollector::getJsonText(...),
