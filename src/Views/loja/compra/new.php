@@ -109,4 +109,15 @@
 <script src="<?=$_SERVER["BASE_URL"]?>js/modal-produto.js"></script>
 <script src="<?=$_SERVER["BASE_URL"]?>js/modal.js"></script>
 <script src="<?=$_SERVER["BASE_URL"]?>js/searchable-select.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let input = document.querySelector('#sel-cliente');
+
+        input.addEventListener('input', (e) => {
+            if (e.inputType == "deleteContentBackward") {
+                e.target.value = e.target.value.replace(/\s\(.+/, '');
+            }
+        });
+    });
+</script>
 <link rel="stylesheet" type="text/css" href="<?=$_SERVER["BASE_URL"]?>css/searchable-select.css" />
