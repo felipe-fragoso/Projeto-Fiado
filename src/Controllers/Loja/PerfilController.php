@@ -81,9 +81,9 @@ class PerfilController extends Controller
         $form->setItem('name')->getValueFrom('ipt-nome');
         $form->setItem('address')->getValueFrom('ipt-endereco');
         $form->setItem('telephone', FormDataType::Telephone)->getValueFrom('ipt-telefone');
-        $form->setItem('established')->getValueFrom('ipt-criada');
-        $form->setItem('openHour')->getValueFrom('ipt-abre');
-        $form->setItem('closeHour')->getValueFrom('ipt-fecha');
+        $form->setItem('established', FormDataType::Datetime)->getValueFrom('ipt-criada', '');
+        $form->setItem('openHour', FormDataType::Time)->getValueFrom('ipt-abre');
+        $form->setItem('closeHour', FormDataType::Time)->getValueFrom('ipt-fecha');
         $form->setItem('description')->getValueFrom('txt-descricao');
 
         Flash::setForm($form->getArray());
