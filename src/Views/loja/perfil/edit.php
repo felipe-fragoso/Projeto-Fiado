@@ -17,7 +17,8 @@
                 </div>
                 <div class="full-input">
                     <label for="ipt-telefone">Telefone:</label>
-                    <input type="text" name="ipt-telefone" id="ipt-telefone" value="<?=$data->telefone?>">
+                    <input type="text" name="ipt-telefone" id="ipt-telefone"
+                        value="<?=$data->formatPhone('telefone')?>">
                 </div>
                 <div class="full-input">
                     <label for="ipt-criada">Criada em:</label>

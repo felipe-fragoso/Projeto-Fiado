@@ -7,8 +7,10 @@
                 <h3 class="card-title">Detalhe Minha Loja</h3>
                 <div class="card-content">
                     <p><b>Nome:</b> <?=$data->nome?></p>
-                    <p><b>Endereço:</b> <?=$data->endereco?></p>
+                    <p><b>Email:</b> <?=$data->email?></p>
+                    <p><b>CNPJ:</b> <?=$data->formatCnpj('cnpj')?></p>
                     <p><b>Telefone:</b> <?=$data->formatPhone('telefone')?></p>
+                    <p><b>Endereço:</b> <?=$data->endereco?></p>
                     <p><b>Criada em:</b> <?=$data->dateToBr('criada')?></p>
                     <p><b>Hora funcionamento:</b> <?=$data->abre?> até <?=$data->fecha?></p>
                 </div>
