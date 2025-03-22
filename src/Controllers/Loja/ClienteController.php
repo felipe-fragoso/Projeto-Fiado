@@ -105,6 +105,7 @@ class ClienteController extends Controller
         $data = [
             'id' => $clienteLoja->getId(),
             'nome' => $clienteLoja->getCliente()->getName(),
+            'cpf' => $clienteLoja->getCliente()->getCpf(),
             'email' => $clienteLoja->getCliente()->getEmail(),
             'credito' => $maxCredit,
             'data' => $clienteLoja->getCliente()->getDate(),

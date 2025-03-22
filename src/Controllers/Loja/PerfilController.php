@@ -32,6 +32,8 @@ class PerfilController extends Controller
 
         $data = [
             'nome' => $lojaPI->getLoja()->getName(),
+            'cnpj' => $lojaPI->getLoja()->getCnpj(),
+            'email' => $lojaPI->getLoja()->getEmail(),
             'endereco' => $lojaPI->getAddress() ?: 'Endereço vazio',
             'telefone' => $lojaPI->getTelephone() ?: 'Telefone vazio',
             'criada' => $lojaPI->getEstablished(),

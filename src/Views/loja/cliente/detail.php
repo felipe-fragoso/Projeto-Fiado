@@ -7,10 +7,11 @@
                 <div class="card-content">
                     <p><b>Nome:</b> <?=$data->nome?></p>
                     <p><b>Email:</b> <?=$data->email?></p>
-                    <p><b>Crédito máximo:</b> R$ <?=$data->formatToReal('credito')?></p>
                     <p><b>Telefone:</b> <?=$data->formatPhone('telefone')?></p>
+                    <p><b>CPF:</b> <?=$data->formatCpf('cpf')?></p>
                     <p><b>Endereço:</b> <?=$data->endereco?></p>
                     <p><b>Criado em:</b> <?=$data->dateToBr('data')?></p>
+                    <p><b>Crédito máximo:</b> R$ <?=$data->formatToReal('credito')?></p>
                 </div>
             </div>
         </div>
