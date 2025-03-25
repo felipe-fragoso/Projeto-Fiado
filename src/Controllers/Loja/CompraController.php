@@ -199,7 +199,11 @@ class CompraController extends Controller
                 'id' => $item->getCliente()->getId(),
                 'nome' => $item->getCliente()->getName(),
                 'email' => $item->getCliente()->getEmail(),
-            ], ClienteLojaService::listClienteLoja(Auth::getId(), 0, 9, true) ?: []),
+            ], ClienteLojaService::listClienteLoja(
+                Auth::getId(),
+                0,
+                ClienteLojaService::totalClienteLoja(Auth::getId()), true) ?: []
+            ),
         ];
         $data['view'] = 'loja/compra/new';
 
