@@ -60,7 +60,7 @@ class ProdutoController extends Controller
 
         $produto = ProdutoService::getProduto($id);
 
-        if (!$produto) {
+        if (!$produto || $produto->getLoja()->getId() !== Auth::getId()) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
@@ -91,7 +91,7 @@ class ProdutoController extends Controller
 
         $produto = ProdutoService::getProduto($id);
 
-        if (!$produto) {
+        if (!$produto || $produto->getLoja()->getId() !== Auth::getId()) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
