@@ -172,6 +172,10 @@ class CompraController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLoja($idLoja, $idCliente);
 
+        if (!$clienteLoja) {
+            $this->redirect($_SERVER["BASE_URL"] . 'compra');
+        }
+
         $data = [
             'idClienteLoja' => $clienteLoja->getId(),
             'cliente' => $fiado->getCliente()->getName(),

@@ -57,7 +57,7 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
-        if (!$clienteLoja) {
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getId()) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
@@ -94,7 +94,7 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
-        if (!$clienteLoja) {
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getId()) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
@@ -142,7 +142,7 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
-        if (!$clienteLoja) {
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getId()) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
