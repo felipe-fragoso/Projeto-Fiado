@@ -43,9 +43,9 @@ class Produto
     }
 
     /**
-     * @return mixed
+     * @return Loja|LazyDataObj
      */
-    public function getLoja()
+    public function getLoja(): Loja | LazyDataObj
     {
         return $this->loja;
     }
