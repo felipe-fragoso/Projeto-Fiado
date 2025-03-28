@@ -46,6 +46,7 @@ class ConfigController extends Controller
             'id' => $config->getId(),
             'prazo' => $form['ipt-prazo'] ?? $config->getPayLimit(),
             'credito' => $form['ipt-credito'] ?? $config->getMaxCredit(),
+            'tokenData' => $config->getId(),
         ];
         $data['view'] = 'loja/config/edit';
 
@@ -54,14 +55,14 @@ class ConfigController extends Controller
 
     public function salvar()
     {
-        $this->checkToken($_SERVER["BASE_URL"] . 'config');
-
         $form = new FormData();
         $idLoja = Auth::getId();
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
         $form->setItem('payLimit', FormDataType::Int)->getValueFrom('ipt-prazo', 0);
         $form->setItem('maxCredit', FormDataType::Float)->getValueFrom('ipt-credito', 0.0);
+
+        $this->checkToken($_SERVER["BASE_URL"] . 'config', $form->id);
 
         Flash::setForm($form->getArray());
 

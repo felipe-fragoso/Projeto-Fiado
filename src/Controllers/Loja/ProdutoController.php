@@ -72,6 +72,7 @@ class ProdutoController extends Controller
             'preco' => $form['ipt-preco'] ?? $produto->getPrice(),
             'ativo' => $form['sel-ativo'] ?? $produto->getActive(),
             'descricao' => $form['txta-descricao'] ?? $produto->getDescription(),
+            'tokenData' => $produto->getId(),
         ];
         $data['view'] = 'loja/produto/edit';
 
@@ -108,8 +109,6 @@ class ProdutoController extends Controller
 
     public function salvar()
     {
-        $this->checkToken($_SERVER["BASE_URL"] . 'produto');
-
         $form = new FormData();
         $idLoja = Auth::getId();
 
@@ -118,6 +117,8 @@ class ProdutoController extends Controller
         $form->setItem('price', FormDataType::Float)->getValueFrom('ipt-preco', 0);
         $form->setItem('active', FormDataType::YesNoInput)->getValueFrom('sel-ativo', true);
         $form->setItem('description')->getValueFrom('txta-descricao', '');
+
+        $this->checkToken($_SERVER["BASE_URL"] . 'produto', $form->id);
 
         Flash::setForm($form->getArray());
 
