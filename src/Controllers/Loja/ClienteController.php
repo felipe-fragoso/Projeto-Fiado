@@ -153,6 +153,7 @@ class ClienteController extends Controller
             'email' => $clienteLoja->getCliente()->getEmail(),
             'creditoMaximo' => $form['ipt-credito'] ?? $clienteLoja->getMaxCredit() ?? 0,
             'ativo' => $form['sel-ativo'] ?? $clienteLoja->getActive(),
+            'tokenData' => $clienteLoja->getId(),
         ];
         $data['view'] = 'loja/cliente/edit';
 
@@ -161,8 +162,6 @@ class ClienteController extends Controller
 
     public function salvar()
     {
-        $this->checkToken($_SERVER["BASE_URL"] . 'cliente');
-
         $form = new FormData();
         $idLoja = Auth::getId();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
@@ -178,6 +177,8 @@ class ClienteController extends Controller
 
         $form->setItem('credit', FormDataType::Float)->getValueFrom('ipt-credito', $configLoja?->getMaxCredit());
         $form->setItem('active', FormDataType::YesNoInput)->getValueFrom('sel-ativo', true);
+
+        $this->checkToken($_SERVER["BASE_URL"] . 'cliente', $form->id);
 
         Flash::setForm($form->getArray());
 

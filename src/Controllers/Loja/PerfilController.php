@@ -66,6 +66,7 @@ class PerfilController extends Controller
             'abre' => $form['ipt-abre'] ?? $lojaPI->getOpenHour(),
             'fecha' => $form['ipt-fecha'] ?? $lojaPI->getCloseHour(),
             'descricao' => $form['txt-descricao'] ?? $lojaPI->getDescription(),
+            'tokenData' => $lojaPI->getId(),
         ];
         $data['view'] = 'loja/perfil/edit';
 
@@ -74,8 +75,6 @@ class PerfilController extends Controller
 
     public function salvar()
     {
-        $this->checkToken($_SERVER["BASE_URL"] . 'perfil');
-
         $form = new FormData();
         $idLoja = Auth::getId();
 
@@ -87,6 +86,8 @@ class PerfilController extends Controller
         $form->setItem('openHour', FormDataType::Time)->getValueFrom('ipt-abre');
         $form->setItem('closeHour', FormDataType::Time)->getValueFrom('ipt-fecha');
         $form->setItem('description')->getValueFrom('txt-descricao');
+
+        $this->checkToken($_SERVER["BASE_URL"] . 'perfil', $form->id);
 
         Flash::setForm($form->getArray());
 

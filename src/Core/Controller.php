@@ -31,9 +31,14 @@ class Controller
             ]);
         }
 
-        $token = TokenManager::getToken();
         $data = $this->parsedViewData;
         $flash = $this->parsedFlash;
+
+        if (property_exists($data, 'tokenData') && $data->tokenData !== null) {
+            $token = TokenManager::withData($data->tokenData);
+        } else {
+            $token = TokenManager::getToken();
+        }
 
         $include = $_SERVER["VIEWPATH"] . $viewName . '.php';
 
@@ -69,13 +74,19 @@ class Controller
     /**
      * @param string $errorUrl
      */
-    protected function checkToken(string $errorUrl)
+    protected function checkToken(string $errorUrl, ?string $data = null)
     {
         $form = new FormData();
 
         $form->setItem('token')->getValueFrom('hidden-token', '');
 
-        if (!TokenManager::checkToken($form->token)) {
+        if ($data) {
+            $tokenInvalid = !TokenManager::checkData($data, $form->token);
+        } else {
+            $tokenInvalid = !TokenManager::checkToken($form->token);
+        }
+
+        if ($tokenInvalid === true) {
             Flash::clearForm();
             Flash::clearError();
             Flash::setMessage('Token inválido', MessageType::Warning);
