@@ -9,7 +9,7 @@
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
                 <?php
-                    if (!empty($data->ultimasCompras)):
+                    if (!empty((array) $data->ultimasCompras)):
                         /** @var Fiado\Core\ViewHelper $compra */
                         foreach ($data->ultimasCompras as $compra):
                 ?>
@@ -51,7 +51,7 @@
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
                 <?php
-                    if (!empty($data->ultimasPendentes)):
+                    if (!empty((array) $data->ultimasPendentes)):
                         /** @var Fiado\Core\ViewHelper $compra */
                         foreach ($data->ultimasPendentes as $compra):
                 ?>
