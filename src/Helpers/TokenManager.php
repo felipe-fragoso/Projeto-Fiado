@@ -17,6 +17,27 @@ class TokenManager
     }
 
     /**
+     * @param string $data
+     */
+    public static function withData(string $data)
+    {
+        return hash_hmac('sha256', $data, self::getToken());
+    }
+
+    /**
+     * @param string $data
+     * @param string $token
+     */
+    public static function checkData(string $data, string $token)
+    {
+        $sessionToken = self::getToken();
+
+        unset($_SESSION[$_SERVER["TOKEN_SESSION"]]);
+
+        return hash_equals(hash_hmac('sha256', $data, $sessionToken), $token);
+    }
+
+    /**
      * @param string $token
      * @return bool
      */
