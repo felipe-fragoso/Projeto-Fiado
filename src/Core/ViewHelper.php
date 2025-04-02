@@ -50,6 +50,23 @@ class ViewHelper extends \stdClass
 
     /**
      * @param string $property
+     * @param int $decimals
+     * @param string $decimal_separator
+     * @param string $thousands_separator
+     */
+    public function formatNumber(string $property, int $decimals = 0, string $decimal_separator = '.', string $thousands_separator = ',')
+    {
+        if (property_exists($this, $property)) {
+            if (is_numeric($this->$property)) {
+                return number_format($this->$property, $decimals, $decimal_separator, $thousands_separator);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $property
      */
     public function formatPhone(string $property)
     {
