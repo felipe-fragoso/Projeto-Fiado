@@ -6,6 +6,7 @@ use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
 use Fiado\Enums\InputType;
+use Fiado\Enums\MessageType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
@@ -122,11 +123,15 @@ class ProdutoController extends Controller
 
         Flash::setForm($form->getArray());
 
-        if (ProdutoService::salvar($form->id, $idLoja, $form->name, $form->price, $form->active, $form->description)) {
+        if ($rowCount = ProdutoService::salvar($form->id, $idLoja, $form->name, $form->price, $form->active, $form->description)) {
             Flash::clearForm();
             Flash::setMessage('Operação realizada com sucesso');
 
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
+        }
+
+        if ($rowCount === 0) {
+            Flash::setMessage('Nenhum registro alterado', MessageType::Warning);
         }
 
         if ($form->id) {

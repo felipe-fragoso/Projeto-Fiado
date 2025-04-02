@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Enums\MessageType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\Config;
@@ -66,11 +67,15 @@ class ConfigController extends Controller
 
         Flash::setForm($form->getArray());
 
-        if (ConfigService::salvar($form->id, $idLoja, $form->payLimit, $form->maxCredit)) {
+        if ($rowCount = ConfigService::salvar($form->id, $idLoja, $form->payLimit, $form->maxCredit)) {
             Flash::clearForm();
             Flash::setMessage('Operação realizada com sucesso');
 
             $this->redirect($_SERVER["BASE_URL"] . 'config');
+        }
+
+        if ($rowCount === 0) {
+            Flash::setMessage('Nenhum registro alterado', MessageType::Warning);
         }
 
         $this->redirect($_SERVER["BASE_URL"] . 'config/editar');

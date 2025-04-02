@@ -5,6 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
+use Fiado\Enums\MessageType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Models\Entity\LojaPI;
@@ -120,6 +121,12 @@ class PerfilController extends Controller
                 $loja->getSenha(),
                 $loja->getDate(),
             );
+        }
+
+        if (($successLojaPI === 0 && !isset($successLoja)) || (isset($successLoja) && $successLoja === 0)) {
+            Flash::setMessage('Nenhum registro alterado', MessageType::Warning);
+
+            $this->redirect($_SERVER["BASE_URL"] . 'perfil/editar');
         }
 
         if ($successLojaPI !== false && $successLoja !== false) {
