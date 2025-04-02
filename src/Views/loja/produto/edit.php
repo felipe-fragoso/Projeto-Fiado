@@ -12,8 +12,8 @@
             <div class="full-input">
                 <div class="half-input">
                     <label for="ipt-preco">Valor:</label>
-                    <input type="number" name="ipt-preco" id="ipt-preco" value="<?=$data->preco?>" min="0" max="9999"
-                        step="0.01">
+                    <input type="number" name="ipt-preco" id="ipt-preco" value="<?=$data->formatNumber('preco', 2)?>"
+                        min="0" max="9999" step="0.01">
                 </div>
                 <div class="half-input">
                     <label for="sel-ativo">Ativo:</label>
