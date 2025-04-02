@@ -13,7 +13,7 @@
                 <div class="half-input">
                     <label for="ipt-preco">Valor:</label>
                     <input type="number" name="ipt-preco" id="ipt-preco" min="0" max="9999" step="0.01"
-                        value="<?=$flash?->form?->{'ipt-preco'}?>">
+                        value="<?=$flash?->form?->formatNumber('ipt-preco', 2)?>">
                 </div>
                 <div class="half-input">
                     <label for="sel-ativo">Ativo:</label>
