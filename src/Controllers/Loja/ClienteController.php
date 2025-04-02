@@ -6,6 +6,7 @@ use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Enums\FormDataType;
 use Fiado\Enums\InputType;
+use Fiado\Enums\MessageType;
 use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
@@ -203,11 +204,15 @@ class ClienteController extends Controller
             $idCliente = ClienteLojaService::getClienteLojaById($form->id)->getCliente()->getId();
         }
 
-        if (ClienteLojaService::salvar($form->id, $idLoja, $idCliente ?? 0, $form->credit, $form->active)) {
+        if ($rowCount = ClienteLojaService::salvar($form->id, $idLoja, $idCliente ?? 0, $form->credit, $form->active)) {
             Flash::clearForm();
             Flash::setMessage('Operação realizada com sucesso');
 
             $this->redirect($baseUrl);
+        }
+
+        if ($rowCount === 0) {
+            Flash::setMessage('Nenhum registro alterado', MessageType::Warning);
         }
 
         $this->redirect($backUrl);
