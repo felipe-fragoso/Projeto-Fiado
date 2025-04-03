@@ -136,6 +136,7 @@ class ClienteController extends Controller
     public function editar($id = null)
     {
         $id = SqidsWrapper::decode($id);
+        $idLoja = Auth::getId();
 
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
@@ -143,16 +144,17 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
-        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getId()) {
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() != $idLoja) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
         $form = Flash::getForm();
+        $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 
         $data = [
             'id' => $clienteLoja->getId(),
             'email' => $clienteLoja->getCliente()->getEmail(),
-            'creditoMaximo' => $form['ipt-credito'] ?? $clienteLoja->getMaxCredit() ?? 0,
+            'creditoMaximo' => $form['ipt-credito'] ?? $clienteLoja->getMaxCredit() ?? $configLoja?->getMaxCredit() ?? 0,
             'ativo' => $form['sel-ativo'] ?? $clienteLoja->getActive(),
             'tokenData' => $clienteLoja->getId(),
         ];
@@ -165,7 +167,6 @@ class ClienteController extends Controller
     {
         $form = new FormData();
         $idLoja = Auth::getId();
-        $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
         $form->setItem('name')->getValueFrom('ipt-nome');
@@ -176,7 +177,7 @@ class ClienteController extends Controller
         $form->setItem('address')->getValueFrom('ipt-endereco');
         $form->setItem('type')->getValueFrom('ipt-tipo', 'n');
 
-        $form->setItem('credit', FormDataType::Float)->getValueFrom('ipt-credito', $configLoja?->getMaxCredit());
+        $form->setItem('credit', FormDataType::Float)->getValueFrom('ipt-credito');
         $form->setItem('active', FormDataType::YesNoInput)->getValueFrom('sel-ativo', true);
 
         $this->checkToken($_SERVER["BASE_URL"] . 'cliente', $form->id);
