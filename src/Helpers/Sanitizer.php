@@ -8,7 +8,7 @@ class Sanitizer
      */
     public static function sanitizeInt(?string $data): ?int
     {
-        if (filter_var($data, FILTER_VALIDATE_INT)) {
+        if (filter_var($data, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) !== null) {
             return (int) $data;
         }
 
@@ -20,7 +20,7 @@ class Sanitizer
      */
     public static function sanitizeBool(?string $data): ?bool
     {
-        if (filter_var($data, FILTER_VALIDATE_BOOL)) {
+        if (filter_var($data, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null) {
             return (bool) $data;
         }
 
@@ -32,7 +32,7 @@ class Sanitizer
      */
     public static function sanitizeFloat(?string $data): ?float
     {
-        if (filter_var($data, FILTER_VALIDATE_FLOAT)) {
+        if (filter_var($data, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE) !== null) {
             return (float) $data;
         }
 
