@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `cliente_loja` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_cliente` int NOT NULL,
   `id_loja` int NOT NULL,
-  `max_credit` int DEFAULT NULL,
+  `max_credit` decimal(10,2) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `loja_config` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_loja` int NOT NULL,
   `pay_limit` int NOT NULL,
-  `max_credit` int NOT NULL,
+  `max_credit` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

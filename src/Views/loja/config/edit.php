@@ -14,8 +14,8 @@
                 </div>
                 <div class="full-input">
                     <label for="ipt-credito">Credito Máximo(Reais):</label>
-                    <input type="number" name="ipt-credito" id="ipt-credito" value="<?=$data->credito?>" min="0.01"
-                        max="9999" step="0.01">
+                    <input type="number" name="ipt-credito" id="ipt-credito"
+                        value="<?=$data->formatNumber('credito', 2)?>" min="0.01" max="9999" step="0.01">
                 </div>
                 <input type="hidden" name="hidden-token" value="<?=$token?>">
                 <input type="hidden" name="ipt-id" value="<?=$data->id?>">
