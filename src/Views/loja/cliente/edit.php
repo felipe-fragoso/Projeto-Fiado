@@ -13,7 +13,8 @@
                 </div>
                 <div class="full-input">
                     <label for="ipt-credito">Crédito Máximo:</label>
-                    <input type="text" name="ipt-credito" id="ipt-credito" value="<?=$data->creditoMaximo?>">
+                    <input type="number" name="ipt-credito" id="ipt-credito"
+                        value="<?=$data->formatNumber('creditoMaximo', 2)?>" min="0.00" max="9999" step="0.01">
                 </div>
                 <div class="full-input">
                     <label for="sel-ativo">Ativo:</label>
