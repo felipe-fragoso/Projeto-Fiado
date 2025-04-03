@@ -9,10 +9,17 @@ class ClienteLoja
     private ?int $id;
     private Loja|LazyDataObj $loja;
     private Cliente|LazyDataObj $cliente;
-    private ?int $maxCredit;
+    private ?string $maxCredit;
     private bool $active;
 
-    public function __construct(?int $id, Loja|LazyDataObj $loja, Cliente|LazyDataObj $cliente, ?int $maxCredit, bool $active)
+    /**
+     * @param ?int $id
+     * @param Loja|LazyDataObj $loja
+     * @param Cliente|LazyDataObj $cliente
+     * @param ?string $maxCredit
+     * @param bool $active
+     */
+    public function __construct(?int $id, Loja | LazyDataObj $loja, Cliente | LazyDataObj $cliente, ?string $maxCredit, bool $active)
     {
         $this->id = $id;
         $this->loja = $loja;
@@ -21,26 +28,41 @@ class ClienteLoja
         $this->active = $active;
     }
 
+    /**
+     * @return ?int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLoja(): Loja|LazyDataObj
+    /**
+     * @return Loja|LazyDataObj
+     */
+    public function getLoja(): Loja | LazyDataObj
     {
         return $this->loja;
     }
 
-    public function getCliente(): Cliente|LazyDataObj
+    /**
+     * @return Cliente|LazyDataObj
+     */
+    public function getCliente(): Cliente | LazyDataObj
     {
         return $this->cliente;
     }
 
-    public function getMaxCredit(): ?int
+    /**
+     * @return ?string
+     */
+    public function getMaxCredit(): ?string
     {
         return $this->maxCredit;
     }
 
+    /**
+     * @return bool
+     */
     public function getActive(): bool
     {
         return $this->active;

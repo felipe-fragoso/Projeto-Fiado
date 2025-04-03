@@ -27,7 +27,7 @@ class ClienteLojaValidate extends Validator
         $this->getItem('id')->isNumeric()->or()->isNull();
         $this->getItem('cliente')->isRequired('')->isInstanceOf(Cliente::class, '')->isPresent($cliente?->getId());
         $this->getItem('loja')->isRequired()->isInstanceOf(Loja::class)->isPresent($loja?->getId());
-        $this->getItem('credito maximo')->isNumeric()->or()->isNull('')->isMinValue(0);
+        $this->getItem('credito maximo')->isNumeric()->or()->isNull('')->isMinValue(0)->isMaxValue(9999);
         $this->getItem('ativo')->isRequired()->isBool();
 
         if (!$id) {
