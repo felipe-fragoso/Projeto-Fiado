@@ -12,6 +12,20 @@ use Fiado\Models\Validation\LojaValidate;
 class LojaService
 {
     /**
+     * @var LojaDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new LojaDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getLojaObj(array $arr)
@@ -24,9 +38,7 @@ class LojaService
      */
     public static function getLojaByEmail(string $email)
     {
-        $dao = new LojaDao();
-
-        $arr = $dao->getLojaByEmail(new ParamData(new ParamItem('email', $email)));
+        $arr = self::getDao()->getLojaByEmail(new ParamData(new ParamItem('email', $email)));
 
         if ($arr) {
             return self::getLojaObj($arr);
@@ -40,9 +52,7 @@ class LojaService
      */
     public static function getLojaById(int $id)
     {
-        $dao = new LojaDao();
-
-        $arr = $dao->getLojaById(new ParamData(new ParamItem('id', $id)));
+        $arr = self::getDao()->getLojaById(new ParamData(new ParamItem('id', $id)));
 
         if ($arr) {
             return self::getLojaObj($arr);
@@ -68,10 +78,9 @@ class LojaService
         }
 
         $store = new Loja($id, $cnpj, $name, $email, $password, $date);
-        $dao = new LojaDao();
 
         if ($store->getId()) {
-            return $dao->editLoja([
+            return self::getDao()->editLoja([
                 'id' => $store->getId(),
                 'name' => $store->getName(),
                 'cnpj' => $store->getCnpj(),
@@ -81,7 +90,7 @@ class LojaService
             ]);
         }
 
-        return $dao->addLoja([
+        return self::getDao()->addLoja([
             'name' => $store->getName(),
             'cnpj' => $store->getCnpj(),
             'email' => $store->getEmail(),

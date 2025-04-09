@@ -13,6 +13,20 @@ use Fiado\Models\Validation\ProdutoValidate;
 class ProdutoService
 {
     /**
+     * @var ProdutoDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new ProdutoDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     public static function getProdutoObj(array $arr)
@@ -33,9 +47,7 @@ class ProdutoService
      */
     public static function getProduto(int $id)
     {
-        $dao = new ProdutoDao();
-
-        $arr = $dao->getProduto(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
+        $arr = self::getDao()->getProduto(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
             return self::getProdutoObj($arr);
@@ -52,8 +64,6 @@ class ProdutoService
      */
     public static function totalProduto($idLoja, ?string $like = null, ?bool $active = null)
     {
-        $dao = new ProdutoDao();
-
         $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
 
         if ($active !== null) {
@@ -66,7 +76,7 @@ class ProdutoService
             $like = "AND name LIKE :like";
         }
 
-        return $dao->countProduto("id_loja = :id_loja {$like} {$active}", $data);
+        return self::getDao()->countProduto("id_loja = :id_loja {$like} {$active}", $data);
     }
 
     /**
@@ -78,8 +88,6 @@ class ProdutoService
      */
     public static function listProduto($idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $dao = new ProdutoDao();
-
         $data = new ParamData(null);
 
         $data->addData('first', $first, \PDO::PARAM_INT);
@@ -96,7 +104,7 @@ class ProdutoService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listProduto("id_loja = :id_loja $active $like", $data, ':first, :last', 'date DESC');
+        $arr = self::getDao()->listProduto("id_loja = :id_loja $active $like", $data, ':first, :last', 'date DESC');
 
         if ($arr) {
             return array_map(function ($item) {return self::getProdutoObj($item);}, $arr);
@@ -127,10 +135,9 @@ class ProdutoService
         }
 
         $produto = new Produto($id, $loja, $name, $price, $date, $description, $active);
-        $dao = new ProdutoDao();
 
         if ($produto->getId()) {
-            return $dao->editProduto([
+            return self::getDao()->editProduto([
                 'id' => $produto->getId(),
                 'name' => $produto->getName(),
                 'price' => $produto->getPrice(),
@@ -139,7 +146,7 @@ class ProdutoService
             ]);
         }
 
-        return $dao->addProduto([
+        return self::getDao()->addProduto([
             'id_loja' => $produto->getLoja()->getId(),
             'name' => $produto->getName(),
             'price' => $produto->getPrice(),

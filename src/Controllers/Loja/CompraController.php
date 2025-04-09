@@ -241,16 +241,31 @@ class CompraController extends Controller
             $total += $produto->preco * $produto->quantidade;
         }
 
+        CompraService::getDao()->beginTransation();
+        FiadoItemService::getDao()->beginTransation();
+
         if ($idFiado = CompraService::salvar($id, $form->idCliente, $idLoja, $total, $date, $dueDate, $paid)) {
+            $errors = false;
+
             foreach ($form->listProduto as $item) {
-                FiadoItemService::salvar(null, $idFiado, $item->id, $item->preco, $item->quantidade);
+                if (FiadoItemService::salvar(null, $idFiado, $item->id, $item->preco, $item->quantidade) === false) {
+                    $errors = true;
+                }
             }
 
-            Flash::clearForm();
-            Flash::setMessage('Operação realizada com sucesso');
+            if (!$errors) {
+                CompraService::getDao()->commit();
+                FiadoItemService::getDao()->commit();
 
-            $this->redirect($_SERVER["BASE_URL"] . 'compra');
+                Flash::clearForm();
+                Flash::setMessage('Operação realizada com sucesso');
+
+                $this->redirect($_SERVER["BASE_URL"] . 'compra');
+            }
         }
+
+        CompraService::getDao()->rollback();
+        FiadoItemService::getDao()->rollback();
 
         $this->redirect($_SERVER["BASE_URL"] . 'compra/nova');
     }

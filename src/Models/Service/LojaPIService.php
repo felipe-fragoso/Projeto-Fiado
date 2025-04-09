@@ -13,6 +13,20 @@ use Fiado\Models\Validation\LojaPiValidate;
 class LojaPiService
 {
     /**
+     * @var LojaPiDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new LojaPiDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getLojaPiObj(array $arr)
@@ -34,9 +48,7 @@ class LojaPiService
      */
     public static function getLojaPiByLoja(int $idLoja)
     {
-        $dao = new LojaPiDao();
-
-        $arr = $dao->getLojaPiByLoja(new ParamData(new ParamItem('id_loja', $idLoja)));
+        $arr = self::getDao()->getLojaPiByLoja(new ParamData(new ParamItem('id_loja', $idLoja)));
 
         if ($arr) {
             return self::getLojaPiObj($arr);
@@ -50,9 +62,7 @@ class LojaPiService
      */
     public static function getLojaPiById(int $id)
     {
-        $dao = new LojaPiDao();
-
-        $arr = $dao->getLojaPiById(new ParamData(new ParamItem('id', $id)));
+        $arr = self::getDao()->getLojaPiById(new ParamData(new ParamItem('id', $id)));
 
         if ($arr) {
             return self::getLojaPiObj($arr);
@@ -85,10 +95,9 @@ class LojaPiService
         }
 
         $lojaPI = new LojaPi($id, $loja, $address, $telephone, $description, $established, $openHour, $closeHour);
-        $dao = new LojaPiDao();
 
         if ($lojaPI->getId()) {
-            return $dao->editLojaPi([
+            return self::getDao()->editLojaPi([
                 'id' => $lojaPI->getId(),
                 'address' => $lojaPI->getAddress(),
                 'telephone' => $lojaPI->getTelephone(),
@@ -99,7 +108,7 @@ class LojaPiService
             ]);
         }
 
-        return $dao->addLojaPi([
+        return self::getDao()->addLojaPi([
             'id_loja' => $lojaPI->getLoja()->getId(),
             'address' => $lojaPI->getAddress(),
             'telephone' => $lojaPI->getTelephone(),

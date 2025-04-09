@@ -13,6 +13,20 @@ use Fiado\Models\Validation\CompraValidate;
 class CompraService
 {
     /**
+     * @var FiadoDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new FiadoDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getCompraObj(array $arr)
@@ -33,9 +47,7 @@ class CompraService
      */
     public static function getCompra(int $id)
     {
-        $dao = new FiadoDao();
-
-        $arr = $dao->getFiadoById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
+        $arr = self::getDao()->getFiadoById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
             return self::getCompraObj($arr);
@@ -53,8 +65,6 @@ class CompraService
      */
     public static function listCompraLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $dao = new FiadoDao();
-
         $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
         $data->addData('first', $first, \PDO::PARAM_INT);
         $data->addData('last', $quantity, \PDO::PARAM_INT);
@@ -69,7 +79,7 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listFiado(
+        $arr = self::getDao()->listFiado(
             "id_loja = :id_loja AND fiado.id_cliente = cliente.id {$active} {$like}",
             $data,
             ':first, :last',
@@ -91,8 +101,6 @@ class CompraService
      */
     public static function totalCompraLoja(int $idLoja, ?string $like = null, ?bool $active = null)
     {
-        $dao = new FiadoDao();
-
         $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
 
         if ($active !== null) {
@@ -105,7 +113,7 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        return $dao->countFiado("id_loja = :id_loja AND fiado.id_cliente = cliente.id {$like} {$active}", $data);
+        return self::getDao()->countFiado("id_loja = :id_loja AND fiado.id_cliente = cliente.id {$like} {$active}", $data);
     }
 
     /**
@@ -117,8 +125,6 @@ class CompraService
      */
     public static function listCompraPendenteLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $dao = new FiadoDao();
-
         $paramData = new ParamData(null);
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('paid', false, \PDO::PARAM_INT);
@@ -135,7 +141,7 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listFiadoPendente(
+        $arr = self::getDao()->listFiadoPendente(
             "id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}",
             $paramData,
             ':first, :last',
@@ -157,8 +163,6 @@ class CompraService
      */
     public static function totalCompraPendenteLoja(int $idLoja, ?string $like = null, ?bool $active = null)
     {
-        $dao = new FiadoDao();
-
         $paramData = new ParamData(null);
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('paid', false, \PDO::PARAM_INT);
@@ -173,7 +177,7 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        return $dao->countFiadoPendente("id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}", $paramData);
+        return self::getDao()->countFiadoPendente("id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}", $paramData);
     }
 
     /**
@@ -185,8 +189,6 @@ class CompraService
      */
     public static function listCompraVencidaLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $dao = new FiadoDao();
-
         $paramData = new ParamData(null);
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('paid', false, \PDO::PARAM_INT);
@@ -199,7 +201,7 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        $arr = $dao->listFiadoPendente(
+        $arr = self::getDao()->listFiadoPendente(
             "id_loja = :id_loja AND paid = :paid AND due_date < :due_date AND fiado.id_cliente = cliente.id {$like} {$active}",
             $paramData,
             ':first, :last',
@@ -220,8 +222,6 @@ class CompraService
      */
     public static function totalCompraVencidaLoja(int $idLoja, ?string $like = null)
     {
-        $dao = new FiadoDao();
-
         $paramData = new ParamData(null);
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('paid', false, \PDO::PARAM_INT);
@@ -232,7 +232,7 @@ class CompraService
             $like = "AND name LIKE :like";
         }
 
-        return $dao->countFiadoPendente(
+        return self::getDao()->countFiadoPendente(
             "id_loja = :id_loja AND paid = :paid AND due_date < :due_date AND fiado.id_cliente = cliente.id {$like}",
             $paramData
         );
@@ -243,9 +243,8 @@ class CompraService
      * @param \DateTime|int $from
      * @return mixed
      */
-    public static function getTotalVencido(int $loja, \DateTime | int $from = 0)
+    public static function getTotalVencido(int $loja, \DateTime  | int $from = 0)
     {
-        $dao = new FiadoDao();
         $data = new ParamData(null);
 
         if (is_int($from)) {
@@ -257,7 +256,7 @@ class CompraService
         $data->addData('from', $from->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
         $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
 
-        return $dao->totalVencido($data);
+        return self::getDao()->totalVencido($data);
     }
 
     /**
@@ -266,13 +265,11 @@ class CompraService
      */
     public static function listCompraLojaCliente(int $idLoja, int $idCliente)
     {
-        $dao = new FiadoDao();
-
         $paramData = new ParamData(null);
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('id_cliente', $idCliente, \PDO::PARAM_INT);
 
-        $arr = $dao->listFiadoCliente($paramData);
+        $arr = self::getDao()->listFiadoCliente($paramData);
 
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
@@ -290,7 +287,6 @@ class CompraService
      */
     public static function getTotal(int $loja, \DateTime  | int $start, \DateTime $end = new \DateTime(), ?bool $paid = null)
     {
-        $dao = new FiadoDao();
         $data = new ParamData(null);
 
         if ($start instanceof \DateTime) {
@@ -303,7 +299,7 @@ class CompraService
         $data->addData('id_loja', $loja, \PDO::PARAM_INT);
         $data->addData('paid', $paid);
 
-        return $dao->total($data);
+        return self::getDao()->total($data);
     }
 
     /**
@@ -316,7 +312,6 @@ class CompraService
      */
     public static function getTotalCliente(int $idLoja, int $idCliente, \DateTime  | int $start, \DateTime $end = new \DateTime(), ?bool $paid = null)
     {
-        $dao = new FiadoDao();
         $data = new ParamData(null);
 
         if ($start instanceof \DateTime) {
@@ -330,7 +325,7 @@ class CompraService
         $data->addData('id_cliente', $idCliente, \PDO::PARAM_INT);
         $data->addData('paid', $paid);
 
-        return $dao->totalCliente($data);
+        return self::getDao()->totalCliente($data);
     }
 
     /**
@@ -357,17 +352,16 @@ class CompraService
         }
 
         $compra = new Fiado($id, $cliente, $loja, $total, $date, $dueDate, $paid);
-        $dao = new FiadoDao();
 
         if ($compra->getId()) {
-            return $dao->editFiado([
+            return self::getDao()->editFiado([
                 'id' => $compra->getId(),
                 'due_date' => $compra->getDueDate(),
                 'paid' => $compra->getPaid(),
             ]);
         }
 
-        return $dao->addFiado([
+        return self::getDao()->addFiado([
             'id_cliente' => $compra->getCliente()->getId(),
             'id_loja' => $compra->getLoja()->getId(),
             'total' => $compra->getTotal(),

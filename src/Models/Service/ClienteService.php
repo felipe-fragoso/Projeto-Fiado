@@ -12,6 +12,20 @@ use Fiado\Models\Validation\ClienteValidate;
 class ClienteService
 {
     /**
+     * @var ClienteDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new ClienteDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getClienteObj(array $arr)
@@ -24,9 +38,7 @@ class ClienteService
      */
     public static function getClienteById(int $id)
     {
-        $dao = new ClienteDao();
-
-        $arr = $dao->getClienteById(new ParamData(new ParamItem('id', $id)));
+        $arr = self::getDao()->getClienteById(new ParamData(new ParamItem('id', $id)));
 
         if ($arr) {
             return self::getClienteObj($arr);
@@ -40,9 +52,7 @@ class ClienteService
      */
     public static function getClienteByEmail(string $email)
     {
-        $dao = new ClienteDao();
-
-        $arr = $dao->getClienteByEmail(new ParamData(new ParamItem('email', $email)));
+        $arr = self::getDao()->getClienteByEmail(new ParamData(new ParamItem('email', $email)));
 
         if ($arr) {
             return self::getClienteObj($arr);
@@ -72,10 +82,9 @@ class ClienteService
         }
 
         $store = new Cliente($id, $cpf, $name, $email, $password, $date);
-        $dao = new ClienteDao();
 
         if ($store->getId()) {
-            return $dao->editCliente([
+            return self::getDao()->editCliente([
                 'id' => $store->getId(),
                 'name' => $store->getName(),
                 'cpf' => $store->getCpf(),
@@ -85,7 +94,7 @@ class ClienteService
             ]);
         }
 
-        return $dao->addCliente([
+        return self::getDao()->addCliente([
             'name' => $store->getName(),
             'cpf' => $store->getCpf(),
             'email' => $store->getEmail(),
