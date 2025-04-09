@@ -190,9 +190,19 @@ class ClienteController extends Controller
         $backUrl = $baseUrl . $page . $type;
 
         if (($form->type == 'n') && !$form->id) {
-            $idCliente = ClienteService::salvar(null, $form->cpf, $form->name, $form->email, null, null);
+            ClienteService::getDao()->beginTransation();
+            ClientePIService::getDao()->beginTransation();
 
-            ClientePIService::salvar(null, $idCliente, $form->address, $form->phone, null);
+            $idCliente = ClienteService::salvar(null, $form->cpf, $form->name, $form->email, null, null);
+            $idClientePI = ClientePIService::salvar(null, $idCliente ?: 0, $form->address, $form->phone, null);
+
+            if (!$idCliente || !$idClientePI) {
+                ClienteService::getDao()->rollback();
+                ClientePIService::getDao()->rollback();
+            } else {
+                ClienteService::getDao()->commit();
+                ClientePIService::getDao()->commit();
+            }
         }
 
         if (($form->type == 'c') && !$form->id) {
