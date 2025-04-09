@@ -54,7 +54,7 @@ class ViewHelper extends \stdClass
      * @param string $decimal_separator
      * @param string $thousands_separator
      */
-    public function formatNumber(string $property, int $decimals = 0, string $decimal_separator = '.', string $thousands_separator = ',')
+    public function formatNumber(string $property, int $decimals = 0, string $decimal_separator = '.', string $thousands_separator = '')
     {
         if (property_exists($this, $property)) {
             if (is_numeric($this->$property)) {
