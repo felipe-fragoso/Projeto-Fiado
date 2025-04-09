@@ -26,6 +26,33 @@ class Model
         }
     }
 
+    public function beginTransation()
+    {
+        try {
+            $this->db->beginTransaction();
+        } catch (\PDOException $e) {
+            throw new \Exception("Error: Couldn't begin transaction");
+        }
+    }
+
+    public function commit()
+    {
+        try {
+            $this->db->commit();
+        } catch (\PDOException $e) {
+            throw new \Exception("Error: There is no transaction active");
+        }
+    }
+
+    public function rollback()
+    {
+        try {
+            $this->db->rollBack();
+        } catch (\PDOException $e) {
+            throw new \Exception("Error: There is no transaction active");
+        }
+    }
+
     /**
      * @param $table
      * @param $condition
