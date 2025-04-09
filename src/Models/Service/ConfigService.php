@@ -13,6 +13,20 @@ use Fiado\Models\Validation\ConfigValidate;
 class ConfigService
 {
     /**
+     * @var ConfigDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new ConfigDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getConfigObj(array $arr)
@@ -30,9 +44,7 @@ class ConfigService
      */
     public static function getConfigByLoja(int $idLoja)
     {
-        $dao = new ConfigDao();
-
-        $arr = $dao->getConfigByLoja(new ParamData(new ParamItem('id_loja', $idLoja)));
+        $arr = self::getDao()->getConfigByLoja(new ParamData(new ParamItem('id_loja', $idLoja)));
 
         if ($arr) {
             return self::getConfigObj($arr);
@@ -46,9 +58,7 @@ class ConfigService
      */
     public static function getConfigById(int $id)
     {
-        $dao = new ConfigDao();
-
-        $arr = $dao->getConfigById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
+        $arr = self::getDao()->getConfigById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
             return self::getConfigObj($arr);
@@ -76,17 +86,16 @@ class ConfigService
         }
 
         $config = new Config($id, $loja, $payLimit, $maxCredit);
-        $dao = new ConfigDao();
 
         if ($config->getId()) {
-            return $dao->editConfig([
+            return self::getDao()->editConfig([
                 'id' => $config->getId(),
                 'pay_limit' => $config->getPayLimit(),
                 'max_credit' => $config->getMaxCredit(),
             ]);
         }
 
-        return $dao->addConfig([
+        return self::getDao()->addConfig([
             'id_loja' => $config->getLoja()->getId(),
             'pay_limit' => $config->getPayLimit(),
             'max_credit' => $config->getMaxCredit(),

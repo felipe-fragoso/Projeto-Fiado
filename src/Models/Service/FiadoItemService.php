@@ -13,6 +13,20 @@ use Fiado\Models\Validation\FiadoItemValidate;
 class FiadoItemService
 {
     /**
+     * @var FiadoItemDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new FiadoItemDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getFiadoItemObj(array $arr)
@@ -31,9 +45,7 @@ class FiadoItemService
      */
     public static function listFiadoItem(int $id)
     {
-        $dao = new FiadoItemDao();
-
-        $arr = $dao->listFiadoItem(new ParamData(new ParamItem('id_fiado', $id, \PDO::PARAM_INT)));
+        $arr = self::getDao()->listFiadoItem(new ParamData(new ParamItem('id_fiado', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
             return array_map(function ($item) {return self::getFiadoItemObj($item);}, $arr);
@@ -47,9 +59,7 @@ class FiadoItemService
      */
     public static function getFiadoItem(int $id)
     {
-        $dao = new FiadoItemDao();
-
-        $arr = $dao->getFiadoItemById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
+        $arr = self::getDao()->getFiadoItemById(new ParamData(new ParamItem('id', $id, \PDO::PARAM_INT)));
 
         if ($arr) {
             return self::getFiadoItemObj($arr);
@@ -81,17 +91,15 @@ class FiadoItemService
 
         $fiadoItem = new FiadoItem($id, $fiado, $produto, $value, $quantity);
 
-        $dao = new FiadoItemDao();
-
         if ($fiadoItem->getId()) {
-            return $dao->editFiadoItem([
+            return self::getDao()->editFiadoItem([
                 'id' => $fiadoItem->getId(),
                 'value' => $fiadoItem->getValue(),
                 'quantity' => $fiadoItem->getQuantity(),
             ]);
         }
 
-        return $dao->addFiadoItem([
+        return self::getDao()->addFiadoItem([
             'id_fiado' => $fiadoItem->getFiado()->getId(),
             'id_produto' => $fiadoItem->getProduto()->getId(),
             'value' => $fiadoItem->getValue(),

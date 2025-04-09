@@ -13,6 +13,20 @@ use Fiado\Models\Validation\ClientePIValidate;
 class ClientePIService
 {
     /**
+     * @var ClientePIDao
+     */
+    private static $dao;
+
+    public static function getDao()
+    {
+        if (!isset(self::$dao)) {
+            self::$dao = new ClientePIDao();
+        }
+
+        return self::$dao;
+    }
+
+    /**
      * @param array $arr
      */
     private static function getClientePIObj(array $arr)
@@ -31,9 +45,7 @@ class ClientePIService
      */
     public static function getClientePI(int $id)
     {
-        $dao = new ClientePIDao();
-
-        $arr = $dao->getClientePI(new ParamData(new ParamItem('id_cliente', $id)));
+        $arr = self::getDao()->getClientePI(new ParamData(new ParamItem('id_cliente', $id)));
 
         if ($arr) {
             return self::getClientePIObj($arr);
@@ -63,10 +75,9 @@ class ClientePIService
         }
 
         $clientePI = new ClientePI($id, $cliente, $address, $telephone, $description);
-        $dao = new ClientePIDao();
 
         if ($clientePI->getId()) {
-            return $dao->editCliente([
+            return self::getDao()->editCliente([
                 'id' => $clientePI->getId(),
                 'id_cliente' => $clientePI->getCliente()->getId(),
                 'address' => $clientePI->getAddress(),
@@ -75,7 +86,7 @@ class ClientePIService
             ]);
         }
 
-        return $dao->addCliente([
+        return self::getDao()->addCliente([
             'id_cliente' => $clientePI->getCliente()->getId(),
             'address' => $clientePI->getAddress(),
             'telephone' => $clientePI->getTelephone(),
