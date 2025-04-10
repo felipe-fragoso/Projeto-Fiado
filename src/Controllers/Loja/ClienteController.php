@@ -22,7 +22,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $form = new FormData();
 
         $form->setItem('search')->getValueFrom('q', null, InputType::Get);
@@ -58,7 +58,7 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
-        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getId()) {
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getIdLoja()) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
@@ -95,12 +95,12 @@ class ClienteController extends Controller
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
-        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getId()) {
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getIdLoja()) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId()) ?: null;
-        $lojaConfig = ConfigService::getConfigByLoja(Auth::getId());
+        $lojaConfig = ConfigService::getConfigByLoja(Auth::getIdLoja());
         $maxCredit = $clienteLoja->getMaxCredit() ?: $lojaConfig->getMaxCredit();
 
         $data = [
@@ -136,7 +136,7 @@ class ClienteController extends Controller
     public function editar($id = null)
     {
         $id = SqidsWrapper::decode($id);
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
 
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
@@ -166,7 +166,7 @@ class ClienteController extends Controller
     public function salvar()
     {
         $form = new FormData();
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
         $form->setItem('name')->getValueFrom('ipt-nome');

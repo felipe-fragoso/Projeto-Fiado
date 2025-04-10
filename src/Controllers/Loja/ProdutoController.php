@@ -18,7 +18,7 @@ class ProdutoController extends Controller
 {
     public function index()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $form = new FormData();
 
         $form->setItem('search')->getValueFrom('q', null, InputType::Get);
@@ -61,7 +61,7 @@ class ProdutoController extends Controller
 
         $produto = ProdutoService::getProduto($id);
 
-        if (!$produto || $produto->getLoja()->getId() !== Auth::getId()) {
+        if (!$produto || $produto->getLoja()->getId() !== Auth::getIdLoja()) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
@@ -93,7 +93,7 @@ class ProdutoController extends Controller
 
         $produto = ProdutoService::getProduto($id);
 
-        if (!$produto || $produto->getLoja()->getId() !== Auth::getId()) {
+        if (!$produto || $produto->getLoja()->getId() !== Auth::getIdLoja()) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
 
@@ -111,7 +111,7 @@ class ProdutoController extends Controller
     public function salvar()
     {
         $form = new FormData();
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id', null);
         $form->setItem('name')->getValueFrom('ipt-nome', '');
@@ -143,7 +143,7 @@ class ProdutoController extends Controller
 
     public function listProdutoWithJSON()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
 
         $form = new FormData();
         $form->setItem('text')->getValueFrom('texto', '');

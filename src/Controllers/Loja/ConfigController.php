@@ -16,7 +16,7 @@ class ConfigController extends Controller
 {
     public function index()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $config = ConfigService::getConfigByLoja($idLoja);
 
         if (!$config) {
@@ -34,7 +34,7 @@ class ConfigController extends Controller
 
     public function editar()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $config = ConfigService::getConfigByLoja($idLoja);
 
         if (!$config) {
@@ -57,7 +57,7 @@ class ConfigController extends Controller
     public function salvar()
     {
         $form = new FormData();
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
         $form->setItem('payLimit', FormDataType::Int)->getValueFrom('ipt-prazo', 0);
