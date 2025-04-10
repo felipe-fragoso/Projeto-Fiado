@@ -69,6 +69,11 @@ li {
     text-align: center;
 }
 
+.margin-vertical {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 .full-span {
     width: 100%;
     display: block;
@@ -210,6 +215,26 @@ input[type=text]:disabled {
 }
 
 .new-btn:active {
+    filter: brightness(0.7);
+}
+
+.edit-btn {
+    display: inline-flex;
+    color: #fff;
+    background-color: var(--main-green);
+    padding: 5px 8px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 0;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    filter: brightness(1.2);
+}
+
+.edit-btn:active {
     filter: brightness(0.7);
 }
 
