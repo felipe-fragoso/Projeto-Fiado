@@ -8,7 +8,8 @@
                 <div class="card-content">
                     <p><b>Prazo pagamento:</b> <?=$data->prazo?> dias</p>
                     <p><b>Limite crédito:</b> R$ <?=$data->formatToReal('credito')?></p>
-                    <p><a href="<?=$_SERVER["BASE_URL"]?>config/editar">Editar</a></p>
+                    <p><a href="<?=$_SERVER["BASE_URL"]?>config/editar" class="edit-btn margin-vertical">Editar</a>
+                    </p>
                 </div>
             </div>
         </div>
