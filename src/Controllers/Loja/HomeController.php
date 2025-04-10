@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $ultimasCompras = CompraService::listCompraLoja($idLoja, 0, 10);
         $ultimasPendentes = CompraService::listCompraPendenteLoja($idLoja, 0, 10);
 

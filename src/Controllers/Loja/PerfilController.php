@@ -16,7 +16,7 @@ class PerfilController extends Controller
 {
     public function index()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $lojaPI = LojaPiService::getLojaPiByLoja($idLoja);
 
         if (!$lojaPI) {
@@ -49,7 +49,7 @@ class PerfilController extends Controller
 
     public function editar()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $lojaPI = LojaPiService::getLojaPiByLoja($idLoja);
 
         if (!$lojaPI) {
@@ -77,7 +77,7 @@ class PerfilController extends Controller
     public function salvar()
     {
         $form = new FormData();
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
 
         $form->setItem('id', FormDataType::Int)->getValueFrom('ipt-id');
         $form->setItem('name')->getValueFrom('ipt-nome');

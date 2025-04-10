@@ -5,7 +5,8 @@ namespace Fiado\Core;
 class Auth
 {
     private static bool $isLogged;
-    private static ?int $id;
+    private static ?int $idCliente;
+    private static ?int $idLoja;
     private static ?string $email;
     private static string $system = "landing";
 
@@ -18,15 +19,25 @@ class Auth
 
         return self::$isLogged;
     }
-    
+
     /**
      * @return ?string
      */
-    public static function getId()
+    public static function getIdCliente()
     {
         self::load();
 
-        return self::$id;
+        return self::$idCliente;
+    }
+
+    /**
+     * @return ?string
+     */
+    public static function getIdLoja()
+    {
+        self::load();
+
+        return self::$idLoja;
     }
 
     /**
@@ -55,10 +66,17 @@ class Auth
      */
     public static function setLogin(array $data, $system)
     {
-        $_SESSION[$_SERVER["USER_SESSION"]] = [...$data, 'system' => $system];
+        $_SESSION[$_SERVER["USER_SESSION"]] = [ ...$data, 'system' => $system];
+
+        if ($system === "cliente") {
+            self::$idCliente = $data['id'];
+        }
+
+        if ($system === "loja") {
+            self::$idLoja = $data['id'];
+        }
 
         self::$isLogged = true;
-        self::$id = $data['id'];
         self::$email = $data['email'];
         self::$system = $system;
     }
@@ -69,8 +87,9 @@ class Auth
             unset($_SESSION[$_SERVER["USER_SESSION"]]);
         }
 
+        self::$idCliente = null;
+        self::$idLoja = null;
         self::$isLogged = false;
-        self::$id = null;
         self::$email = null;
         self::$system = 'landing';
     }
@@ -78,8 +97,15 @@ class Auth
     private static function load()
     {
         if (isset($_SESSION[$_SERVER["USER_SESSION"]])) {
+            if ($_SESSION[$_SERVER["USER_SESSION"]]['system'] === "cliente") {
+                self::$idCliente = $_SESSION[$_SERVER["USER_SESSION"]]['id'];
+            }
+
+            if ($_SESSION[$_SERVER["USER_SESSION"]]['system'] === "loja") {
+                self::$idLoja = $_SESSION[$_SERVER["USER_SESSION"]]['id'];
+            }
+
             self::$isLogged = true;
-            self::$id = $_SESSION[$_SERVER["USER_SESSION"]]['id'];
             self::$email = $_SESSION[$_SERVER["USER_SESSION"]]['email'];
             self::$system = $_SESSION[$_SERVER["USER_SESSION"]]['system'];
         } else {

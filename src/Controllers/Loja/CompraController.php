@@ -23,7 +23,7 @@ class CompraController extends Controller
 {
     public function index()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $loja = LojaService::getLojaById($idLoja);
         $form = new FormData();
 
@@ -64,7 +64,7 @@ class CompraController extends Controller
 
     public function pendente()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $loja = LojaService::getLojaById($idLoja);
         $form = new FormData();
 
@@ -107,7 +107,7 @@ class CompraController extends Controller
 
     public function vencida()
     {
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $loja = LojaService::getLojaById($idLoja);
         $form = new FormData();
 
@@ -167,7 +167,7 @@ class CompraController extends Controller
 
         $itensFiado = FiadoItemService::listFiadoItem($fiado->getId());
 
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $idCliente = $fiado->getCliente()->getId();
 
         $clienteLoja = ClienteLojaService::getClienteLoja($idLoja, $idCliente);
@@ -204,9 +204,9 @@ class CompraController extends Controller
                 'nome' => $item->getCliente()->getName(),
                 'email' => $item->getCliente()->getEmail(),
             ], ClienteLojaService::listClienteLoja(
-                Auth::getId(),
+                Auth::getIdLoja(),
                 0,
-                ClienteLojaService::totalClienteLoja(Auth::getId()), true) ?: []
+                ClienteLojaService::totalClienteLoja(Auth::getIdLoja()), true) ?: []
             ),
         ];
         $data['view'] = 'loja/compra/new';
@@ -218,7 +218,7 @@ class CompraController extends Controller
     {
         $this->checkToken($_SERVER["BASE_URL"] . 'compra');
 
-        $idLoja = Auth::getId();
+        $idLoja = Auth::getIdLoja();
         $configLoja = ConfigService::getConfigByLoja($idLoja) ?: null;
 
         $form = new FormData();
