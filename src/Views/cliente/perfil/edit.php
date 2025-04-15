@@ -4,27 +4,23 @@
             <h3>Meus Detalhes</h3>
         </header>
         <div class="form-box">
-            <form method="POST" action="<?= $_SERVER["BASE_URL"] ?>perfil/salvar">
+            <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
+            <form method="POST" action="<?=$_SERVER["BASE_URL"]?>perfil/salvar">
                 <div class="full-input">
                     <label for="ipt-nome">Nome:</label>
-                    <input type="text" name="" id="ipt-nome" value="Xxxxx xxxx">
-                </div>
-                <div class="full-input">
-                    <label for="ipt-funcionamento">Email:</label>
-                    <input type="text" name="" id="ipt-funcionamento" value="xx:xx:xx até xx:xx:xx">
+                    <input type="text" name="ipt-nome" id="ipt-nome" value="<?=$data->nome?>">
                 </div>
                 <div class="full-input">
                     <label for="ipt-endereco">Endereço:</label>
-                    <input type="text" name="" id="ipt-endereco" value="Xxxxxxx xxxxx/XX">
+                    <input type="text" name="ipt-endereco" id="ipt-endereco" value="<?=$data->endereco?>">
                 </div>
                 <div class="full-input">
                     <label for="ipt-telefone">Telefone:</label>
-                    <input type="text" name="" id="ipt-telefone" value="(xx) xxxxx-xxxx">
+                    <input type="text" name="ipt-telefone" id="ipt-telefone"
+                        value="<?=$data->formatPhone('telefone')?>">
                 </div>
-                <div class="full-input">
-                    <label for="ipt-criada">Criada em:</label>
-                    <input type="datetime-local" name="" id="ipt-criada" value="2023-12-25T12:00:00">
-                </div>
+                <input type="hidden" name="hidden-token" value="<?=$token?>">
+                <input type="hidden" name="ipt-id" value="<?=$data->id?>">
                 <input type="submit" class="btn-enviar" value="Salvar">
             </form>
         </div>
@@ -34,11 +30,13 @@
             <h3>Minha Descrição</h3>
         </header>
         <div class="form-box">
-            <form method="POST" action="<?= $_SERVER["BASE_URL"] ?>perfil/salvar">
+            <form method="POST" action="<?=$_SERVER["BASE_URL"]?>perfil/salvar">
                 <div class="full-input">
                     <label for="ipt-descricao">Descrição:</label>
-                    <textarea name="" id="ipt-descricao">Cliente Xxxx, xxxxxx xxxxx.</textarea>
+                    <textarea name="txt-descricao" id="ipt-descricao"><?=$data->descricao?></textarea>
                 </div>
+                <input type="hidden" name="hidden-token" value="<?=$token?>">
+                <input type="hidden" name="ipt-id" value="<?=$data->id?>">
                 <input type="submit" class="btn-enviar" value="Salvar">
             </form>
         </div>
