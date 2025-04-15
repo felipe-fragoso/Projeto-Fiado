@@ -4,11 +4,13 @@
             <div class="card card-full">
                 <h3 class="card-title">Detalhe Loja</h3>
                 <div class="card-content">
-                    <p><b>Nome:</b> Xxxxx xxxx</p>
-                    <p><b>Endereço:</b> Xxxxxxx xxxxx/XX</p>
-                    <p><b>Telefone:</b> (xx) xxxxx-xxxx</p>
-                    <p><b>Criada em:</b> XX/XX/XX xx:xx:xx</p>
-                    <p><b>Hora funcionamento:</b> xx:xx:xx até xx:xx:xx</p>
+                    <p><b>Nome:</b> <?=$data->nome?></p>
+                    <p><b>Email:</b> <?=$data->email?></p>
+                    <p><b>CNPJ:</b> <?=$data->formatCnpj('cnpj')?></p>
+                    <p><b>Endereço:</b> <?=$data->endereco?></p>
+                    <p><b>Telefone:</b> <?=$data->formatPhone('telefone')?></p>
+                    <p><b>Criada em:</b> <?=$data->dateToBr('data')?></p>
+                    <p><b>Hora funcionamento:</b> <?=$data->abre?> até <?=$data->fecha?></p>
                 </div>
             </div>
         </div>
@@ -17,7 +19,7 @@
         <div class="card card-full">
             <h3 class="card-title">Descrição loja</h3>
             <div class="card-content">
-                <p>Loja do Xxxx, venha para comprar na nossa loja xxxxxx xxxxx.</p>
+                <?=$data->descricao?>
             </div>
         </div>
     </section>
