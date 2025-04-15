@@ -45,7 +45,23 @@ class ClientePIService
      */
     public static function getClientePI(int $id)
     {
-        $arr = self::getDao()->getClientePI(new ParamData(new ParamItem('id_cliente', $id)));
+        $params = new ParamData(new ParamItem('id_cliente', $id));
+        $arr = self::getDao()->getClientePI('id_cliente = :id_cliente', $params);
+
+        if ($arr) {
+            return self::getClientePIObj($arr);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int $id
+     */
+    public static function getClientePIById(int $id)
+    {
+        $params = new ParamData(new ParamItem('id', $id));
+        $arr = self::getDao()->getClientePI('id = :id', $params);
 
         if ($arr) {
             return self::getClientePIObj($arr);

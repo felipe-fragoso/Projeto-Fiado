@@ -11,9 +11,9 @@ class ClientePIDao extends Model
      * @param ParamData $data
      * @return mixed
      */
-    public function getClientePI(ParamData $data)
+    public function getClientePI($condition, ParamData $data)
     {
-        $statement = $this->select('cliente_personal_info', 'id_cliente = :id_cliente', $data);
+        $statement = $this->select('cliente_personal_info', $condition, $data);
 
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
