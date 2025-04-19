@@ -4,24 +4,29 @@
             <div class="card card-big">
                 <h3 class="card-title">Detalhe Compras Pendentes</h3>
                 <div class="card-content">
-                    <p><b>Este mês:</b> R$ xxx,xx</p>
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
+                    <p><b>Este mês:</b> R$ <?=$data->formatToReal('esteMes')?></p>
+                    <p><b>Vencido:</b> R$ <?=$data->formatToReal('vencido')?></p>
+                    <p><b>Total:</b> R$ <?=$data->formatToReal('total')?></p>
                 </div>
             </div>
             <div class="card card-big">
                 <h3 class="card-title">Meus Dados</h3>
                 <div class="card-content">
-                    <p><b>Nome:</b> Cliente Sobrenome</p>
-                    <p><b>Email:</b> Cliente@email.com</p>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>perfil">Mais Detalhes</a></p>
+                    <p><b>Nome:</b> <?=$data->nome?></p>
+                    <p><b>Email:</b> <?=$data->email?></p>
+                    <p><b><a href="<?=$_SERVER["BASE_URL"]?>perfil">Mais Detalhes</a></b></p>
                 </div>
             </div>
         </div>
     </section>
     <section class="system-section">
-        <header>
-            <h2>Minhas Compras</h2>
+        <?php
+            $this->loadComponent('searchBar', ['search' => $data->search, 'placeholder' => 'Pesquisar compra por loja...'])
+        ?>
+        <header class="section-header section-header-padding">
+            <h2>Compras Pendentes</h2>
         </header>
+        <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
         <div class="table-box">
             <table>
                 <thead>
@@ -35,108 +40,47 @@
                         Data
                     </th>
                     <th>
-                        Pagar Até
+                        Vencimento
                     </th>
                     <th colspan="2" class="th-center">
                         Opções
                     </th>
                 </thead>
                 <tbody>
+                    <?php
+                        if (!(array) $data->list):
+                    ?>
                     <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
+                        <td class="th-center" colspan="6">Nenhuma compra encontrada</td>
                     </tr>
+                    <?php
+                        else:
+                            /** @var Fiado\Core\ViewHelper $item */
+                            foreach ($data->list as $item):
+                    ?>
                     <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>loja/v/<?=$item->formatIdx('idLoja')?>">
+                                <?=$item->nome?>
+                            </a>
+                        </td>
+                        <td>R$ <?=$item->formatToReal('total')?></td>
+                        <td><?=$item->dateToBr('data')?></td>
+                        <td><?=$item->dateToBr('vencimento')?></td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Detalhe</a>
+                        </td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Pagar</a>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>loja">Nome Loja</a></td>
-                        <td>R$ xx,xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td>XX/XX/XX xx:xx:xx</td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Detalhe</a></td>
-                        <td><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Pagar</a></td>
-                    </tr>
+                    <?php
+                            endforeach;
+                        endif;
+                    ?>
                 </tbody>
             </table>
-            <div class="pagination">
-                <ol>
-                    <li><a href="">Primeira</a></li>
-                    <li><a href="">Anterior</a></li>
-                    <li><span>1</span></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">Próximo</a></li>
-                    <li><a href="">Última</a></li>
-                </ol>
-            </div>
+            <?php $this->loadComponent('pagination', ['pagination' => $data->pendentePagination])?>
         </div>
     </section>
 </main>
