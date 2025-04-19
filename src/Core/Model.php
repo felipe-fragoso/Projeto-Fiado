@@ -21,7 +21,7 @@ class Model
                     $_SERVER["DB_PASS"]
                 );
             } catch (\PDOException $e) {
-                throw new \Exception("Error: Couldn't connect with database");
+                throw new \Exception("Couldn't connect with database" . $e->getMessage());
             }
         }
     }
@@ -31,7 +31,7 @@ class Model
         try {
             $this->db->beginTransaction();
         } catch (\PDOException $e) {
-            throw new \Exception("Error: Couldn't begin transaction");
+            throw new \Exception("Couldn't begin transaction" . $e->getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ class Model
         try {
             $this->db->commit();
         } catch (\PDOException $e) {
-            throw new \Exception("Error: There is no transaction active");
+            throw new \Exception("There is no transaction active" . $e->getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ class Model
         try {
             $this->db->rollBack();
         } catch (\PDOException $e) {
-            throw new \Exception("Error: There is no transaction active");
+            throw new \Exception("There is no transaction active" . $e->getMessage());
         }
     }
 
@@ -77,7 +77,7 @@ class Model
 
             return $statement;
         } catch (\PDOException $e) {
-            throw new \Exception("Error: Couldn't query database");
+            throw new \Exception("Couldn't query database: " . $e->getMessage());
         }
     }
 
@@ -105,7 +105,7 @@ class Model
 
             return $this->db->lastInsertId();
         } catch (\PDOException $e) {
-            throw new \Exception("Error: Couldn't insert register");
+            throw new \Exception("Couldn't insert register" . $e->getMessage());
         }
     }
 
@@ -139,7 +139,7 @@ class Model
 
             return $statement->rowCount();
         } catch (\PDOException $e) {
-            throw new \Exception("Error: Couldn't update register");
+            throw new \Exception("Couldn't update register" . $e->getMessage());
         }
     }
 
@@ -165,7 +165,7 @@ class Model
 
             return $statement->rowCount();
         } catch (\PDOException $e) {
-            throw new \Exception("Error: Couldn't delete register");
+            throw new \Exception("Couldn't delete register" . $e->getMessage());
         }
     }
 }
