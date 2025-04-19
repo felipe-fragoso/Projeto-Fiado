@@ -52,7 +52,7 @@
                         if (!(array) $data->list):
                     ?>
                     <tr>
-                        <td class="th-center" colspan="6">Nenhuma compra encontrada</td>
+                        <td class="th-center" colspan="5">Nenhuma compra encontrada</td>
                     </tr>
                     <?php
                         else:
