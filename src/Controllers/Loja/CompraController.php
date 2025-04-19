@@ -49,10 +49,10 @@ class CompraController extends Controller
         $data = [
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
-            'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of')) ?? 0,
-            'total' => CompraService::getTotal($loja->getId(), 0) ?? 0,
-            'pendente' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false) ?? 0,
-            'vencido' => CompraService::getTotalVencido($loja->getId()) ?? 0,
+            'esteMes' => CompraService::getTotalLoja($loja->getId(), new \DateTime('first day of')) ?? 0,
+            'total' => CompraService::getTotalLoja($loja->getId(), 0) ?? 0,
+            'pendente' => CompraService::getTotalLoja($loja->getId(), 0, new \DateTime(), false) ?? 0,
+            'vencido' => CompraService::getTotalLoja($loja->getId(), 0, new \DateTime(), false, true) ?? 0,
             'list' => $list,
         ];
         $data['view'] = 'loja/compra/home';
@@ -77,8 +77,8 @@ class CompraController extends Controller
         $data = [
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
-            'esteMes' => CompraService::getTotal($loja->getId(), new \DateTime('first day of'), new \DateTime(), false) ?? 0,
-            'total' => CompraService::getTotal($loja->getId(), 0, new \DateTime(), false) ?? 0,
+            'esteMes' => CompraService::getTotalLoja($loja->getId(), new \DateTime('first day of'), new \DateTime(), false) ?? 0,
+            'total' => CompraService::getTotalLoja($loja->getId(), 0, new \DateTime(), false) ?? 0,
             'list' => array_map(function (Fiado $item) {
                 $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
 
@@ -120,8 +120,8 @@ class CompraController extends Controller
         $data = [
             'email' => $loja->getEmail(),
             'nome' => $loja->getName(),
-            'esteMes' => CompraService::getTotalVencido($loja->getId(), new \DateTime('first day of')) ?? 0,
-            'total' => CompraService::getTotalVencido($loja->getId()) ?? 0,
+            'esteMes' => CompraService::getTotalLoja($loja->getId(), new \DateTime('first day of'), new \DateTime(), false, true) ?? 0,
+            'total' => CompraService::getTotalLoja($loja->getId(), 0, new \DateTime(), false, true) ?? 0,
             'list' => array_map(function (Fiado $item) {
                 $clienteLoja = ClienteLojaService::getClienteLoja($item->getLoja()->getId(), $item->getCliente()->getId());
 

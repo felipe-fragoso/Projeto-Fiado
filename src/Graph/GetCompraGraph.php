@@ -24,6 +24,6 @@ final class GetCompraGraph implements GetGraphInterface
      */
     public function getData($startDate, $endDate)
     {
-        return CompraService::getTotal($this->id, $startDate, $endDate, $this->condition);
+        return CompraService::getTotalLoja($this->id, $startDate, $endDate, $this->condition);
     }
 }
