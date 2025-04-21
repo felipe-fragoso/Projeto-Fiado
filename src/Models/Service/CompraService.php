@@ -57,17 +57,39 @@ class CompraService
     }
 
     /**
-     * @param int $idLoja
+     * @param string $fromId
+     * @param int $id
      * @param int $first
      * @param int $quantity
      * @param ?bool $active
      * @param ?string $like
+     * @param ?bool $paid
+     * @param ?bool $overdue
      */
-    public static function listCompraLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
-    {
-        $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
+    private static function listCompra(
+        string $fromId,
+        int $id,
+        int $first,
+        int $quantity,
+        ?bool $active,
+        ?string $like,
+        ?bool $paid = null,
+        ?bool $overdue = null
+    ) {
+        $data = new ParamData(null);
+        $data->addData($fromId, $id, \PDO::PARAM_INT);
         $data->addData('first', $first, \PDO::PARAM_INT);
         $data->addData('last', $quantity, \PDO::PARAM_INT);
+
+        if ($overdue !== null && $paid == false) {
+            $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $overdue = "AND due_date " . ($overdue ? '<' : '>') . " :due_date";
+        }
+
+        if ($paid !== null) {
+            $data->addData('paid', $paid, \PDO::PARAM_INT);
+            $paid = "AND paid = :paid";
+        }
 
         if ($active !== null) {
             $data->addData('active', $active, \PDO::PARAM_BOOL);
@@ -80,7 +102,7 @@ class CompraService
         }
 
         $arr = self::getDao()->listFiado(
-            "id_loja = :id_loja AND fiado.id_cliente = cliente.id {$active} {$like}",
+            "{$fromId} = :{$fromId} AND fiado.id_cliente = cliente.id {$paid} {$overdue} {$active} {$like}",
             $data,
             ':first, :last',
             'fiado.date DESC'
@@ -95,25 +117,14 @@ class CompraService
 
     /**
      * @param int $idLoja
-     * @param ?string $like
+     * @param int $first
+     * @param int $quantity
      * @param ?bool $active
-     * @return mixed
+     * @param ?string $like
      */
-    public static function totalCompraLoja(int $idLoja, ?string $like = null, ?bool $active = null)
+    public static function listCompraLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $data = new ParamData(new ParamItem('id_loja', $idLoja, \PDO::PARAM_INT));
-
-        if ($active !== null) {
-            $data->addData('active', $active, \PDO::PARAM_BOOL);
-            $active = "AND active = :active";
-        }
-
-        if ($like !== null) {
-            $data->addData('like', "%$like%", \PDO::PARAM_STR);
-            $like = "AND name LIKE :like";
-        }
-
-        return self::getDao()->countFiado("id_loja = :id_loja AND fiado.id_cliente = cliente.id {$like} {$active}", $data);
+        return self::listCompra('id_loja', $idLoja, $first, $quantity, $active, $like);
     }
 
     /**
@@ -125,59 +136,7 @@ class CompraService
      */
     public static function listCompraPendenteLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $paramData = new ParamData(null);
-        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
-        $paramData->addData('paid', false, \PDO::PARAM_INT);
-        $paramData->addData('first', $first, \PDO::PARAM_INT);
-        $paramData->addData('last', $quantity, \PDO::PARAM_INT);
-
-        if ($active !== null) {
-            $paramData->addData('active', $active, \PDO::PARAM_BOOL);
-            $active = "AND active = :active";
-        }
-
-        if ($like !== null) {
-            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
-            $like = "AND name LIKE :like";
-        }
-
-        $arr = self::getDao()->listFiadoPendente(
-            "id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}",
-            $paramData,
-            ':first, :last',
-            'fiado.date DESC'
-        );
-
-        if ($arr) {
-            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param int $idLoja
-     * @param ?string $like
-     * @param ?bool $active
-     * @return mixed
-     */
-    public static function totalCompraPendenteLoja(int $idLoja, ?string $like = null, ?bool $active = null)
-    {
-        $paramData = new ParamData(null);
-        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
-        $paramData->addData('paid', false, \PDO::PARAM_INT);
-
-        if ($active !== null) {
-            $paramData->addData('active', $active, \PDO::PARAM_BOOL);
-            $active = "AND active = :active";
-        }
-
-        if ($like !== null) {
-            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
-            $like = "AND name LIKE :like";
-        }
-
-        return self::getDao()->countFiadoPendente("id_loja = :id_loja AND paid = :paid AND fiado.id_cliente = cliente.id {$like} {$active}", $paramData);
+        return self::listCompra('id_loja', $idLoja, $first, $quantity, $active, $like, false);
     }
 
     /**
@@ -189,87 +148,63 @@ class CompraService
      */
     public static function listCompraVencidaLoja(int $idLoja, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $paramData = new ParamData(null);
-        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
-        $paramData->addData('paid', false, \PDO::PARAM_INT);
-        $paramData->addData('first', $first, \PDO::PARAM_INT);
-        $paramData->addData('last', $quantity, \PDO::PARAM_INT);
-        $paramData->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-
-        if ($like !== null) {
-            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
-            $like = "AND name LIKE :like";
-        }
-
-        $arr = self::getDao()->listFiadoPendente(
-            "id_loja = :id_loja AND paid = :paid AND due_date < :due_date AND fiado.id_cliente = cliente.id {$like} {$active}",
-            $paramData,
-            ':first, :last',
-            'fiado.date DESC'
-        );
-
-        if ($arr) {
-            return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
-        }
-
-        return false;
+        return self::listCompra('id_loja', $idLoja, $first, $quantity, $active, $like, false, true);
     }
 
     /**
-     * @param int $idLoja
+     * @param int $idCliente
+     * @param int $first
+     * @param int $quantity
+     * @param ?bool $active
      * @param ?string $like
-     * @return mixed
      */
-    public static function totalCompraVencidaLoja(int $idLoja, ?string $like = null)
+    public static function listCompraCliente(int $idCliente, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $paramData = new ParamData(null);
-        $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
-        $paramData->addData('paid', false, \PDO::PARAM_INT);
-        $paramData->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-
-        if ($like !== null) {
-            $paramData->addData('like', "%$like%", \PDO::PARAM_STR);
-            $like = "AND name LIKE :like";
-        }
-
-        return self::getDao()->countFiadoPendente(
-            "id_loja = :id_loja AND paid = :paid AND due_date < :due_date AND fiado.id_cliente = cliente.id {$like}",
-            $paramData
-        );
+        return self::listCompra('id_cliente', $idCliente, $first, $quantity, $active, $like);
     }
 
     /**
-     * @param int $loja
-     * @param \DateTime|int $from
-     * @return mixed
+     * @param int $idCliente
+     * @param int $first
+     * @param int $quantity
+     * @param ?bool $active
+     * @param ?string $like
      */
-    public static function getTotalVencido(int $loja, \DateTime  | int $from = 0)
+    public static function listCompraPendenteCliente(int $idCliente, int $first, int $quantity, ?bool $active = null, ?string $like = null)
     {
-        $data = new ParamData(null);
+        return self::listCompra('id_cliente', $idCliente, $first, $quantity, $active, $like, false);
+    }
 
-        if (is_int($from)) {
-            $from = \DateTime::createFromFormat('U', $from);
-        }
-
-        $data->addData('id_loja', $loja, \PDO::PARAM_INT);
-        $data->addData('paid', false, \PDO::PARAM_INT);
-        $data->addData('from', $from->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-        $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-
-        return self::getDao()->totalVencido($data);
+    /**
+     * @param int $idCliente
+     * @param int $first
+     * @param int $quantity
+     * @param ?bool $active
+     * @param ?string $like
+     */
+    public static function listCompraVencidaCliente(int $idCliente, int $first, int $quantity, ?bool $active = null, ?string $like = null)
+    {
+        return self::listCompra('id_cliente', $idCliente, $first, $quantity, $active, $like, false, true);
     }
 
     /**
      * @param int $idLoja
      * @param int $idCliente
+     * @param ?string $limit
+     * @param ?string $orderBy
      */
-    public static function listCompraLojaCliente(int $idLoja, int $idCliente)
+    public static function listCompraLojaCliente(int $idLoja, int $idCliente, ?string $limit = null, ?string $orderBy = null)
     {
         $paramData = new ParamData(null);
         $paramData->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $paramData->addData('id_cliente', $idCliente, \PDO::PARAM_INT);
 
-        $arr = self::getDao()->listFiadoCliente($paramData);
+        $arr = self::getDao()->listFiado(
+            'id_loja = :id_loja AND id_cliente = :id_cliente AND fiado.id_cliente = cliente.id',
+            $paramData,
+            $limit,
+            $orderBy
+        );
 
         if ($arr) {
             return array_map(function ($item) {return self::getCompraObj($item);}, $arr);
@@ -279,15 +214,127 @@ class CompraService
     }
 
     /**
-     * @param int $loja
+     * @param string $fromId
+     * @param int $id
+     * @param ?string $like
+     * @param ?bool $active
+     * @param ?bool $paid
+     * @param ?bool $overdue
+     */
+    private static function totalCompra(
+        string $fromId,
+        int $id,
+        ?string $like,
+        ?bool $active,
+        ?bool $paid = null,
+        ?bool $overdue = null
+    ) {
+        $data = new ParamData(null);
+        $data->addData($fromId, $id, \PDO::PARAM_INT);
+
+        if ($overdue !== null && $paid == false) {
+            $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $overdue = "AND due_date " . ($overdue ? '<' : '>') . " :due_date";
+        }
+
+        if ($paid !== null) {
+            $data->addData('paid', $paid, \PDO::PARAM_INT);
+            $paid = "AND paid = :paid";
+        }
+
+        if ($active !== null) {
+            $data->addData('active', $active, \PDO::PARAM_BOOL);
+            $active = "AND active = :active";
+        }
+
+        if ($like !== null) {
+            $data->addData('like', "%$like%", \PDO::PARAM_STR);
+            $like = "AND name LIKE :like";
+        }
+
+        return self::getDao()->countFiado("{$fromId} = :{$fromId} AND fiado.id_cliente = cliente.id {$paid} {$overdue} {$like} {$active}", $data);
+    }
+
+    /**
+     * @param int $idLoja
+     * @param ?string $like
+     * @param ?bool $active
+     */
+    public static function totalCompraLoja(int $idLoja, ?string $like = null, ?bool $active = null)
+    {
+        return self::totalCompra('id_loja', $idLoja, $like, $active);
+    }
+
+    /**
+     * @param int $idLoja
+     * @param ?string $like
+     * @param ?bool $active
+     */
+    public static function totalCompraPendenteLoja(int $idLoja, ?string $like = null, ?bool $active = null)
+    {
+        return self::totalCompra('id_loja', $idLoja, $like, $active, false);
+    }
+
+    /**
+     * @param int $idLoja
+     * @param ?string $like
+     * @param ?bool $active
+     */
+    public static function totalCompraVencidaLoja(int $idLoja, ?string $like = null, ?bool $active = null)
+    {
+        return self::totalCompra('id_loja', $idLoja, $like, $active, false, true);
+    }
+
+    /**
+     * @param int $idCliente
+     * @param ?string $like
+     * @param ?bool $active
+     */
+    public static function totalCompraCliente(int $idCliente, ?string $like = null, ?bool $active = null)
+    {
+        return self::totalCompra('id_cliente', $idCliente, $like, $active);
+    }
+
+    /**
+     * @param int $idCliente
+     * @param ?string $like
+     * @param ?bool $active
+     */
+    public static function totalCompraPendenteCliente(int $idCliente, ?string $like = null, ?bool $active = null)
+    {
+        return self::totalCompra('id_cliente', $idCliente, $like, $active, false);
+    }
+
+    /**
+     * @param int $idCliente
+     * @param ?string $like
+     * @param ?bool $active
+     */
+    public static function totalCompraVencidaCliente(int $idCliente, ?string $like = null, ?bool $active = null)
+    {
+        return self::totalCompra('id_cliente', $idCliente, $like, $active, false, true);
+    }
+
+    /**
+     * @param string $fromId
+     * @param int $id
      * @param \DateTime|int $start
      * @param \DateTime $end
      * @param ?bool $paid
-     * @return mixed
+     * @param ?bool $overdue
      */
-    public static function getTotal(int $loja, \DateTime  | int $start, \DateTime $end = new \DateTime(), ?bool $paid = null)
-    {
+    private static function getTotal(
+        string $fromId,
+        int $id,
+        \DateTime | int $start,
+        \DateTime $end,
+        ?bool $paid = null,
+        ?bool $overdue = null
+    ) {
         $data = new ParamData(null);
+
+        $data->addData($fromId, $id, \PDO::PARAM_INT);
+        $data->addData('end', $end->format('Y-m-d H:i:s'));
 
         if ($start instanceof \DateTime) {
             $data->addData('start', $start->format('Y-m-d H:i:s'));
@@ -295,11 +342,51 @@ class CompraService
             $data->addData('start', $start, \PDO::PARAM_INT);
         }
 
-        $data->addData('end', $end->format('Y-m-d H:i:s'));
-        $data->addData('id_loja', $loja, \PDO::PARAM_INT);
-        $data->addData('paid', $paid);
+        if ($overdue !== null && $paid == false) {
+            $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $overdue = "AND due_date " . ($overdue ? '<' : '>') . " :due_date";
+        }
 
-        return self::getDao()->total($data);
+        if ($paid !== null) {
+            $data->addData('paid', $paid, \PDO::PARAM_INT);
+            $paid = "AND paid = :paid";
+        }
+
+        return self::getDao()->total("{$fromId} = :{$fromId} {$paid} {$overdue} AND date BETWEEN :start AND :end", $data);
+    }
+
+    /**
+     * @param int $idLoja
+     * @param \DateTime|int $start
+     * @param \DateTime $end
+     * @param ?bool $paid
+     * @param ?bool $overdue
+     */
+    public static function getTotalLoja(
+        int $idLoja,
+        \DateTime | int $start,
+        \DateTime $end = new \DateTime(),
+        ?bool $paid = null,
+        ?bool $overdue = null
+    ) {
+        return self::getTotal('id_loja', $idLoja, $start, $end, $paid, $overdue);
+    }
+
+    /**
+     * @param int $idCliente
+     * @param \DateTime|int $start
+     * @param \DateTime $end
+     * @param ?bool $paid
+     * @param ?bool $overdue
+     */
+    public static function getTotalCliente(
+        int $idCliente,
+        \DateTime | int $start,
+        \DateTime $end = new \DateTime(),
+        ?bool $paid = null,
+        ?bool $overdue = null
+    ) {
+        return self::getTotal('id_cliente', $idCliente, $start, $end, $paid, $overdue);
     }
 
     /**
@@ -308,10 +395,16 @@ class CompraService
      * @param \DateTime|int $start
      * @param \DateTime $end
      * @param ?bool $paid
-     * @return mixed
+     * @param ?bool $overdue
      */
-    public static function getTotalCliente(int $idLoja, int $idCliente, \DateTime  | int $start, \DateTime $end = new \DateTime(), ?bool $paid = null)
-    {
+    public static function getTotalClienteLoja(
+        int $idLoja,
+        int $idCliente,
+        \DateTime | int $start,
+        \DateTime $end = new \DateTime(),
+        ?bool $paid = null,
+        ?bool $overdue = null
+    ) {
         $data = new ParamData(null);
 
         if ($start instanceof \DateTime) {
@@ -323,9 +416,18 @@ class CompraService
         $data->addData('end', $end->format('Y-m-d H:i:s'));
         $data->addData('id_loja', $idLoja, \PDO::PARAM_INT);
         $data->addData('id_cliente', $idCliente, \PDO::PARAM_INT);
-        $data->addData('paid', $paid);
 
-        return self::getDao()->totalCliente($data);
+        if ($overdue !== null && $paid == false) {
+            $data->addData('due_date', (new \DateTime())->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $overdue = "AND due_date " . ($overdue ? '<' : '>') . " :due_date";
+        }
+
+        if ($paid !== null) {
+            $data->addData('paid', $paid, \PDO::PARAM_INT);
+            $paid = "AND paid = :paid";
+        }
+
+        return self::getDao()->total("id_loja = :id_loja AND id_cliente = :id_cliente {$paid} {$overdue} AND date BETWEEN :start AND :end", $data);
     }
 
     /**

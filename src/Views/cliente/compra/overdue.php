@@ -1,12 +1,11 @@
+<?php /** @var Fiado\Core\ViewHelper $data */?>
 <main class="main-content-aside">
     <section class="system-section">
         <div class="list-card">
             <div class="card card-big">
-                <h3 class="card-title">Detalhe Compras</h3>
+                <h3 class="card-title">Detalhe Compras Vencidas</h3>
                 <div class="card-content">
                     <p><b>Este mês:</b> R$ <?=$data->formatToReal('esteMes')?></p>
-                    <p><b>Pendente:</b> R$ <?=$data->formatToReal('pendente')?></p>
-                    <p><b>Vencido:</b> R$ <?=$data->formatToReal('vencido')?></p>
                     <p><b>Total:</b> R$ <?=$data->formatToReal('total')?></p>
                 </div>
             </div>
@@ -15,7 +14,7 @@
                 <div class="card-content">
                     <p><b>Nome:</b> <?=$data->nome?></p>
                     <p><b>Email:</b> <?=$data->email?></p>
-                    <p><b><a href="<?=$_SERVER["BASE_URL"]?>perfil">Mais Detalhes</a></b></p>
+                    <p><a href="<?=$_SERVER["BASE_URL"]?>perfil">Mais Detalhes</a></p>
                 </div>
             </div>
         </div>
@@ -25,9 +24,8 @@
             $this->loadComponent('searchBar', ['search' => $data->search, 'placeholder' => 'Pesquisar compra por loja...'])
         ?>
         <header class="section-header section-header-padding">
-            <h2>Minhas Compras</h2>
+            <h2>Compras Vencidas</h2>
         </header>
-        <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
         <div class="table-box">
             <table>
                 <thead>
@@ -41,9 +39,9 @@
                         Data
                     </th>
                     <th>
-                        Pago
+                        Vencimento
                     </th>
-                    <th>
+                    <th colspan="2" class="th-center">
                         Opções
                     </th>
                 </thead>
@@ -52,7 +50,7 @@
                         if (!(array) $data->list):
                     ?>
                     <tr>
-                        <td class="th-center" colspan="5">Nenhuma compra encontrada</td>
+                        <td class="th-center" colspan="6">Nenhuma compra encontrada</td>
                     </tr>
                     <?php
                         else:
@@ -67,11 +65,12 @@
                         </td>
                         <td>R$ <?=$item->formatToReal('total')?></td>
                         <td><?=$item->dateToBr('data')?></td>
-                        <td><?=$item->pago ? 'Sim' : 'Não'?></td>
+                        <td><?=$item->dateToBr('vencimento')?></td>
                         <td>
-                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">
-                                Detalhe
-                            </a>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Detalhe</a>
+                        </td>
+                        <td>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Pagar</a>
                         </td>
                     </tr>
                     <?php
@@ -80,7 +79,7 @@
                     ?>
                 </tbody>
             </table>
-            <?php $this->loadComponent('pagination', ['pagination' => $data->compraPagination])?>
+            <?php $this->loadComponent('pagination', ['pagination' => $data->vencidaPagination])?>
         </div>
     </section>
 </main>
