@@ -33,7 +33,7 @@ class ClientePIService
     {
         return new ClientePI(
             $arr['id'],
-            new LazyDataObj($arr['id'], function ($id) {return ClienteService::getClienteById($id);}),
+            new LazyDataObj($arr['id_cliente'], function ($id) {return ClienteService::getClienteById($id);}),
             $arr['address'],
             $arr['telephone'],
             $arr['description']
