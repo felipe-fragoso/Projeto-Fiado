@@ -1,229 +1,122 @@
+<?php /** @var Fiado\Core\ViewHelper $data */?>
 <main class="main-content-aside">
     <section class="system-section">
-        <header class="section-header">
-            <h2>Ultimas compras fiado</h2>
+        <header class="section-header section-header-padding">
+            <h2>Últimas compras fiado</h2>
         </header>
         <div class="carrossel">
             <a class="carrossel-button carrossel-left" onclick="carrossel(this)"></a>
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
+                <?php
+                    if (!empty((array) $data->ultimasCompras)):
+                        /** @var Fiado\Core\ViewHelper $compra */
+                        foreach ($data->ultimasCompras as $compra):
+                ?>
                 <div class="card">
-                    <h3 class="card-title">Compra loja: xxxxXXXXXXXXXXXXXX</h3>
+                    <h3 class="card-title">Compra loja: <?=$compra->formatIdx('id')?></h3>
                     <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
+                        <p><b>Valor:</b> R$ <?=$compra->formatToReal('total')?></p>
+                        <p><b>Data:</b> <?=$compra->dateToBr('data')?></p>
+                        <p><b>Loja:</b> <?=$compra->loja?></p>
+                        <p><b>Pago:</b> <?=$compra->pago ? 'Sim' : 'Não'?></p>
+                        <p>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->formatIdx('id')?>">
+                                Mais Detalhes
+                            </a>
+                        </p>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
+                <?php
+                        endforeach;
+                    else:
+                ?>
+                <div class="card card-big">
+                    <h3 class="card-title text-center">Vazio</h3>
+                    <div class="card-content text-center">
+                        <p>Nenhum registro encontrado</p>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><b>Pago:</b> xxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
+                <?php
+                    endif;
+                ?>
             </div>
         </div>
     </section>
     <section class="system-section">
-        <header class="section-header">
+        <header class="section-header section-header-padding">
             <h2>Contas pendentes</h2>
         </header>
         <div class="carrossel">
             <a class="carrossel-button carrossel-left" onclick="carrossel(this)"></a>
             <a class="carrossel-button carrossel-right" onclick="carrossel(this)"></a>
             <div class="carrossel-items">
+                <?php
+                    if (!empty((array) $data->ultimasPendentes)):
+                        /** @var Fiado\Core\ViewHelper $compra */
+                        foreach ($data->ultimasPendentes as $compra):
+                ?>
                 <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
+                    <h3 class="card-title">Compra loja: <?=$compra->formatIdx('id')?></h3>
                     <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
+                        <p><b>Valor:</b> R$ <?=$compra->formatToReal('total')?></p>
+                        <p><b>Data:</b> <?=$compra->dateToBr('data')?></p>
+                        <p><b>Loja:</b> <?=$compra->loja?></p>
+                        <p>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$compra->formatIdx('id')?>">
+                                Mais Detalhes
+                            </a>
+                        </p>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
+                <?php
+                        endforeach;
+                    else:
+                ?>
+                <div class="card card-big">
+                    <h3 class="card-title text-center">Vazio</h3>
+                    <div class="card-content text-center">
+                        <p>Nenhum registro encontrado</p>
                     </div>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">Compra loja: xxxx</h3>
-                    <div class="card-content">
-                        <p><b>Valor:</b> R$ x.xxx,xx</p>
-                        <p><b>Data:</b> xx/xx/xx xx:xx:xx</p>
-                        <p><b>Loja:</b> xxxxxxxxxxxxxxxxx</p>
-                        <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/detalhe">Mais Detalhes</a></p>
-                    </div>
-                </div>
+                <?php
+                    endif;
+                ?>
             </div>
         </div>
     </section>
     <section class="system-section">
-        <header>
+        <header class="section-header section-header-padding">
             <h2>Meus dados</h2>
         </header>
         <div class="list-card">
-            <div class="card card-medium">
-                <h3 class="card-title">Ultimas dias</h3>
-                <div class="card-content">
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
-                    <div class="grafico-barra">
-                        <div class="g-moeda">real</div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">05/Mai</div>
-                            <div class="g-barra-valor">100</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">04/Mai</div>
-                            <div class="g-barra-valor">30</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">03/Mai</div>
-                            <div class="g-barra-valor">50</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">02/Mai</div>
-                            <div class="g-barra-valor">50</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">01/Mai</div>
-                            <div class="g-barra-valor">50</div>
-                        </div>
-                    </div>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra">Mais Detalhes</a></p>
-                </div>
-            </div>
-            <div class="card card-medium">
-                <h3 class="card-title">Valores devidos</h3>
-                <div class="card-content">
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
-                    <div class="grafico-barra">
-                        <div class="g-moeda">real</div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Jan/24</div>
-                            <div class="g-barra-valor">1000</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Fev/24</div>
-                            <div class="g-barra-valor">300</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mar/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Abr/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mai/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                    </div>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra/pendente">Mais Detalhes</a></p>
-                </div>
-            </div>
-            <div class="card card-medium">
-                <h3 class="card-title">Compras</h3>
-                <div class="card-content">
-                    <p><b>Total:</b> R$ x.xxx,xx</p>
-                    <div class="grafico-barra">
-                        <div class="g-moeda">real</div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Jan/24</div>
-                            <div class="g-barra-valor">1000</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Fev/24</div>
-                            <div class="g-barra-valor">300</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mar/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Abr/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                        <div class="g-barra">
-                            <div class="g-barra-titulo">Mai/24</div>
-                            <div class="g-barra-valor">500</div>
-                        </div>
-                    </div>
-                    <p><a href="<?= $_SERVER["BASE_URL"] ?>compra">Mais Detalhes</a></p>
-                </div>
-            </div>
+            <?php
+                $this->loadComponent(
+                    'barGraph',
+                    [
+                        'title' => 'Últimos dias',
+                        'url' => $_SERVER["BASE_URL"] . 'compra',
+                        'graph' => $data->graficos->dias,
+                    ]
+                );
+                $this->loadComponent(
+                    'barGraph',
+                    [
+                        'title' => 'Valores pendentes',
+                        'url' => $_SERVER["BASE_URL"] . 'compra/pendente',
+                        'graph' => $data->graficos->mesPendente,
+                    ]
+                );
+                $this->loadComponent(
+                    'barGraph',
+                    [
+                        'title' => 'Compras',
+                        'url' => $_SERVER["BASE_URL"] . 'compra',
+                        'graph' => $data->graficos->mes,
+                    ]
+                );
+            ?>
         </div>
     </section>
 </main>
-<script src="<?= $_SERVER["BASE_URL"] ?>js/grafico.js"></script>
+<script src="<?=$_SERVER["BASE_URL"]?>js/grafico.js"></script>

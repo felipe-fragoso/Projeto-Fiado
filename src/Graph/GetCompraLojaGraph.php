@@ -3,7 +3,7 @@ namespace Fiado\Graph;
 
 use Fiado\Models\Service\CompraService;
 
-final class GetCompraGraph implements GetGraphInterface
+final class GetCompraLojaGraph implements GetGraphInterface
 {
     private int $id;
     private ?bool $condition;

@@ -5,7 +5,7 @@ namespace Fiado\Controllers\Loja;
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
 use Fiado\Graph\BarGraph;
-use Fiado\Graph\GetCompraGraph;
+use Fiado\Graph\GetCompraLojaGraph;
 use Fiado\Graph\IntervalGraphType;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Service\CompraService;
@@ -18,9 +18,9 @@ class HomeController extends Controller
         $ultimasCompras = CompraService::listCompraLoja($idLoja, 0, 10);
         $ultimasPendentes = CompraService::listCompraPendenteLoja($idLoja, 0, 10);
 
-        $dayGraph = new BarGraph(new GetCompraGraph($idLoja), IntervalGraphType::Day);
-        $monthGraphPending = new BarGraph(new GetCompraGraph($idLoja, false));
-        $monthGraph = new BarGraph(new GetCompraGraph($idLoja));
+        $dayGraph = new BarGraph(new GetCompraLojaGraph($idLoja), IntervalGraphType::Day);
+        $monthGraphPending = new BarGraph(new GetCompraLojaGraph($idLoja, false));
+        $monthGraph = new BarGraph(new GetCompraLojaGraph($idLoja));
 
         $data = [
             'ultimasCompras' => array_map(fn(Fiado $compra) => [
