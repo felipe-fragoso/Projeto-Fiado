@@ -48,22 +48,38 @@ class ClienteController extends Controller
     /**
      * @param $id
      */
-    public function ver($id = null)
+    public function ver($idClienteLoja = null)
     {
-        $id = SqidsWrapper::decode($id);
+        $idLoja = Auth::getIdLoja();
 
-        if (!$id) {
+        if (!$idClienteLoja || !$idLoja) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
-        $clienteLoja = ClienteLojaService::getClienteLojaById($id);
+        $page_url = $_SERVER["BASE_URL"] . 'cliente/ver/' . $idClienteLoja;
 
-        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== Auth::getIdLoja()) {
+        $idClienteLoja = SqidsWrapper::decode($idClienteLoja);
+        $clienteLoja = ClienteLojaService::getClienteLojaById($idClienteLoja);
+
+        if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== $idLoja) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId()) ?: null;
-        $listCompra = CompraService::listCompraLojaCliente($clienteLoja->getLoja()->getId(), $clienteLoja->getCliente()->getId()) ?: [];
+
+        $pagination = new Pagination(
+            CompraService::totalCompraLojaCliente($clienteLoja->getLoja()->getId(), $clienteLoja->getCliente()->getId(), null),
+            $page_url,
+            9
+        );
+
+        $listCompra = CompraService::listCompraLojaCliente(
+            $clienteLoja->getLoja()->getId(),
+            $clienteLoja->getCliente()->getId(),
+            $pagination->getFirstItemIndex(),
+            $pagination->getItensPerPage(),
+            null,
+        ) ?: [];
 
         $data = [
             'id' => $clienteLoja->getId(),
@@ -77,6 +93,7 @@ class ClienteController extends Controller
                 'pago' => $compra->getPaid(),
             ], $listCompra),
         ];
+        $data['compraPagination'] = $pagination;
         $data['view'] = 'loja/cliente/home';
 
         $this->load('loja/template', $data);
