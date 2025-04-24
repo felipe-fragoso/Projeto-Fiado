@@ -4,6 +4,7 @@ namespace Fiado\Controllers\Cliente;
 
 use Fiado\Core\Auth;
 use Fiado\Core\Controller;
+use Fiado\Helpers\Pagination;
 use Fiado\Helpers\SqidsWrapper;
 use Fiado\Models\Entity\LojaPI;
 use Fiado\Models\Service\CompraService;
@@ -17,15 +18,25 @@ class LojaController extends Controller
      */
     public function index($idLoja = null)
     {
-        $idUser = Auth::getIdCliente();
+        $idCliente = Auth::getIdCliente();
 
-        if (!$idLoja || !$idUser) {
+        if (!$idLoja || !$idCliente) {
             $this->redirect($_SERVER["BASE_URL"]);
         }
 
+        $page_url = $_SERVER["BASE_URL"] . 'loja/v/' . $idLoja;
+
         $idLoja = SqidsWrapper::decode($idLoja);
         $lojaPI = LojaPiService::getLojaPiByLoja($idLoja);
-        $listCompra = CompraService::listCompraLojaCliente($idLoja, $idUser) ?: [];
+
+        $pagination = new Pagination(CompraService::totalCompraLojaCliente($idLoja, $idCliente, null), $page_url, 9);
+        $listCompra = CompraService::listCompraLojaCliente(
+            $idLoja,
+            $idCliente,
+            $pagination->getFirstItemIndex(),
+            $pagination->getItensPerPage(),
+            null,
+        ) ?: [];
 
         if (!$lojaPI) {
             $lojaPI = new LojaPI(
@@ -53,6 +64,7 @@ class LojaController extends Controller
             ], $listCompra),
         ];
 
+        $data['compraPagination'] = $pagination;
         $data['view'] = 'cliente/loja/home';
 
         $this->load('cliente/template', $data);
