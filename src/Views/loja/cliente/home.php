@@ -25,7 +25,7 @@
         </header>
         <div class="list-card list-card-fix-3">
             <?php
-                if ($data->list):
+                if ($data->list && !empty((array) $data->list)):
                     /** @var Fiado\Core\ViewHelper $compra */
                     foreach ($data->list as $compra):
             ?>
@@ -46,8 +46,18 @@
             </div>
             <?php
                     endforeach;
+                else:
+            ?>
+            <div class="card card-full">
+                <h3 class="card-title text-center">Vazio</h3>
+                <div class="card-content text-center">
+                    <p>Nenhum registro encontrado</p>
+                </div>
+            </div>
+            <?php
                 endif;
             ?>
         </div>
+        <?php $this->loadComponent('pagination', ['pagination' => $data->compraPagination])?>
     </section>
 </main>
