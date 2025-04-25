@@ -88,6 +88,10 @@ class Sanitizer
             }
         }
 
+        if ($data === '') {
+            return '';
+        }
+
         return null;
     }
 
