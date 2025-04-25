@@ -83,7 +83,7 @@ class PerfilController extends Controller
         $form->setItem('name')->getValueFrom('ipt-nome');
         $form->setItem('address')->getValueFrom('ipt-endereco');
         $form->setItem('telephone', FormDataType::Telephone)->getValueFrom('ipt-telefone');
-        $form->setItem('established', FormDataType::Datetime)->getValueFrom('ipt-criada', '');
+        $form->setItem('established', FormDataType::Datetime)->getValueFrom('ipt-criada');
         $form->setItem('openHour', FormDataType::Time)->getValueFrom('ipt-abre');
         $form->setItem('closeHour', FormDataType::Time)->getValueFrom('ipt-fecha');
         $form->setItem('description')->getValueFrom('txt-descricao');
@@ -123,7 +123,7 @@ class PerfilController extends Controller
             );
         }
 
-        if (($successLojaPI === 0 && !isset($successLoja)) || (isset($successLoja) && $successLoja === 0)) {
+        if (($successLojaPI === 0 && !isset($successLoja)) || (isset($successLoja) && $successLoja === 0 && $successLojaPI === 0)) {
             Flash::setMessage('Nenhum registro alterado', MessageType::Warning);
 
             $this->redirect($_SERVER["BASE_URL"] . 'perfil/editar');
