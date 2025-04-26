@@ -53,11 +53,11 @@ class ProdutoController extends Controller
      */
     public function editar($id = null)
     {
-        $id = SqidsWrapper::decode($id);
-
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
+
+        $id = SqidsWrapper::decode($id);
 
         $produto = ProdutoService::getProduto($id);
 
@@ -85,11 +85,11 @@ class ProdutoController extends Controller
      */
     public function detalhe($id = null)
     {
-        $id = SqidsWrapper::decode($id);
-
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'produto');
         }
+
+        $id = SqidsWrapper::decode($id);
 
         $produto = ProdutoService::getProduto($id);
 

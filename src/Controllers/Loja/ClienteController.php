@@ -104,11 +104,11 @@ class ClienteController extends Controller
      */
     public function detalhe($id = null)
     {
-        $id = SqidsWrapper::decode($id);
-
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
+
+        $id = SqidsWrapper::decode($id);
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
@@ -152,12 +152,12 @@ class ClienteController extends Controller
      */
     public function editar($id = null)
     {
-        $id = SqidsWrapper::decode($id);
-        $idLoja = Auth::getIdLoja();
-
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
+
+        $id = SqidsWrapper::decode($id);
+        $idLoja = Auth::getIdLoja();
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
