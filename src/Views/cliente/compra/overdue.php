@@ -14,7 +14,7 @@
                 <div class="card-content">
                     <p><b>Nome:</b> <?=$data->nome?></p>
                     <p><b>Email:</b> <?=$data->email?></p>
-                    <p><a href="<?=$_SERVER["BASE_URL"]?>perfil">Mais Detalhes</a></p>
+                    <p><b><a href="<?=$_SERVER["BASE_URL"]?>perfil">Mais Detalhes</a></b></p>
                 </div>
             </div>
         </div>
