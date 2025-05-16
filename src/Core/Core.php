@@ -50,6 +50,13 @@ class Core
             $method = array_shift($uris);
             $params = $uris;
 
+            if ($controller === 'endpoint') {
+                $this->system = $controller;
+                $controller = $method;
+                $method = array_shift($uris);
+                $params = $uris;
+            }
+
             $this->controller = ucfirst($controller ?? $_SERVER['CONTROLLER_PADRAO']) . 'Controller';
             $this->method = $method ?? $_SERVER['METODO_PADRAO'];
             $this->params = $params;
