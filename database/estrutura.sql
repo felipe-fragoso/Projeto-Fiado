@@ -163,6 +163,34 @@ CREATE TABLE IF NOT EXISTS `produto` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `stripe_customer`
+--
+
+DROP TABLE IF EXISTS `stripe_customer`;
+CREATE TABLE IF NOT EXISTS `stripe_customer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  `email` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `stripe_invoice`
+--
+
+DROP TABLE IF EXISTS `stripe_invoice`;
+CREATE TABLE IF NOT EXISTS `stripe_invoice` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_fiado` int NOT NULL,
+  `id_invoice` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
