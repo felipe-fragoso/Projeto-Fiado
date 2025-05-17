@@ -33,7 +33,7 @@ class ConfigService
     {
         return new Config(
             $arr['id'],
-            new LazyDataObj($arr['id_loja'], function ($id) {return ConfigService::getConfigById($id);}),
+            new LazyDataObj($arr['id_loja'], function ($id) {return LojaService::getLojaById($id);}),
             $arr['pay_limit'],
             $arr['max_credit'],
         );

@@ -10,6 +10,7 @@ use Fiado\Helpers\Flash;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
 use Fiado\Helpers\SqidsWrapper;
+use Fiado\Helpers\StripeWrapper;
 use Fiado\Models\Entity\ClienteLoja;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Entity\FiadoItem;
@@ -253,7 +254,7 @@ class CompraController extends Controller
                 }
             }
 
-            if (!$errors) {
+            if (!$errors && StripeWrapper::createInvoice($form->idCliente, $idFiado, $payLimit)) {
                 CompraService::getDao()->commit();
                 FiadoItemService::getDao()->commit();
 

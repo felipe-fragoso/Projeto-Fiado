@@ -14,7 +14,10 @@
                     <p><b>Data compra:</b> <?=$data->dateToBr('data')?></p>
                     <p><b>Data Vencimento:</b> <?=$data->dateToBr('dataVencimento')?></p>
                     <p><b>Pago:</b> <?=$data->pago ? 'Sim' : 'Não'?></p>
-                    <p><b><a href="">Pagar</a></p>
+                    <p>
+                        <b><a href="<?=$_SERVER["BASE_URL"]?>compra/pagar/<?=$data->formatIdx('id')?>"
+                                target="_blank">Pagar</a></b>
+                    </p>
                 </div>
             </div>
         </div>

@@ -71,7 +71,8 @@
                             <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Detalhe</a>
                         </td>
                         <td>
-                            <a href="<?=$_SERVER["BASE_URL"]?>compra/detalhe/<?=$item->formatIdx('id')?>">Pagar</a>
+                            <a href="<?=$_SERVER["BASE_URL"]?>compra/pagar/<?=$item->formatIdx('id')?>"
+                                target="_blank">Pagar</a>
                         </td>
                     </tr>
                     <?php

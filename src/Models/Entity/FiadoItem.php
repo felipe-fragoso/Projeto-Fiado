@@ -14,8 +14,8 @@ class FiadoItem
 
     /**
      * @param int $id
-     * @param FiadoLazyDataObj $fiado
-     * @param ProdutoLazyDataObj $produto
+     * @param Fiado|LazyDataObj $fiado
+     * @param Produto|LazyDataObj $produto
      * @param string $value
      * @param int $quantity
      */

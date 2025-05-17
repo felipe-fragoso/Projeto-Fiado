@@ -8,6 +8,7 @@ use Fiado\Enums\InputType;
 use Fiado\Helpers\FormData;
 use Fiado\Helpers\Pagination;
 use Fiado\Helpers\SqidsWrapper;
+use Fiado\Helpers\StripeWrapper;
 use Fiado\Models\Entity\Fiado;
 use Fiado\Models\Entity\FiadoItem;
 use Fiado\Models\Service\ClienteService;
@@ -151,7 +152,7 @@ class CompraController extends Controller
     /**
      * @param $id
      */
-    public function detalhe($id)
+    public function detalhe($id = null)
     {
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra');
@@ -173,6 +174,7 @@ class CompraController extends Controller
         }
 
         $data = [
+            'id' => $fiado->getId(),
             'idLoja' => $fiado->getLoja()->getId(),
             'loja' => $fiado->getLoja()->getName(),
             'total' => $fiado->getTotal(),
@@ -190,5 +192,30 @@ class CompraController extends Controller
         $data['view'] = 'cliente/compra/detail';
 
         $this->load('cliente/template', $data);
+    }
+
+    /**
+     * @param $id
+     */
+    public function pagar($id = null)
+    {
+        if (!$id) {
+            $this->redirect($_SERVER["BASE_URL"] . 'compra');
+        }
+
+        $id = SqidsWrapper::decode($id);
+        $fiado = CompraService::getCompra($id);
+
+        if (!$fiado) {
+            $this->redirect($_SERVER["BASE_URL"] . 'compra');
+        }
+
+        $invoice = StripeWrapper::getInvoice($fiado->getId());
+
+        if (!$invoice) {
+            $this->redirect($_SERVER["BASE_URL"] . 'compra');
+        }
+
+        $this->redirect($invoice->hosted_invoice_url);
     }
 }

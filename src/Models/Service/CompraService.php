@@ -538,4 +538,17 @@ class CompraService
             'paid' => $compra->getPaid(),
         ]);
     }
+
+    /**
+     * @param $idFiado
+     */
+    public static function pay($idFiado)
+    {
+        $compra = CompraService::getCompra($idFiado);
+
+        return self::getDao()->editFiado([
+            'id' => $compra->getId(),
+            'paid' => true,
+        ]);
+    }
 }
