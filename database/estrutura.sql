@@ -193,6 +193,25 @@ CREATE TABLE IF NOT EXISTS `stripe_invoice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 COMMIT;
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cliente_completion_link`
+--
+
+DROP TABLE IF EXISTS `cliente_completion_link`;
+CREATE TABLE IF NOT EXISTS `cliente_completion_link` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `hash` char(64) NOT NULL,
+  `id_cliente` int NOT NULL,
+  `id_loja` int NOT NULL,
+  `used` tinyint(1) NOT NULL,
+  `valid_until` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `hash` (`hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
