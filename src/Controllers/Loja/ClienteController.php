@@ -117,8 +117,8 @@ class ClienteController extends Controller
         }
 
         $clientePI = ClientePIService::getClientePI($clienteLoja->getCliente()->getId()) ?: null;
-        $lojaConfig = ConfigService::getConfigByLoja(Auth::getIdLoja());
-        $maxCredit = $clienteLoja->getMaxCredit() ?: $lojaConfig->getMaxCredit();
+        $lojaConfig = ConfigService::getConfigByLoja(Auth::getIdLoja()) ?: null;
+        $maxCredit = $clienteLoja->getMaxCredit() ?: $lojaConfig?->getMaxCredit() ?: 0;
 
         $data = [
             'id' => $clienteLoja->getId(),
@@ -220,6 +220,8 @@ class ClienteController extends Controller
                 ClienteService::getDao()->commit();
                 ClientePIService::getDao()->commit();
             }
+
+            ClienteService::sendEmailCompletionLink($idCliente, $idLoja);
         }
 
         if (($form->type == 'c') && !$form->id) {
