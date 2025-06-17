@@ -37,7 +37,7 @@
                         <p>Parece que seu link não é mais válido.</p>
                         <?php if (!$data->tokenUsed): ?>
                         <p>Clique abaixo para solicitar um novo.</p>
-                        <form method="POST" action="<?= $_SERVER['BASE_URL'] ?>cadastro/reenviar">
+                        <form method="POST" action="<?=$_SERVER['BASE_URL']?>cadastro/reenviar">
                             <input type="hidden" name="hidden-email-token" value="<?=$data->tokenEmail?>" />
                             <input type="hidden" name="hidden-token" value="<?=$token?>" />
                             <input type="submit" value="Reenviar email" class="btn-enviar" />
@@ -64,7 +64,7 @@
                             </form>
                         </div>
                     </div>
-                    <?php endif ?>
+                    <?php endif; ?>
                 </div>
             </main>
         </div>
