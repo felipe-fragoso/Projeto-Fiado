@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FiadoFacil - Fiado do jeito certo 2</title>
+        <title>FiadoFacil - Fiado do jeito certo</title>
         <link rel="stylesheet" type="text/css" href="<?=$_SERVER["BASE_URL"]?>css/main.css">
         <script src="<?=$_SERVER["BASE_URL"]?>js/main.js"></script>
         <link rel="stylesheet" type="text/css" href="<?=$_SERVER["BASE_URL"]?>css/selecao-um-dois.css">
@@ -51,7 +51,7 @@
                     <div class="selecao-form-box">
                         <?php $this->loadComponent('flashBar', ['message' => $flash?->message, 'error' => $flash?->error])?>
                         <div class="selecao-form-um">
-                            <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/salvar">
+                            <form method="POST" action="<?=$_SERVER["BASE_URL"]?>cadastro/salvar">
                                 <label for="ipt-cpf">CPF:</label>
                                 <input type="text" name="ipt-cpf" id="ipt-cpf"
                                     value="<?=$flash?->form?->{'ipt-cpf'}?>" />
@@ -76,7 +76,7 @@
                             </form>
                         </div>
                         <div class="selecao-form-dois">
-                            <form method="POST" action="<?=$_SERVER["BASE_URL"]?>auth/salvar">
+                            <form method="POST" action="<?=$_SERVER["BASE_URL"]?>cadastro/salvar">
                                 <label for="ipt-cnpj">CNPJ:</label>
                                 <input type="text" name="ipt-cnpj" id="ipt-cnpj"
                                     value="<?=$flash?->form?->{'ipt-cnpj'}?>" />
