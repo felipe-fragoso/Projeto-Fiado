@@ -10,13 +10,13 @@
                         hic saepe!</p>
                 </header>
                 <div class="b-with-label">
-                    <a href="<?= $_SERVER["BASE_URL"] ?>auth/cadastro" class="btn-signup-landing">Crie agora sua
+                    <a href="<?=$_SERVER["BASE_URL"]?>cadastro" class="btn-signup-landing">Crie agora sua
                         conta</a>
                     <span class="b-label">FiadoFacil é gratuito!</span>
                 </div>
             </div>
             <div class="landing-col2">
-                <img src="<?= $_SERVER["BASE_URL"] ?>img/landing-home.svg" alt="" class="landing-main-illustration">
+                <img src="<?=$_SERVER["BASE_URL"]?>img/landing-home.svg" alt="" class="landing-main-illustration">
             </div>
         </div>
     </section>
@@ -31,7 +31,7 @@
                     magnam
                     labore nam reprehenderit eum?</p>
             </header>
-            <img src="<?= $_SERVER["BASE_URL"] ?>img/landing-home.svg" alt="" class="landing-illustration">
+            <img src="<?=$_SERVER["BASE_URL"]?>img/landing-home.svg" alt="" class="landing-illustration">
         </div>
     </section>
 
@@ -46,7 +46,7 @@
                     magnam
                     labore nam reprehenderit eum?</p>
             </header>
-            <img src="<?= $_SERVER["BASE_URL"] ?>img/landing-home.svg" alt="" class="landing-illustration">
+            <img src="<?=$_SERVER["BASE_URL"]?>img/landing-home.svg" alt="" class="landing-illustration">
         </div>
     </section>
 </main>
