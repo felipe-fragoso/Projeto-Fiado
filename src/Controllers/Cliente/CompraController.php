@@ -154,11 +154,12 @@ class CompraController extends Controller
      */
     public function detalhe($id = null)
     {
+        $id = SqidsWrapper::decode($id ?? '');
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra');
         }
 
-        $id = SqidsWrapper::decode($id);
         $fiado = CompraService::getCompra($id);
 
         if (!$fiado) {
@@ -199,11 +200,12 @@ class CompraController extends Controller
      */
     public function pagar($id = null)
     {
+        $id = SqidsWrapper::decode($id ?? '');
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'compra');
         }
 
-        $id = SqidsWrapper::decode($id);
         $fiado = CompraService::getCompra($id);
 
         if (!$fiado) {

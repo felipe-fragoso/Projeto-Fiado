@@ -67,10 +67,14 @@ class CadastroController extends Controller
     }
 
     /**
-     * @param string $token
+     * @param ?string $token
      */
-    public function completar(string $token)
+    public function completar(string $token = null)
     {
+        if (!$token) {
+            $this->redirect($_SERVER["BASE_URL"]);
+        }
+
         $hash = hash('sha256', urlencode($token) . $_SERVER["HASH_SALT"]);
         $completion = ClienteCompletionLinkService::getClienteCompletionLink($hash) ?: null;
 
@@ -122,7 +126,8 @@ class CadastroController extends Controller
         ClienteCompletionLinkService::getDao()->beginTransation();
         ClienteService::getDao()->beginTransation();
 
-        if (!ClienteCompletionLinkService::salvar(
+        if (
+            !ClienteCompletionLinkService::salvar(
                 $completion->getId(),
                 $completion->getHash(),
                 $completion->getCliente()->getId(),
