@@ -108,6 +108,10 @@ class StripeWrapper
     {
         $customer = StripeCustomerService::getCustomer($email);
 
+        if (!$customer) {
+            return false;
+        }
+
         return self::getInstance()->customers->retrieve($customer->getIdCustomer());
     }
 }
