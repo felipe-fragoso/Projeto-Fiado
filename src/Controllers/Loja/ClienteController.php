@@ -50,15 +50,15 @@ class ClienteController extends Controller
      */
     public function ver($idClienteLoja = null)
     {
+        $page_url = $_SERVER["BASE_URL"] . 'cliente/ver/' . $idClienteLoja;
+
+        $idClienteLoja = SqidsWrapper::decode($idClienteLoja ?? '');
         $idLoja = Auth::getIdLoja();
 
         if (!$idClienteLoja || !$idLoja) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
-        $page_url = $_SERVER["BASE_URL"] . 'cliente/ver/' . $idClienteLoja;
-
-        $idClienteLoja = SqidsWrapper::decode($idClienteLoja);
         $clienteLoja = ClienteLojaService::getClienteLojaById($idClienteLoja);
 
         if (!$clienteLoja || $clienteLoja->getLoja()->getId() !== $idLoja) {
@@ -104,11 +104,11 @@ class ClienteController extends Controller
      */
     public function detalhe($id = null)
     {
+        $id = SqidsWrapper::decode($id ?? '');
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
-
-        $id = SqidsWrapper::decode($id);
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);
 
@@ -152,11 +152,12 @@ class ClienteController extends Controller
      */
     public function editar($id = null)
     {
+        $id = SqidsWrapper::decode($id ?? '');
+
         if (!$id) {
             $this->redirect($_SERVER["BASE_URL"] . 'cliente');
         }
 
-        $id = SqidsWrapper::decode($id);
         $idLoja = Auth::getIdLoja();
 
         $clienteLoja = ClienteLojaService::getClienteLojaById($id);

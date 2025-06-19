@@ -18,15 +18,15 @@ class LojaController extends Controller
      */
     public function index($idLoja = null)
     {
+        $page_url = $_SERVER["BASE_URL"] . 'loja/v/' . $idLoja;
+
+        $idLoja = SqidsWrapper::decode($idLoja ?? '');
         $idCliente = Auth::getIdCliente();
 
         if (!$idLoja || !$idCliente) {
             $this->redirect($_SERVER["BASE_URL"]);
         }
 
-        $page_url = $_SERVER["BASE_URL"] . 'loja/v/' . $idLoja;
-
-        $idLoja = SqidsWrapper::decode($idLoja);
         $lojaPI = LojaPiService::getLojaPiByLoja($idLoja);
 
         $pagination = new Pagination(CompraService::totalCompraLojaCliente($idLoja, $idCliente, null), $page_url, 9);
@@ -52,7 +52,7 @@ class LojaController extends Controller
         }
 
         $data = [
-            'id' => $lojaPI->getId(),
+            'id' => $lojaPI->getLoja()->getId(),
             'nome' => $lojaPI->getLoja()?->getName(),
             'endereco' => $lojaPI->getAddress(),
             'telefone' => $lojaPI->getTelephone(),
@@ -75,11 +75,12 @@ class LojaController extends Controller
      */
     public function detalhe($idLoja = null)
     {
+        $idLoja = SqidsWrapper::decode($idLoja ?? '');
+
         if (!$idLoja) {
             $this->redirect($_SERVER["BASE_URL"]);
         }
 
-        $idLoja = SqidsWrapper::decode($idLoja);
         $lojaPI = LojaPiService::getLojaPiByLoja($idLoja);
 
         if (!$lojaPI) {
