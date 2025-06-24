@@ -26,4 +26,13 @@ class StripeCustomerDao extends Model
     {
         return $this->insert('stripe_customer', $data);
     }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function deleteStripeCustomer(int $id)
+    {
+        return $this->delete('stripe_customer', 'id = :id', ['id' => $id]);
+    }
 }
