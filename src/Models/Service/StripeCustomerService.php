@@ -65,4 +65,12 @@ class StripeCustomerService
             'email' => $stripeCustomer->getEmail(),
         ]);
     }
+
+    /**
+     * @param int $id
+     */
+    public static function delete(int $id)
+    {
+        return self::getDao()->deleteStripeCustomer($id);
+    }
 }

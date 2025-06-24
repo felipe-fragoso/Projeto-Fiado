@@ -2,6 +2,7 @@
 
 namespace Fiado\Helpers;
 
+use Fiado\Enums\MessageType;
 use Fiado\Models\Service\ClienteService;
 use Fiado\Models\Service\CompraService;
 use Fiado\Models\Service\FiadoItemService;
@@ -54,11 +55,17 @@ class StripeWrapper
             StripeCustomerService::salvar(null, $customer->id, $cliente->getEmail());
         }
 
-        $invoice = $stripe->invoices->create([
-            'customer' => $customer->id,
-            'collection_method' => 'send_invoice',
-            'days_until_due' => $daysUntilDue,
-        ]);
+        try {
+            $invoice = $stripe->invoices->create([
+                'customer' => $customer->id,
+                'collection_method' => 'send_invoice',
+                'days_until_due' => $daysUntilDue,
+            ]);
+        } catch (\Throwable $th) {
+            Flash::setMessage('Error inesperado. Tente novamente mais tarde.', MessageType::Warning);
+
+            return false;
+        }
 
         foreach ($fiadoItens as $item) {
             $stripe->invoiceItems->create([
@@ -107,11 +114,26 @@ class StripeWrapper
     public static function getCustomer($email)
     {
         $customer = StripeCustomerService::getCustomer($email);
+        $stripeCustomer = self::getInstance()->customers->search(['query' => "email:'{$email}'"])->first();
 
-        if (!$customer) {
+        if (!$customer && !$stripeCustomer) {
             return false;
         }
 
-        return self::getInstance()->customers->retrieve($customer->getIdCustomer());
+        if (!$customer && $stripeCustomer) {
+            StripeCustomerService::salvar(null, $stripeCustomer->id, $stripeCustomer->email);
+        }
+
+        if (!$stripeCustomer && $customer) {
+            $stripeCustomer = self::getInstance()->customers->retrieve($customer->getIdCustomer());
+        }
+
+        if ($stripeCustomer->isDeleted()) {
+            StripeCustomerService::delete($customer->getId());
+
+            return false;
+        }
+
+        return $stripeCustomer;
     }
 }
